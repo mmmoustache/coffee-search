@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { toSql } from "pgvector/pg";
 import fs from "node:fs";
 import path from "node:path";
 import { parse } from "csv-parse/sync";
@@ -56,6 +57,7 @@ async function upsertProduct(row: CsvRow) {
 
   const search_text = buildSearchText(productForText);
   const embedding = await embedText(search_text);
+  const embeddingSql = toSql(embedding);
 
   await pool.query(
     `
@@ -103,7 +105,7 @@ async function upsertProduct(row: CsvRow) {
       acidity,
       tasting_notes,
       search_text,
-      embedding,
+      embeddingSql,
     ],
   );
 
