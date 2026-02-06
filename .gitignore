@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 .NOTES
+.temp
 
 # debug
 npm-debug.log*
