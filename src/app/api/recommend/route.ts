@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   });
   const qEmbedding = embedding.data[0].embedding;
 
-  const { rows: candidates } = await pool.query(
+  const { rows: results } = await pool.query(
     `
     SELECT id, sku, name, category, origin, tasting_notes, recommended_for,
            roast_level, body, sweetness, acidity, description, weight_g
@@ -42,14 +42,14 @@ export async function POST(req: Request) {
       },
       {
         role: "user",
-        content: JSON.stringify({ query, candidates }),
+        content: JSON.stringify({ query, results }),
       },
     ],
   });
 
   return NextResponse.json({
     query,
-    candidates,
+    results,
     recommendationText: resp.output_text,
   });
 }

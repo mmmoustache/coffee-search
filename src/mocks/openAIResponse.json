@@ -1,0 +1,188 @@
+{
+  "query": "brazil",
+  "results": [
+    {
+      "id": "5",
+      "sku": "100004",
+      "name": "Yin River",
+      "category": "Single Origin",
+      "origin": ["Brazil"],
+      "tasting_notes": ["Chocolate", "Caramel", "Hazelnut"],
+      "recommended_for": [
+        "Mild filter cofffee",
+        "Easy drinking espresso",
+        "Sweet lattes"
+      ],
+      "roast_level": "2.5",
+      "body": 3,
+      "sweetness": 3,
+      "acidity": 2,
+      "description": "Speciality coffee grown by farmer Pedro Gabarra and his sister Mariana.\n\nThis coffee is from one of the most sustainable coffee farms in the region of Sul De Minas in Brazil.\n\nA pulped natural coffee, grown around 1,000 masl, from the variety Mundo Novo.",
+      "weight_g": null
+    },
+    {
+      "id": "2",
+      "sku": "100001",
+      "name": "Golden Lagoon",
+      "category": "Blend",
+      "origin": ["Brazil", "El Salvador"],
+      "tasting_notes": ["Sweet", "Plums"],
+      "recommended_for": [
+        "Sweet espressos",
+        "Easy drinking lattes",
+        "Smooth and light filter coffee"
+      ],
+      "roast_level": "2.5",
+      "body": 3,
+      "sweetness": 4,
+      "acidity": 3,
+      "description": "A Blue Mountain Blend is often a design by a coffee roaster to emulate the famous Jamaica Blue Mountain coffee beans. This is our version.\n\nWe have blended speciality coffee beans from Brazil and El Salvador and roasted it in a way to bring out the natural sweetness.\n\nThis is an easy smooth drinking coffee that we are very proud of.",
+      "weight_g": null
+    },
+    {
+      "id": "6",
+      "sku": "100005",
+      "name": "Breeze Field",
+      "category": "Single Origin",
+      "origin": ["Columbia"],
+      "tasting_notes": ["Milk Chocolate", "Nutty", "Sweet"],
+      "recommended_for": [
+        "Smooth and rounded filter coffees",
+        "Sweet espresso",
+        "Small milk based espresso drinks"
+      ],
+      "roast_level": "2.5",
+      "body": 3,
+      "sweetness": 3,
+      "acidity": 3,
+      "description": "Colombia is one of the finest coffee growing countries in the world and coffee beans from here have a fantastic reputation. Being the third largest grower of coffee, Colombians know what they are doing and have been doing so since 1790.\n\nThis supremo coffee from Colombia, which is of the Caturra, Typica and Bourbon varieties, is chocolatey and nutty and we source it from Medellin. A delicious mild coffee as a filter and sweet and slightly bright as an espresso.\n\nThis coffee is fully washed delivering clarity and a healthy brightness in the cup that can be enjoyed in large quantities anytime of the day.",
+      "weight_g": null
+    },
+    {
+      "id": "11",
+      "sku": "100010",
+      "name": "Bush man",
+      "category": "Special Brew",
+      "origin": ["Guatemala"],
+      "tasting_notes": ["Blackberries", "Chocolatey", "Sweet"],
+      "recommended_for": [
+        "Smooth espresso",
+        "Milk cappuccinos",
+        "Relaxing filter coffee"
+      ],
+      "roast_level": "2.5",
+      "body": 4,
+      "sweetness": 3,
+      "acidity": 3,
+      "description": "Guatemala has been growing coffee since the 1850s and is one of the top producers in Central America. Coffees from Guatemala are simply beautiful and one of our favourite here at Limini.\n\nOur Guatemalan coffee beans are from plantations in volcanic valleys surrounding Antigua. This coffee is surrounded by three volcanoes: Agua, Fuego and Acatenango. The plantations have rich volcanic soil and excellent growing conditions at an altitude of 1650 metres. Varieties are Caturra, Bourbon and Typica.\n\nThis coffee is chocolatey and sweet with a beautiful body. There are notes of blackberries in the aroma. Delicious.",
+      "weight_g": null
+    },
+    {
+      "id": "3",
+      "sku": "100002",
+      "name": "Deep Forest",
+      "category": "Blend",
+      "origin": ["Ethiopia", "Indonesia", "India"],
+      "tasting_notes": ["Smooth", "Rich", "Dark Chocolate"],
+      "recommended_for": [
+        "Rich espresso",
+        "Rich milky espresso based drinks",
+        "Very strong filter coffee"
+      ],
+      "roast_level": "4.5",
+      "body": 5,
+      "sweetness": 3,
+      "acidity": 2,
+      "description": "A rich espresso blend designed for those who prefer full bodied complex coffees.\n\nAs an espresso you have bold flavours with a very low and smooth acidity followed by dark chocolate notes.\n\nAs a milk based coffee Rimini Blend is rich with a nougat sweetness and bakers chocolate.",
+      "weight_g": null
+    },
+    {
+      "id": "4",
+      "sku": "100003",
+      "name": "Mandarin Meadow",
+      "category": "Blend",
+      "origin": ["Brazil", "Costa Rica", "Indonesia"],
+      "tasting_notes": ["Berry", "Vanilla", "Milk Chocolate"],
+      "recommended_for": [
+        "Complex espresso",
+        "Sweet and fruity lattes, cappuccinos & flat whites",
+        "Lively filter coffee"
+      ],
+      "roast_level": "3.0",
+      "body": 3,
+      "sweetness": 4,
+      "acidity": 3,
+      "description": "A blend of the finest Arabica speciality beans sourced from coffee farms in Brazil, Costa Rica and Indonesia.\n\nA sweet and complex blend with a velvety body, resulting in a vibrant espresso with berry and stone fruit aromas.\n\nAs a milk based coffee, Liscio is smooth and mellow with sweet vanilla and milk chocolate flavours.",
+      "weight_g": null
+    },
+    {
+      "id": "8",
+      "sku": "100007",
+      "name": "Cash Mere",
+      "category": "Single Origin",
+      "origin": ["El Salvador"],
+      "tasting_notes": ["Sweet", "Plums", "Dark Chocolate"],
+      "recommended_for": [
+        "Espresso",
+        "Deep sweet milk based espresso drinks",
+        "Rounded and perfect filter coffee"
+      ],
+      "roast_level": "2.5",
+      "body": 3,
+      "sweetness": 4,
+      "acidity": 2,
+      "description": "Our coffee from El Salvador is from the Las Isabellas farm and is a mixture of Pacamara and Bourbon. Las Isabellas is located in the south face of \"Cerron Grande\" of Apaneca at the west region of El Salvador at an altitude of 1200 to 1450m and is part of the Blue Harvest project.\n\nAt Las Isabellas you can find 175 acres of natural forest, natural springs and waterfalls! Las Isabellas is a certified Rainforest Alliance farm. The owner of the farm is Jose Roberto Santamaria who is dedicated to managing the farm and the mill.\n\nSweet mild coffee with delicious flavours of plums and chocolate.",
+      "weight_g": null
+    },
+    {
+      "id": "7",
+      "sku": "100006",
+      "name": "Hot Valley Sauce",
+      "category": "Single Origin",
+      "origin": ["Costa Rica"],
+      "tasting_notes": ["Plums", "Dark Chocolate"],
+      "recommended_for": [
+        "Espresso",
+        "Flat whites, cappuccinos",
+        "Strong filter"
+      ],
+      "roast_level": "3.5",
+      "body": 4,
+      "sweetness": 3,
+      "acidity": 2,
+      "description": "Tarrazu is a world famous coffee growing region known as the Area of the Saints. This Strictly Hard Bean coffee comes from rich volcanic soils in ideal growing conditions.\n\nA washed coffee with a good creamy body and notes of plums and chocolate.",
+      "weight_g": null
+    },
+    {
+      "id": "9",
+      "sku": "100008",
+      "name": "Jubial",
+      "category": "Single Origin",
+      "origin": ["Ethiopia"],
+      "tasting_notes": ["Fruity", "Winey", "Sweet"],
+      "recommended_for": ["Fruity filter coffee", "Complex bright espressos"],
+      "roast_level": "2.5",
+      "body": 3,
+      "sweetness": 4,
+      "acidity": 4,
+      "description": "One of our favourite coffees here at Limini. This coffee highlights to us how delicious Ethiopian coffee is. It is wild, winey and yet full bodied. It is similar to our Ethiopian Yirgacheffe coffee but not as floral.\n\nOur Limu is grown about 1600 masl in the Oromia region of south west Ethiopia and is a mix of coffees beans from just six farms of the Eastern African Heirloom varieties.\n\nFruity, winey and sweet.",
+      "weight_g": null
+    },
+    {
+      "id": "10",
+      "sku": "100009",
+      "name": "Smoky Husk",
+      "category": "Special Brew",
+      "origin": ["Ethiopia"],
+      "tasting_notes": ["Earl Grey", "Whiskey", "Floral"],
+      "recommended_for": ["Unusual filter coffee", "Surprising espresso"],
+      "roast_level": "2.0",
+      "body": 3,
+      "sweetness": 3,
+      "acidity": 4,
+      "description": "This coffee from Negele Gurbitu comes from the Yirgacheffe region which is a famous coffee growing region in Ethiopia.\n\nGrown very high up around 1700 to 2000 meters, this coffee has been harvested between October and December and is fully washed. These coffee trees are of the fantastic Heirloom variety.\n\nExpect really funky and floral flavours; think of Earl Grey tea and whisky.",
+      "weight_g": null
+    }
+  ],
+  "recommendationText": "- Yin River (100004) — Brazil single origin with chocolate, caramel, and hazelnut notes for a classic sweet/nutty cup.  \n- Golden Lagoon (100001) — Brazil/El Salvador blend emphasizing natural sweetness with plum notes for smooth espresso or filter.  \n- Mandarin Meadow (100003) — Brazil-led blend with vanilla and milk chocolate plus berry complexity for a vibrant, sweet profile."
+}

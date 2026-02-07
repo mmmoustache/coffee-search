@@ -1,59 +1,57 @@
 "use client";
 
-import z from "zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import QueryFormComponent from "@/components/QueryForm/QueryFormComponent";
+import mockResponse from "@/mocks/openAIResponse.json";
 
-const QueryFormSchema = z.object({
-  query: z.string().min(0),
-});
+function QueryForm() {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(undefined);
 
-export type QueryFormSchemaType = z.infer<typeof QueryFormSchema>;
-export type QueryFormResult = {
-  query: string;
-};
+  async function onSubmit(parameters: { query: string }) {
+    setLoading(true);
+    const { query } = parameters;
 
-type QueryFormProps = {
-  onSubmit: SubmitHandler<QueryFormSchemaType>;
-};
+    try {
+      setData(mockResponse);
+    } finally {
+      setLoading(false);
+    }
 
-function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<QueryFormSchemaType>({
-    resolver: zodResolver(QueryFormSchema),
-    defaultValues: {
-      query: "",
-    },
-    mode: "onChange",
-  });
+    // try {
+    //   const res = await fetch("/api/recommend", {
+    //     method: "POST",
+    //     headers: { "content-type": "application/json" },
+    //     body: JSON.stringify({ query }),
+    //   });
+    //   const data = await res.json();
+    //   if (!res.ok) throw new Error(data?.error ?? "Request failed");
 
-  const submitHandler = (data: { query: string }) => {
-    onSubmit(data);
-    reset();
-  };
+    //   setData(data);
+    //   console.log(data);
+    // } finally {
+    //   setLoading(false);
+    // }
+  }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)}>
-      <Controller
-        name="query"
-        control={control}
-        render={({ field }) => (
-          <input
-            {...field}
-            placeholder="What coffee do you like?"
-            data-valid={errors?.query ? "false" : "true"}
-            type="text"
-            value={field.value}
-          />
-        )}
-      />
-
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <QueryFormComponent onSubmit={onSubmit} />
+      {loading ? (
+        <p>Loading...</p>
+      ) : data?.results?.length > 0 ? (
+        <>
+          <p>
+            {data?.results.length} results for {data?.query}
+          </p>
+          <ul>
+            {data?.results.map((result) => (
+              <li key={result.sku}>{result.name}</li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+    </div>
   );
 }
 
