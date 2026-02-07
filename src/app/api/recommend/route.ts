@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   );
 
   const resp = await openai.responses.create({
-    model: "gpt-5.1-mini",
+    model: "gpt-5.2",
     input: [
       {
         role: "system",
