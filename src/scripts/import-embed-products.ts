@@ -1,8 +1,9 @@
 import "dotenv/config";
-import { toSql } from "pgvector/pg";
 import fs from "node:fs";
 import path from "node:path";
+import { toSql } from "pgvector/pg";
 import { parse } from "csv-parse/sync";
+
 import { pool } from "@/lib/db";
 import { embedText } from "@/lib/embeddings";
 import { buildSearchText } from "@/lib/productSearchText";
