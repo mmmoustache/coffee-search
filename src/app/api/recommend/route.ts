@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { toSql } from 'pgvector/pg';
 import { z } from 'zod';
 import { pool } from '@/lib/db';
+import { embedText } from '@/lib/embeddings';
 import { openai } from '@/lib/openai';
 
 const Body = z.object({
@@ -10,11 +11,8 @@ const Body = z.object({
 
 export async function POST(req: Request) {
   const { query } = Body.parse(await req.json());
-  const embedding = await openai.embeddings.create({
-    model: 'text-embedding-3-small',
-    input: query,
-  });
-  const qEmbedding = embedding.data[0].embedding;
+  const embedding = await embedText(query);
+  const embeddingSql = toSql(embedding);
 
   const { rows: results } = await pool.query(
     `
@@ -25,11 +23,11 @@ export async function POST(req: Request) {
     ORDER BY embedding <=> $1::vector
     LIMIT 12
     `,
-    [toSql(qEmbedding)]
+    [toSql(embeddingSql)]
   );
 
   const resp = await openai.responses.create({
-    model: 'gpt-5.2',
+    model: process.env.LLM_MODEL || 'gpt-4.1-mini',
     input: [
       {
         role: 'system',
