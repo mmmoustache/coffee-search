@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import": "tsx src/scripts/import-embed-products.ts"
+    "products:import": "tsx src/scripts/import-products.ts",
+    "products:sync": "tsx src/scripts/sync-products.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0",

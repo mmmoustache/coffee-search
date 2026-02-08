@@ -24,3 +24,9 @@ export function parseWeightG(value: unknown): number | null {
   if (!m) return null;
   return Number(m[1]);
 }
+
+export function normalizeSku(v: unknown): string {
+  return String(v ?? '')
+    .trim()
+    .replace(/\.0$/, '');
+}

@@ -1,16 +1,4 @@
-type Product = {
-  name: string;
-  category?: string | null;
-  weight_g?: number | null;
-  origin?: string[] | null;
-  description?: string | null;
-  recommended_for?: string[] | null;
-  roast_level?: number | null;
-  body?: number | null;
-  sweetness?: number | null;
-  acidity?: number | null;
-  tasting_notes?: string[] | null;
-};
+import { Product } from '@/types/product';
 
 const when = <T>(cond: unknown, value: T): T | null => (cond ? value : null);
 

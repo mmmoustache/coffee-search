@@ -6,7 +6,7 @@ npm run import /path/to/products.csv
 
 This will:
 
-- upsert coffees by sku
+- upsert products by sku
 - compute search_text
 - compute embeddings
 - update only changed rows
