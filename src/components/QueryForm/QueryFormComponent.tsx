@@ -17,7 +17,7 @@ type QueryFormProps = {
   onSubmit: SubmitHandler<QueryFormSchemaType>;
 };
 
-function QueryFormComponent({ onSubmit }: Readonly<QueryFormProps>) {
+export function QueryFormComponent({ onSubmit }: Readonly<QueryFormProps>) {
   const {
     control,
     handleSubmit,
@@ -56,5 +56,3 @@ function QueryFormComponent({ onSubmit }: Readonly<QueryFormProps>) {
     </form>
   );
 }
-
-export default QueryFormComponent;

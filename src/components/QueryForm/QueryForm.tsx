@@ -1,58 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import QueryFormComponent from "@/components/QueryForm/QueryFormComponent";
-import mockResponse from "@/mocks/openAIResponse.json";
+import { QueryFormComponent } from "@/components/QueryForm/QueryFormComponent";
+import { Results } from "@/components/Results/Results";
+import { useRecommend } from "@/hooks/useRecommend";
 
-function QueryForm() {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(undefined);
-
-  async function onSubmit(parameters: { query: string }) {
-    setLoading(true);
-    const { query } = parameters;
-
-    try {
-      setData(mockResponse);
-    } finally {
-      setLoading(false);
-    }
-
-    // try {
-    //   const res = await fetch("/api/recommend", {
-    //     method: "POST",
-    //     headers: { "content-type": "application/json" },
-    //     body: JSON.stringify({ query }),
-    //   });
-    //   const data = await res.json();
-    //   if (!res.ok) throw new Error(data?.error ?? "Request failed");
-
-    //   setData(data);
-    //   console.log(data);
-    // } finally {
-    //   setLoading(false);
-    // }
-  }
+export default function QueryFeature() {
+  const { submit, data, error, isLoading } = useRecommend();
 
   return (
     <div>
-      <QueryFormComponent onSubmit={onSubmit} />
-      {loading ? (
-        <p>Loading...</p>
-      ) : data?.results?.length > 0 ? (
-        <>
-          <p>
-            {data?.results.length} results for {data?.query}
-          </p>
-          <ul>
-            {data?.results.map((result) => (
-              <li key={result.sku}>{result.name}</li>
-            ))}
-          </ul>
-        </>
-      ) : null}
+      <QueryFormComponent onSubmit={submit} />
+
+      {isLoading ? <p>Loading...</p> : null}
+
+      {error ? <p role="alert">{error}</p> : null}
+
+      {data ? <Results data={data} /> : null}
     </div>
   );
 }
-
-export default QueryForm;
