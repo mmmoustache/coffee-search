@@ -15,16 +15,16 @@ async function safeJson(res: Response) {
 export async function apiJson<TResponse, TBody = unknown>(
   path: string,
   options?: {
-    method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
     body?: TBody;
     headers?: Record<string, string>;
     signal?: AbortSignal;
-  },
+  }
 ): Promise<TResponse> {
   const res = await fetch(path, {
-    method: options?.method ?? (options?.body ? "POST" : "GET"),
+    method: options?.method ?? (options?.body ? 'POST' : 'GET'),
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       ...options?.headers,
     },
     body: options?.body ? JSON.stringify(options.body) : undefined,
@@ -35,9 +35,7 @@ export async function apiJson<TResponse, TBody = unknown>(
 
   if (!res.ok) {
     const message =
-      (json && typeof json?.error === "string" && json.error) ||
-      res.statusText ||
-      "Request failed";
+      (json && typeof json?.error === 'string' && json.error) || res.statusText || 'Request failed';
 
     const err: ApiError = { message, status: res.status, details: json };
     throw err;

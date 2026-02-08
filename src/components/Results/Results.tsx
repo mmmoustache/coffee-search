@@ -1,4 +1,4 @@
-import type { RecommendResponse } from "@/types/recommend";
+import type { RecommendResponse } from '@/types/recommend';
 
 export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
   if (!data.results?.length) return null;

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { QueryFormComponent } from "@/components/QueryForm/QueryFormComponent";
-import { Results } from "@/components/Results/Results";
-import { useRecommend } from "@/hooks/useRecommend";
+import { useRecommend } from '@/hooks/useRecommend';
+import { QueryFormComponent } from '@/components/QueryForm/QueryFormComponent';
+import { Results } from '@/components/Results/Results';
 
 export default function QueryFeature() {
   const { submit, data, error, isLoading } = useRecommend();

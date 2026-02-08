@@ -1,18 +1,12 @@
-import "dotenv/config";
-import fs from "node:fs";
-import path from "node:path";
-import { toSql } from "pgvector/pg";
-import { parse } from "csv-parse/sync";
-
-import { pool } from "@/lib/db";
-import { embedText } from "@/lib/embeddings";
-import { buildSearchText } from "@/lib/productSearchText";
-import {
-  parseWeightG,
-  splitMultiline,
-  toFloat,
-  toInt,
-} from "@/utils/formatter";
+import fs from 'node:fs';
+import path from 'node:path';
+import { parse } from 'csv-parse/sync';
+import 'dotenv/config';
+import { toSql } from 'pgvector/pg';
+import { parseWeightG, splitMultiline, toFloat, toInt } from '@/utils/formatter';
+import { pool } from '@/lib/db';
+import { embedText } from '@/lib/embeddings';
+import { buildSearchText } from '@/lib/productSearchText';
 
 type CsvRow = {
   sku: string;
@@ -107,7 +101,7 @@ async function upsertProduct(row: CsvRow) {
       tasting_notes,
       search_text,
       embeddingSql,
-    ],
+    ]
   );
 
   return sku;
@@ -116,8 +110,8 @@ async function upsertProduct(row: CsvRow) {
 async function main() {
   const csvPath = process.argv[2];
   if (!csvPath) {
-    console.error("❌ Please provide a CSV path:");
-    console.error("Usage: node scripts/import-embed-products.ts <path-to-csv>");
+    console.error('❌ Please provide a CSV path:');
+    console.error('Usage: node scripts/import-embed-products.ts <path-to-csv>');
     process.exit(1);
   }
 
@@ -128,7 +122,7 @@ async function main() {
     process.exit(1);
   }
 
-  const content = fs.readFileSync(file, "utf8");
+  const content = fs.readFileSync(file, 'utf8');
 
   const records = parse(content, {
     columns: true,
@@ -144,7 +138,7 @@ async function main() {
   }
 
   await pool.end();
-  console.log("Done.");
+  console.log('Done.');
 }
 
 main().catch((err) => {

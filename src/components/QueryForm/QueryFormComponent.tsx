@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import z from "zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import z from 'zod';
 
 const QueryFormSchema = z.object({
   query: z.string().min(0),
@@ -26,9 +26,9 @@ export function QueryFormComponent({ onSubmit }: Readonly<QueryFormProps>) {
   } = useForm<QueryFormSchemaType>({
     resolver: zodResolver(QueryFormSchema),
     defaultValues: {
-      query: "",
+      query: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const submitHandler = (data: { query: string }) => {
@@ -45,7 +45,7 @@ export function QueryFormComponent({ onSubmit }: Readonly<QueryFormProps>) {
           <input
             {...field}
             placeholder="What coffee do you like?"
-            data-valid={errors?.query ? "false" : "true"}
+            data-valid={errors?.query ? 'false' : 'true'}
             type="text"
             value={field.value}
           />

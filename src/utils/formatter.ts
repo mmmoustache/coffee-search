@@ -11,7 +11,7 @@ export function toFloat(value: unknown): number | null {
 }
 
 export function splitMultiline(value: unknown): string[] {
-  if (typeof value !== "string") return [];
+  if (typeof value !== 'string') return [];
   return value
     .split(/\r?\n/)
     .map((s) => s.trim())
@@ -19,7 +19,7 @@ export function splitMultiline(value: unknown): string[] {
 }
 
 export function parseWeightG(value: unknown): number | null {
-  if (typeof value !== "string") return null;
+  if (typeof value !== 'string') return null;
   const m = value.trim().match(/^(\d+)\s*g$/i);
   if (!m) return null;
   return Number(m[1]);

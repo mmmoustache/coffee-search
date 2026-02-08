@@ -8,11 +8,7 @@
       "category": "Single Origin",
       "origin": ["Brazil"],
       "tasting_notes": ["Chocolate", "Caramel", "Hazelnut"],
-      "recommended_for": [
-        "Mild filter cofffee",
-        "Easy drinking espresso",
-        "Sweet lattes"
-      ],
+      "recommended_for": ["Mild filter cofffee", "Easy drinking espresso", "Sweet lattes"],
       "roast_level": "2.5",
       "body": 3,
       "sweetness": 3,
@@ -65,11 +61,7 @@
       "category": "Special Brew",
       "origin": ["Guatemala"],
       "tasting_notes": ["Blackberries", "Chocolatey", "Sweet"],
-      "recommended_for": [
-        "Smooth espresso",
-        "Milk cappuccinos",
-        "Relaxing filter coffee"
-      ],
+      "recommended_for": ["Smooth espresso", "Milk cappuccinos", "Relaxing filter coffee"],
       "roast_level": "2.5",
       "body": 4,
       "sweetness": 3,
@@ -141,11 +133,7 @@
       "category": "Single Origin",
       "origin": ["Costa Rica"],
       "tasting_notes": ["Plums", "Dark Chocolate"],
-      "recommended_for": [
-        "Espresso",
-        "Flat whites, cappuccinos",
-        "Strong filter"
-      ],
+      "recommended_for": ["Espresso", "Flat whites, cappuccinos", "Strong filter"],
       "roast_level": "3.5",
       "body": 4,
       "sweetness": 3,
