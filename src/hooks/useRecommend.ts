@@ -1,24 +1,18 @@
+"use client";
+
+import { apiJson } from "@/lib/apiClient";
 import { useCallback, useState } from "react";
-import mockResponse from "@/mocks/openAIResponse.json";
 import type { RecommendResponse } from "@/types/recommend";
+import mockResponse from "@/mocks/openAIResponse.json";
 import { USE_MOCK_RECOMMEND } from "@/utils/flags";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-async function postRecommend(query: string): Promise<RecommendResponse> {
-  const res = await fetch("/api/recommend", {
+function recommend(query: string) {
+  return apiJson<RecommendResponse, { query: string }>("/api/recommend", {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ query }),
+    body: { query },
   });
-
-  const json = await res.json();
-
-  if (!res.ok) {
-    throw new Error(json?.error ?? "Request failed");
-  }
-
-  return json as RecommendResponse;
 }
 
 export function useRecommend() {
@@ -33,7 +27,7 @@ export function useRecommend() {
     try {
       const result = USE_MOCK_RECOMMEND
         ? (mockResponse as RecommendResponse)
-        : await postRecommend(query);
+        : await recommend(query);
 
       setData(result);
       setStatus("success");

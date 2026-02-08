@@ -6,6 +6,7 @@ export type RecommendResult = {
 export type RecommendResponse = {
   query: string;
   results: RecommendResult[];
+  recommendationText: string;
 };
 
 export type RecommendError = {
