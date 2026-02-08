@@ -12,58 +12,33 @@ type Product = {
   tasting_notes?: string[] | null;
 };
 
+const when = <T>(cond: unknown, value: T): T | null => (cond ? value : null);
+
 // Build string for embeddings
 export function buildSearchText(c: Product): string {
-  const parts: string[] = [];
-  const profile: string[] = [];
+  const profile = [
+    when(typeof c.roast_level === "number", `roast ${c.roast_level}/5`),
+    when(typeof c.body === "number", `body ${c.body}/5`),
+    when(typeof c.sweetness === "number", `sweetness ${c.sweetness}/5`),
+    when(typeof c.acidity === "number", `acidity ${c.acidity}/5`),
+  ].filter(Boolean);
 
-  if (c.name) {
-    parts.push(`Name: ${c.name}`);
-  }
-
-  if (c.category) {
-    parts.push(`Type: ${c.category}`);
-  }
-
-  if (typeof c.weight_g === "number") {
-    parts.push(`Weight: ${c.weight_g}g`);
-  }
-
-  if (c.origin?.length) {
-    parts.push(`Origin: ${c.origin.join(", ")}`);
-  }
-
-  if (c.tasting_notes?.length) {
-    parts.push(`Tasting notes: ${c.tasting_notes.join(", ")}`);
-  }
-
-  if (typeof c.roast_level === "number") {
-    profile.push(`roast ${c.roast_level}/5`);
-  }
-
-  if (typeof c.body === "number") {
-    profile.push(`body ${c.body}/5`);
-  }
-
-  if (typeof c.sweetness === "number") {
-    profile.push(`sweetness ${c.sweetness}/5`);
-  }
-
-  if (typeof c.acidity === "number") {
-    profile.push(`acidity ${c.acidity}/5`);
-  }
-
-  if (profile.length) {
-    parts.push(`Profile: ${profile.join(", ")}`);
-  }
-
-  if (c.recommended_for?.length) {
-    parts.push(`Recommended for: ${c.recommended_for.join(", ")}`);
-  }
-
-  if (c.description) {
-    parts.push(`Description: ${c.description}`);
-  }
-
-  return parts.join("\n");
+  return [
+    when(c.name, `Name: ${c.name}`),
+    when(c.category, `Type: ${c.category}`),
+    when(typeof c.weight_g === "number", `Weight: ${c.weight_g}g`),
+    when(c.origin?.length, `Origin: ${c.origin?.join(", ")}`),
+    when(
+      c.tasting_notes?.length,
+      `Tasting notes: ${c.tasting_notes?.join(", ")}`,
+    ),
+    when(profile.length, `Profile: ${profile.join(", ")}`),
+    when(
+      c.recommended_for?.length,
+      `Recommended for: ${c.recommended_for?.join(", ")}`,
+    ),
+    when(c.description, `Description: ${c.description}`),
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
