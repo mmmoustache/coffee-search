@@ -1,7 +1,7 @@
 'use client';
 
-import { QueryForm } from '@/components/QueryForm/QueryForm';
+import { Search } from '@/components/Search/Search';
 
 export default function Home() {
-  return <QueryForm />;
+  return <Search />;
 }

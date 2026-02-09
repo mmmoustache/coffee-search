@@ -1,21 +1,58 @@
 'use client';
 
-import { useRecommend } from '@/hooks/useRecommend';
-import { QueryFormComponent } from '@/components/QueryForm/QueryFormComponent';
-import { Results } from '@/components/Results/Results';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import z from 'zod';
 
-export function QueryForm() {
-  const { submit, data, error, isLoading } = useRecommend();
+const QueryFormSchema = z.object({
+  query: z.string().min(0),
+});
+
+export type QueryFormSchemaType = z.infer<typeof QueryFormSchema>;
+export type QueryFormResult = {
+  query: string;
+};
+
+type QueryFormProps = {
+  onSubmit: SubmitHandler<QueryFormSchemaType>;
+};
+
+export function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<QueryFormSchemaType>({
+    resolver: zodResolver(QueryFormSchema),
+    defaultValues: {
+      query: '',
+    },
+    mode: 'onChange',
+  });
+
+  const submitHandler = (data: { query: string }) => {
+    onSubmit(data);
+    reset();
+  };
 
   return (
-    <div>
-      <QueryFormComponent onSubmit={submit} />
+    <form onSubmit={handleSubmit(submitHandler)}>
+      <Controller
+        name="query"
+        control={control}
+        render={({ field }) => (
+          <input
+            {...field}
+            placeholder="What coffee do you like?"
+            data-valid={errors?.query ? 'false' : 'true'}
+            type="text"
+            value={field.value}
+          />
+        )}
+      />
 
-      {isLoading ? <p>Loading...</p> : null}
-
-      {error ? <p role="alert">{error}</p> : null}
-
-      {data ? <Results data={data} /> : null}
-    </div>
+      <button type="submit">Submit</button>
+    </form>
   );
 }
