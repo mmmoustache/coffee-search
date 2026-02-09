@@ -3,20 +3,31 @@
 import { useRecommend } from '@/hooks/useRecommend';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
 import { Results } from '@/components/Results/Results';
+import './Search.css';
 
 export function Search() {
   const { submit, data, error, isLoading } = useRecommend();
+  const showResults = !!data;
 
   return (
-    <div>
-      <QueryForm
-        onSubmit={submit}
-        isLoading={isLoading}
-      />
+    <div
+      className="shell | min-h-dvh w-full relative"
+      data-layout={showResults ? 'full' : 'default'}
+    >
+      <div className="shell__form | max-w-2xl absolute">
+        <QueryForm
+          onSubmit={submit}
+          isLoading={isLoading}
+        />
+      </div>
 
-      {isLoading ? <p>Loading...</p> : data ? <Results data={data} /> : null}
+      {data ? (
+        <div className="shell__results | min-h-dvh p-5 bg-amber-300 ml-[360px]">
+          <Results data={data} />
+        </div>
+      ) : null}
 
-      {error ? <p role="alert">{error}</p> : null}
+      {/* {error ? <p role="alert">{error}</p> : null} */}
     </div>
   );
 }

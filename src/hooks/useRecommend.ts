@@ -26,7 +26,7 @@ export function useRecommend() {
 
     try {
       const result = USE_MOCK_RECOMMEND
-        ? (mockResponse as RecommendResponse)
+        ? (mockResponse as unknown as RecommendResponse)
         : await recommend(query);
 
       setData(result);

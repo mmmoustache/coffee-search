@@ -1,0 +1,27 @@
+.query-form {
+  border: 1px solid #fff;
+  transition: width ease-in-out 0.25s;
+  width: 320px;
+}
+
+.query-form:before {
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(10px);
+}
+
+.query-form[data-is-loading='true'] {
+  width: 66px;
+  white-space: nowrap;
+}
+
+.query-form[data-is-loading='true'] .query-form__button,
+.query-form[data-is-loading='true'] .query-form__input {
+  opacity: 0;
+}

@@ -5,7 +5,6 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
 
   return (
     <>
-      <h1>{data.recommendationText}</h1>
       <p>
         {data.results.length} results for {data.query}
       </p>

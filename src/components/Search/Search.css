@@ -1,0 +1,28 @@
+.shell {
+  background-color: aquamarine;
+  transition: background-color ease-in-out 0.25s;
+  transition-delay: 0.25s;
+}
+
+.shell[data-layout='full'] {
+  background-color: pink;
+}
+
+.shell__form {
+  transition:
+    transform ease-in-out 0.25s,
+    top ease-in-out 0.25s,
+    left ease-in-out 0.25s;
+}
+
+.shell[data-layout='default'] .shell__form {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.shell[data-layout='full'] .shell__form {
+  top: 20px;
+  left: 20px;
+  transform: translate(0%, 0%);
+}
