@@ -15,14 +15,14 @@ export type QueryFormResult = {
 
 type QueryFormProps = {
   onSubmit: SubmitHandler<QueryFormSchemaType>;
+  isLoading: boolean;
 };
 
-export function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
+export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<QueryFormSchemaType>({
     resolver: zodResolver(QueryFormSchema),
     defaultValues: {
@@ -32,8 +32,8 @@ export function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
   });
 
   const submitHandler = (data: { query: string }) => {
+    if (isLoading) return;
     onSubmit(data);
-    reset();
   };
 
   return (
@@ -41,6 +41,7 @@ export function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
       <Controller
         name="query"
         control={control}
+        disabled={isLoading}
         render={({ field }) => (
           <input
             {...field}
@@ -52,7 +53,12 @@ export function QueryForm({ onSubmit }: Readonly<QueryFormProps>) {
         )}
       />
 
-      <button type="submit">Submit</button>
+      <button
+        type="submit"
+        disabled={isLoading}
+      >
+        Submit
+      </button>
     </form>
   );
 }

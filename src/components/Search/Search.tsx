@@ -7,17 +7,16 @@ import { Results } from '@/components/Results/Results';
 export function Search() {
   const { submit, data, error, isLoading } = useRecommend();
 
-  if (isLoading) {
-    return isLoading ? <p>Loading...</p> : null;
-  }
-
   return (
     <div>
-      <QueryForm onSubmit={submit} />
+      <QueryForm
+        onSubmit={submit}
+        isLoading={isLoading}
+      />
+
+      {isLoading ? <p>Loading...</p> : data ? <Results data={data} /> : null}
 
       {error ? <p role="alert">{error}</p> : null}
-
-      {data ? <Results data={data} /> : null}
     </div>
   );
 }

@@ -1,12 +1,8 @@
-export type RecommendResult = {
-  sku: string;
-  name: string;
-};
+import { CSVRow } from '@/types/product';
 
 export type RecommendResponse = {
   query: string;
-  results: RecommendResult[];
-  recommendationText: string;
+  results: CSVRow[];
 };
 
 export type RecommendError = {

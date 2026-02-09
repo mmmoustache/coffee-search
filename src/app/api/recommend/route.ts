@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { toSql } from 'pgvector/pg';
 import { z } from 'zod';
 import { getClientIp } from '@/utils/getClientIp';
+import { getCache, setCache } from '@/lib/cacheResult';
 import { pool } from '@/lib/db';
 import { embedText } from '@/lib/embeddings';
 import { openai } from '@/lib/openai';
@@ -18,19 +19,30 @@ export async function POST(req: Request) {
     rateLimitOrThrow(`recommend:${ip}`, 10, 60_000);
 
     const { query } = Body.parse(await req.json());
+    const normalizedQuery = query.trim().toLowerCase();
+
+    const cacheKey = `reco:${normalizedQuery}`;
+    const cached = getCache<any>(cacheKey);
+
+    // If result already exists in cache, return the cache instead
+    if (cached) return NextResponse.json({ ...cached, cached: true });
+
     const embedding = await embedText(query);
     const embeddingSql = toSql(embedding);
 
     const { rows: results } = await pool.query(
       `
-    SELECT id, sku, name, category, origin, tasting_notes, recommended_for,
-           roast_level, body, sweetness, acidity, description, weight_g
-    FROM products
-    WHERE embedding IS NOT NULL
-    ORDER BY embedding <=> $1::vector
-    LIMIT 12
+        SELECT
+          id, sku, name, category, origin, tasting_notes, recommended_for,
+          roast_level, body, sweetness, acidity, description, weight_g,
+          (embedding <=> $1::vector) AS distance
+        FROM products
+        WHERE embedding IS NOT NULL
+          AND (is_active IS NULL OR is_active = true)
+        ORDER BY distance ASC
+        LIMIT 5;
     `,
-      [toSql(embeddingSql)]
+      [embeddingSql]
     );
 
     const resp = await openai.responses.create({
@@ -53,14 +65,22 @@ export async function POST(req: Request) {
       ],
     });
 
-    return NextResponse.json({
+    const payload = {
       query,
       results,
-      recommendationText: resp.output_text,
-    });
+    };
+
+    setCache(cacheKey, payload, 5 * 60_000);
+
+    return NextResponse.json({ ...payload, cached: false });
   } catch (err: any) {
     const status = err?.status ?? 500;
     const res = NextResponse.json({ error: err.message ?? 'Unknown error' }, { status });
+
+    // If rate-limited
+    if (status === 429 && err.retryAfterSeconds) {
+      res.headers.set('Retry-After', String(err.retryAfterSeconds));
+    }
     return res;
   }
 }

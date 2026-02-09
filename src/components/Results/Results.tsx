@@ -5,13 +5,15 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
 
   return (
     <>
+      <h1>{data.recommendationText}</h1>
       <p>
         {data.results.length} results for {data.query}
       </p>
-      <h1>{data.recommendationText}</h1>
       <ul>
         {data.results.map((result) => (
-          <li key={result.sku}>{result.name}</li>
+          <li key={result.sku}>
+            {result.name} - {result.origin}
+          </li>
         ))}
       </ul>
     </>
