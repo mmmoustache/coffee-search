@@ -21,8 +21,15 @@
   transform: translate(-50%, -50%);
 }
 
-.shell[data-layout='full'] .shell__form {
-  top: 20px;
-  left: 20px;
-  transform: translate(0%, 0%);
+.shell__results {
+  animation: results 1.5s linear forwards;
+}
+
+@keyframes results {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

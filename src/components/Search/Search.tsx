@@ -14,15 +14,17 @@ export function Search() {
       className="shell | min-h-dvh w-full relative"
       data-layout={showResults ? 'full' : 'default'}
     >
-      <div className="shell__form | max-w-2xl absolute">
-        <QueryForm
-          onSubmit={submit}
-          isLoading={isLoading}
-        />
-      </div>
+      {showResults ? null : (
+        <div className="shell__form | max-w-2xl absolute">
+          <QueryForm
+            onSubmit={submit}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
 
-      {data ? (
-        <div className="shell__results | min-h-dvh p-5 bg-amber-300 ml-[360px]">
+      {showResults ? (
+        <div className="shell__results | min-h-dvh p-5 bg-amber-300">
           <Results data={data} />
         </div>
       ) : null}

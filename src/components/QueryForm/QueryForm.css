@@ -1,7 +1,7 @@
 .query-form {
-  border: 1px solid #fff;
-  transition: width ease-in-out 0.25s;
-  width: 320px;
+  transition:
+    width ease-in-out 0.25s,
+    height ease-in-out 0.25s;
 }
 
 .query-form:before {
@@ -17,11 +17,88 @@
 }
 
 .query-form[data-is-loading='true'] {
-  width: 66px;
+  align-items: center;
+  display: flex;
+  justify-items: center;
+  height: 66px;
   white-space: nowrap;
+  width: 66px;
 }
 
-.query-form[data-is-loading='true'] .query-form__button,
-.query-form[data-is-loading='true'] .query-form__input {
+.query-form[data-is-loading='true']::after {
+  animation:
+    loader 0.8s infinite linear alternate,
+    loader-2 1.6s infinite linear,
+    loader-3 0.5s ease-in 0.125s forwards;
+  content: '';
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid #514b82;
+  bottom: 0;
+  display: block;
+  left: 0;
+  margin: 10px;
   opacity: 0;
+  right: 0;
+  top: 0;
+  width: 60px;
+}
+
+.query-form[data-is-loading='true'] .query-form__input,
+.query-form[data-is-loading='true'] .query-form__button,
+.query-form[data-is-loading='true'] .query-form__content {
+  display: none;
+}
+
+.query-form__input:focus-within {
+  outline: 3px solid yellow;
+  outline-offset: 6px;
+}
+
+@keyframes loader {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+  }
+  12.5% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+  }
+  62.5% {
+    clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
+  }
+}
+
+@keyframes loader-2 {
+  0% {
+    transform: scaleY(1) rotate(0deg);
+  }
+  49.99% {
+    transform: scaleY(1) rotate(135deg);
+  }
+  50% {
+    transform: scaleY(-1) rotate(0deg);
+  }
+  100% {
+    transform: scaleY(-1) rotate(-135deg);
+  }
+}
+
+@keyframes loader-3 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
