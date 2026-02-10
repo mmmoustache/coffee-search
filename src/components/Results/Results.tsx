@@ -1,42 +1,68 @@
+import { useEffect, useState } from 'react';
+import { CSVRow } from '@/types/product';
 import type { RecommendResponse } from '@/types/recommend';
 import { ProductTitle } from '@/components/ProductTitle/ProductTitle';
+import { Scale } from '../Scale/Scale';
+
+const themes = {
+  '100001': 'bg-100001',
+  '100002': 'bg-100002',
+  '100003': 'bg-100003',
+  '100004': 'bg-100004',
+  '100005': 'bg-100005',
+  '100006': 'bg-100006',
+  '100007': 'bg-100007',
+  '100008': 'bg-100008',
+  '100009': 'bg-100009',
+  '100010': 'bg-100010',
+};
 
 export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
-  if (!data.results?.length) return null;
+  const [selected, setSelected] = useState<CSVRow>(data?.results?.[0]);
+  const [recommendations, setRecommendations] = useState<CSVRow>(
+    data?.results?.filter((result) => result.sku !== selected.sku)
+  );
 
-  const [mainRecommendation, ...rest] = data.results;
-  const otherRecommendations = rest;
+  if (!selected) {
+    return;
+  }
+
+  const handleChange = (newItem) => {
+    setSelected(newItem);
+    setRecommendations(data?.results?.filter((result) => result.sku !== newItem.sku));
+  };
 
   return (
     <>
-      <div className={`flex flex-col gap-4 bg-${mainRecommendation.sku}`}>
-        <ProductTitle>{mainRecommendation.name}</ProductTitle>
-        {mainRecommendation.description && (
-          <p className="font-body">{mainRecommendation.description}</p>
-        )}
-        {mainRecommendation.category && <p>{mainRecommendation.category}</p>}
+      <div className={`flex flex-col gap-4 ${themes[selected.sku]}`}>
+        <ProductTitle>{selected.name}</ProductTitle>
+        {selected.description && <p className="font-body">{selected.description}</p>}
+        {selected.category && <p>{selected.category}</p>}
         <ul>
-          <li>
-            <h3 className="font-title">Roast Level</h3>
-            <p>{mainRecommendation.roast_level}</p>
-          </li>
+          {selected.roast_level && (
+            <li>
+              <h3 className="font-title">Roast Level</h3>
+              <Scale value={selected.roast_level} />
+            </li>
+          )}
+
           <li>
             <h3 className="font-title">Body</h3>
-            <p>{mainRecommendation.body}</p>
+            <p>{selected.body}</p>
           </li>
           <li>
             <h3 className="font-title">Sweetness</h3>
-            <p>{mainRecommendation.sweetness}</p>
+            <p>{selected.sweetness}</p>
           </li>
           <li>
             <h3 className="font-title">Acidity</h3>
-            <p>{mainRecommendation.acidity}</p>
+            <p>{selected.acidity}</p>
           </li>
         </ul>
         <div>
           <h2 className="font-title">Origin</h2>
           <ul>
-            {mainRecommendation?.origin?.map((origin) => (
+            {selected?.origin?.map((origin) => (
               <li key={origin}>{origin}</li>
             ))}
           </ul>
@@ -44,7 +70,7 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
         <div>
           <h2 className="font-title">Tasting notes</h2>
           <ul>
-            {mainRecommendation?.tasting_notes?.map((note) => (
+            {selected?.tasting_notes?.map((note) => (
               <li key={note}>{note}</li>
             ))}
           </ul>
@@ -52,16 +78,18 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
         <div>
           <h2 className="font-title">Recommended for</h2>
           <ul>
-            {mainRecommendation?.recommended_for?.map((item) => (
+            {selected?.recommended_for?.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
       </div>
       <ul>
-        {otherRecommendations.map((result) => (
+        {recommendations?.map((result) => (
           <li key={result.sku}>
-            {result.name} - {result.origin}
+            <button onClick={() => handleChange(result)}>
+              {result.name} - {result.origin}
+            </button>
           </li>
         ))}
       </ul>
