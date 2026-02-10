@@ -1,18 +1,47 @@
 @import 'tailwindcss';
 
-:root {
+@theme {
+  /* Colors mapped to SKU's  */
+  --color-100001: var(--color-red-200);
+  --color-100002: var(--color-amber-200);
+  --color-100003: var(--color-blue-200);
+  --color-100004: var(--color-green-200);
+  --color-100005: var(--color-pink-200);
+  --color-100006: var(--color-purple-200);
+  --color-100007: var(--color-yellow-200);
+  --color-100008: var(--color-gray-200);
+  --color-100009: var(--color-orange-200);
+  --color-100010: var(--color-amber-600);
 }
 
-.special-gothic-expanded-one-regular {
+@utility font-mega {
   font-family: 'Special Gothic Expanded One', sans-serif;
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  font-size: clamp(1rem, min(20vmin, 10vw), 10rem);
 }
 
-.special-gothic-condensed-one-regular {
+@utility font-heading {
   font-family: 'Special Gothic Condensed One', sans-serif;
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  font-size: 56px;
+}
+
+@utility font-title {
+  font-family: 'Special Gothic Condensed One', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  font-size: 32px;
+}
+
+@utility font-body {
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  font-size: 18px;
 }

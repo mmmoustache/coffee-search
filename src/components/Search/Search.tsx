@@ -24,7 +24,7 @@ export function Search() {
       )}
 
       {showResults ? (
-        <div className="shell__results | min-h-dvh p-5 bg-amber-300">
+        <div className="shell__results | min-h-dvh p-5">
           <Results data={data} />
         </div>
       ) : null}
