@@ -28,6 +28,7 @@
   font-style: normal;
   font-display: swap;
   font-size: 56px;
+  text-transform: uppercase;
 }
 
 @utility font-title {
@@ -36,6 +37,7 @@
   font-style: normal;
   font-display: swap;
   font-size: 32px;
+  text-transform: uppercase;
 }
 
 @utility font-body {
