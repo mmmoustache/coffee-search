@@ -11,14 +11,12 @@ export function Scale({ value }: RatingProps) {
         return (
           <div
             key={i}
-            className="w-5 h-5 rounded-full relative overflow-hidden bg-gray-300 border-2 border-black"
+            className="w-5 h-5 rounded-full relative overflow-hidden bg-white border-2 border-black"
           >
             <div
+              className="h-full bg-black"
               style={{
                 width: `${fillAmount * 100}%`,
-                height: '100%',
-                background: '#222',
-                transition: 'width 0.2s ease',
               }}
             />
           </div>

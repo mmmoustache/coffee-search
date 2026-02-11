@@ -42,6 +42,7 @@ export function useRecommend() {
   return {
     submit,
     data,
+    setData,
     error,
     status,
     isLoading: status === 'loading',

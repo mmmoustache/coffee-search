@@ -6,8 +6,12 @@ import { Results } from '@/components/Results/Results';
 import './Search.css';
 
 export function Search() {
-  const { submit, data, error, isLoading } = useRecommend();
+  const { submit, data, setData, error, isLoading } = useRecommend();
   const showResults = !!data;
+
+  const closeResults = () => {
+    setData(null);
+  };
 
   return (
     <div
@@ -25,6 +29,13 @@ export function Search() {
 
       {showResults ? (
         <div className="shell__results | min-h-dvh p-5">
+          <button
+            type="button"
+            onClick={closeResults}
+          >
+            Close
+          </button>
+
           <Results data={data} />
         </div>
       ) : null}

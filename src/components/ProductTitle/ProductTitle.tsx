@@ -5,10 +5,10 @@ type Props = {
 export function ProductTitle({ children }: Readonly<Props>) {
   if (!children) return;
   return (
-    <div className="product-title">
+    <div className="product-title | contain-inline-size">
       <h1 className="font-heading relative z-10">{children}</h1>
       <span
-        className="font-mega uppercase leading-0 text-gray-50 opacity-10"
+        className="font-mega uppercase leading-0 text-gray-50 opacity-20 block"
         aria-hidden
       >
         {children}

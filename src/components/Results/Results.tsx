@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CSVRow } from '@/types/product';
 import type { RecommendResponse } from '@/types/recommend';
 import { ProductTitle } from '@/components/ProductTitle/ProductTitle';
@@ -32,6 +32,21 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
     setRecommendations(data?.results?.filter((result) => result.sku !== newItem.sku));
   };
 
+  const descriptors = [
+    {
+      label: 'Body',
+      value: selected.body,
+    },
+    {
+      label: 'Sweetness',
+      value: selected.sweetness,
+    },
+    {
+      label: 'Acidity',
+      value: selected.acidity,
+    },
+  ];
+
   return (
     <>
       <div className={`flex flex-col gap-4 ${themes[selected.sku]}`}>
@@ -45,19 +60,17 @@ export function Results({ data }: Readonly<{ data: RecommendResponse }>) {
               <Scale value={selected.roast_level} />
             </li>
           )}
-
-          <li>
-            <h3 className="font-title">Body</h3>
-            <p>{selected.body}</p>
-          </li>
-          <li>
-            <h3 className="font-title">Sweetness</h3>
-            <p>{selected.sweetness}</p>
-          </li>
-          <li>
-            <h3 className="font-title">Acidity</h3>
-            <p>{selected.acidity}</p>
-          </li>
+        </ul>
+        <ul className="grid grid-flow-col border border-white">
+          {descriptors?.map((descriptor) => (
+            <li
+              className="border border-white p-3"
+              key={descriptor.label}
+            >
+              <h3 className="font-body">{descriptor.label}</h3>
+              <p className="font-bold">{descriptor.value}</p>
+            </li>
+          ))}
         </ul>
         <div>
           <h2 className="font-title">Origin</h2>
