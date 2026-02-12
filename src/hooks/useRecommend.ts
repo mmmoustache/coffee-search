@@ -39,10 +39,16 @@ export function useRecommend() {
     }
   }, []);
 
+  const reset = () => {
+    setData(null);
+    setError(null);
+    setStatus('idle');
+  };
+
   return {
     submit,
     data,
-    setData,
+    reset,
     error,
     status,
     isLoading: status === 'loading',

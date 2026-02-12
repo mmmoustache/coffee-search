@@ -1,24 +1,20 @@
-import { getTheme } from '@/utils/getTheme';
-import { CSVRow } from '@/types/product';
+import { Product as Props } from '@/types/product';
 import { ProductTitle } from '@/components/ProductTitle/ProductTitle';
 import { Scale } from '@/components/Scale/Scale';
 import './Product.css';
 
-export function Product(props: CSVRow) {
-  const {
-    body,
-    sweetness,
-    acidity,
-    sku,
-    name,
-    description,
-    category,
-    roast_level,
-    origin,
-    tasting_notes,
-    recommended_for,
-  } = props;
-
+export function Product({
+  body,
+  sweetness,
+  acidity,
+  name,
+  description,
+  category,
+  roast_level,
+  origin,
+  tasting_notes,
+  recommended_for,
+}: Readonly<Props>) {
   const descriptors = [
     {
       label: 'Body',
@@ -34,10 +30,8 @@ export function Product(props: CSVRow) {
     },
   ];
 
-  const theme = getTheme(sku);
-
   return (
-    <div className={`product | grid p-12 gap-14 ${theme?.backgroundColor}`}>
+    <div className="product | grid p-12 gap-30">
       <div>
         <img
           src="/pack.png"
@@ -49,6 +43,19 @@ export function Product(props: CSVRow) {
         {category && <p className="font-body uppercase text-right">{category}</p>}
         <ProductTitle>{name}</ProductTitle>
         {description && <p className="font-body">{description}</p>}
+
+        <ul className="grid grid-flow-col border border-white">
+          {descriptors?.map((descriptor) => (
+            <li
+              className="border border-white p-3"
+              key={descriptor.label}
+            >
+              <h3 className="font-body">{descriptor.label}</h3>
+              <p className="font-body font-bold">{descriptor.value}</p>
+            </li>
+          ))}
+        </ul>
+
         {roast_level || origin ? (
           <div className="flex gap-4">
             {roast_level && (
@@ -65,18 +72,6 @@ export function Product(props: CSVRow) {
             ) : null}
           </div>
         ) : null}
-
-        <ul className="grid grid-flow-col border border-white">
-          {descriptors?.map((descriptor) => (
-            <li
-              className="border border-white p-3"
-              key={descriptor.label}
-            >
-              <h3 className="font-body">{descriptor.label}</h3>
-              <p className="font-body font-bold">{descriptor.value}</p>
-            </li>
-          ))}
-        </ul>
 
         {tasting_notes && recommended_for ? (
           <div className="flex gap-4">
