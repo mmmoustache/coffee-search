@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "products:import": "tsx src/scripts/import-products.ts",
-    "products:sync": "tsx src/scripts/sync-products.ts"
+    "products:sync": "tsx src/scripts/sync-products.ts",
+    "icon:tokens": "node src/scripts/generate-icons.mjs",
+    "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\""
   },
   "dependencies": {
     "csv-parse": "^6.1.0",
@@ -25,12 +27,14 @@
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "clsx": "^2.1.1",
     "dotenv": "^17.2.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "openai": "^6.18.0",
     "pg": "^8.18.0",
     "react-hook-form": "^7.71.1",
+    "svg-sprite": "^2.0.4",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5",

@@ -25,6 +25,8 @@
 *.pem
 .NOTES
 .temp
+/src/design-tokens/icons.json
+/src/design-tokens/icons.ts
 
 # debug
 npm-debug.log*
