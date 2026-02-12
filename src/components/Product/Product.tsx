@@ -34,7 +34,7 @@ export function Product({
     <div className="product | grid p-12 gap-30">
       <div>
         <img
-          src="/pack.png"
+          src="/pack.webp"
           alt=""
           className="product__image"
         />

@@ -12,12 +12,13 @@ export default function Home() {
 
   const [selectedSKU, setSelectedSKU] = useState<string | number | null>(null);
 
+  const results = data?.results ?? [];
+  const showResults = !!data && results.length > 0;
+
   useEffect(() => {
     const firstSku = data?.results?.[0]?.sku ?? null;
     setSelectedSKU(firstSku);
   }, [data]);
-
-  const results = data?.results ?? [];
 
   const selected = useMemo(() => {
     if (!selectedSKU) return results[0] ?? null;
@@ -28,8 +29,6 @@ export default function Home() {
     if (!selected) return [];
     return results.filter((r) => r.sku !== selected.sku);
   }, [results, selected]);
-
-  const showResults = !!data && results.length > 0;
 
   const handleReset = () => {
     setSelectedSKU(null);
@@ -50,7 +49,7 @@ export default function Home() {
   if (!selected) return null;
 
   return (
-    <div>
+    <div className={theme?.backgroundColor}>
       <button
         type="button"
         onClick={handleReset}

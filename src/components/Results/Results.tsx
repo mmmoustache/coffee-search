@@ -1,18 +1,25 @@
-import { useState } from 'react';
 import { CSVRow } from '@/types/product';
-import type { RecommendResponse } from '@/types/recommend';
-import { Product } from '@/components/Product/Product';
+import { ResultTile } from '@/components/Results/ResultTile';
 
-export function Results({ data, handleChange }) {
+type Props = {
+  data: CSVRow[];
+  handleChange: (sku: string | number | null) => void;
+};
+
+export function Results({ data, handleChange }: Readonly<Props>) {
   return (
-    <ul>
-      {data?.map((result) => (
-        <li key={result.sku}>
-          <button onClick={() => handleChange(result.sku)}>
-            {result.name} - {result.origin}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <section className="p-12 flex flex-col gap-8">
+      <h2 className="font-heading text-center">Others you might like</h2>
+      <ul className="grid gap-20 grid-cols-4">
+        {data?.map((result: CSVRow) => (
+          <li key={result.sku}>
+            <ResultTile
+              result={result}
+              handleChange={() => handleChange(result.sku)}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

@@ -49,11 +49,10 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
           control={control}
           disabled={isLoading}
           render={({ field }) => (
-            <input
+            <textarea
               {...field}
               placeholder="Describe your perfect coffee"
               data-valid={errors?.query ? 'false' : 'true'}
-              type="text"
               value={field.value}
               className="query-form__input"
             />
