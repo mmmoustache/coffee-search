@@ -31,14 +31,14 @@ export function Product({
   ];
 
   return (
-    <div className="product | grid p-12 gap-30">
-      <div>
+    <div className="product | grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
+      <figure className="hidden xl:block">
         <img
           src="/pack.webp"
           alt=""
           className="product__image"
         />
-      </div>
+      </figure>
       <div className="flex flex-col gap-6">
         {category && <p className="font-body uppercase text-right">{category}</p>}
         <ProductTitle>{name}</ProductTitle>
@@ -57,15 +57,15 @@ export function Product({
         </ul>
 
         {roast_level || origin ? (
-          <div className="flex gap-4">
+          <div className="flex max-lg:flex-col gap-6">
             {roast_level && (
-              <div className="flex flex-col gap-1 w-1/2">
+              <div className="flex flex-col gap-1 w-full">
                 <h2 className="font-title">Roast Level</h2>
                 <Scale value={roast_level} />
               </div>
             )}
             {origin && origin.length > 0 ? (
-              <div className="flex flex-col gap-1 w-1/2">
+              <div className="flex flex-col gap-1 w-full">
                 <h2 className="font-title">Origin</h2>
                 <p className="font-body">{origin.join(', ')}</p>
               </div>
@@ -74,7 +74,7 @@ export function Product({
         ) : null}
 
         {tasting_notes && recommended_for ? (
-          <div className="flex gap-4">
+          <div className="flex max-lg:flex-col gap-6">
             <div className="flex flex-col gap-1 w-1/2">
               <h2 className="font-title">Tasting notes</h2>
               <ul className="list-disc pl-6">
