@@ -47,3 +47,8 @@
   font-display: swap;
   font-size: 18px;
 }
+
+.focusable:focus-within {
+  outline: 3px solid yellow;
+  outline-offset: 6px;
+}

@@ -28,7 +28,7 @@ export default function Home() {
 
   const others = useMemo(() => {
     if (!selected) return [];
-    return results.filter((r) => r.sku !== selected.sku);
+    return results.filter((r) => r.sku !== selected.sku).splice(0, 4);
   }, [results, selected]);
 
   const handleReset = () => {
@@ -50,9 +50,17 @@ export default function Home() {
   if (!selected) return null;
 
   return (
-    <div className={theme?.backgroundColor}>
+    <main className={theme?.backgroundColor}>
       <Product {...selected}>
-        <div className="flex pt-6 gap-6">
+        <div className="flex pt-6 gap-6 justify-between">
+          <Button
+            type="button"
+            onClick={handleReset}
+            icon="arrow-left"
+            iconPosition="left"
+          >
+            Back to search
+          </Button>
           <Button
             as="a"
             href="#"
@@ -62,15 +70,6 @@ export default function Home() {
           >
             Buy now
           </Button>
-
-          <Button
-            type="button"
-            onClick={handleReset}
-            icon="arrow-left"
-            iconPosition="left"
-          >
-            Back to search
-          </Button>
         </div>
       </Product>
 
@@ -79,6 +78,6 @@ export default function Home() {
         handleChange={setSelectedSKU}
       />
       {/* {error ? <p role="alert">{error}</p> : null} */}
-    </div>
+    </main>
   );
 }

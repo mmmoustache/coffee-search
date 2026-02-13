@@ -23,21 +23,17 @@
   --button-color-border-hover: var(--color-black);
 }
 
-.button:not(:disabled):hover {
-  background-color: var(--button-color-fill-hover);
-  border-color: var(--button-color-border-hover);
-  color: var(--button-color-text-hover);
+@media (hover: hover) {
+  .button:not(:disabled):hover {
+    background-color: var(--button-color-fill-hover);
+    border-color: var(--button-color-border-hover);
+    color: var(--button-color-text-hover);
+  }
 }
 
 .button:disabled {
   --button-color-fill: var(--color-gray-500);
   cursor: not-allowed;
-}
-
-.button:focus-visible {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
 }
 
 .button__icon {

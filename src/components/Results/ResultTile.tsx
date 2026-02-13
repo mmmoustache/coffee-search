@@ -13,7 +13,7 @@ export function ResultTile({ result, handleChange }: Readonly<Props>) {
 
   return (
     <button
-      className="result-tile | relative flex flex-col gap-2 cursor-pointer"
+      className="result-tile | relative flex flex-col gap-2 cursor-pointer focusable"
       onClick={() => handleChange(result.sku)}
     >
       <span className={`block ${theme?.backgroundColor}`}>

@@ -47,6 +47,14 @@ export function Product({
           <h1 className="font-heading">{name}</h1>
           {description && <p className="font-body">{description}</p>}
 
+          <figure className="block xl:hidden mb-8 max-w-2xs mx-auto">
+            <img
+              src="/pack.webp"
+              alt=""
+              className="product__image"
+            />
+          </figure>
+
           <ul className="grid grid-flow-col border border-white">
             {descriptors?.map((descriptor) => (
               <li

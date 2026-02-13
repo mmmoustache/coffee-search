@@ -55,7 +55,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
               placeholder="Describe your perfect coffee"
               data-valid={errors?.query ? 'false' : 'true'}
               value={field.value}
-              className="query-form__input"
+              className="query-form__input | focusable"
             />
           )}
         />

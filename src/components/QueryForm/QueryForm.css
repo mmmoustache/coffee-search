@@ -50,11 +50,6 @@
   display: none;
 }
 
-.query-form__input:focus-within {
-  outline: 3px solid yellow;
-  outline-offset: 6px;
-}
-
 @keyframes loader {
   0% {
     clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
