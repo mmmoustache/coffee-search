@@ -2,7 +2,6 @@
 
 import { useRecommend } from '@/hooks/useRecommend';
 import { useEffect, useMemo, useState } from 'react';
-import { getTheme } from '@/utils/getTheme';
 import { Button } from '@/components/Button/Button';
 import { Product } from '@/components/Product/Product';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
@@ -36,48 +35,44 @@ export default function Home() {
     reset();
   };
 
-  const theme = getTheme(selectedSKU || '');
-
-  if (!showResults) {
-    return (
+  return (
+    <>
       <QueryForm
         onSubmit={submit}
         isLoading={isLoading}
       />
-    );
-  }
 
-  if (!selected) return null;
+      {selected && (
+        <Product {...selected}>
+          <div className="flex pt-6 gap-6 justify-between">
+            <Button
+              type="button"
+              onClick={handleReset}
+              icon="arrow-left"
+              iconPosition="left"
+            >
+              Back to search
+            </Button>
+            <Button
+              as="a"
+              href="#"
+              icon="trolley"
+              iconPosition="right"
+              variant="secondary"
+            >
+              Buy now
+            </Button>
+          </div>
+        </Product>
+      )}
 
-  return (
-    <main className={theme?.backgroundColor}>
-      <Product {...selected}>
-        <div className="flex pt-6 gap-6 justify-between">
-          <Button
-            type="button"
-            onClick={handleReset}
-            icon="arrow-left"
-            iconPosition="left"
-          >
-            Back to search
-          </Button>
-          <Button
-            as="a"
-            href="#"
-            icon="trolley"
-            iconPosition="right"
-            variant="secondary"
-          >
-            Buy now
-          </Button>
-        </div>
-      </Product>
-
-      <Results
-        data={others}
-        handleChange={setSelectedSKU}
-      />
+      {showResults && (
+        <Results
+          data={others}
+          handleChange={setSelectedSKU}
+        />
+      )}
       {/* {error ? <p role="alert">{error}</p> : null} */}
-    </main>
+    </>
   );
 }

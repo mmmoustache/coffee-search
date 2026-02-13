@@ -11,10 +11,15 @@ export function ResultTile({ result, handleChange }: Readonly<Props>) {
   if (!result) return;
   const theme = getTheme(result?.sku || '');
 
+  const handleClick = () => {
+    handleChange(result.sku);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <button
       className="result-tile | relative flex flex-col gap-2 cursor-pointer focusable"
-      onClick={() => handleChange(result.sku)}
+      onClick={handleClick}
     >
       <span className={`block ${theme?.backgroundColor}`}>
         <img

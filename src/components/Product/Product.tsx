@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
-import { Product as Props } from '@/types/product';
+import { getTheme } from '@/utils/getTheme';
+import { CSVRow as Props } from '@/types/product';
 import { Scale } from '@/components/Scale/Scale';
 import { TextMarquee } from '@/components/TextMarquee/TextMarquee';
 import './Product.css';
@@ -15,6 +16,7 @@ export function Product({
   origin,
   tasting_notes,
   recommended_for,
+  sku,
   children,
 }: PropsWithChildren<Props>) {
   const descriptors = [
@@ -32,9 +34,11 @@ export function Product({
     },
   ];
 
+  const theme = getTheme(sku || '');
+
   return (
-    <>
-      <div className="product | grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
+    <div className={`product | ${theme?.backgroundColor}`}>
+      <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
         <figure className="hidden xl:block">
           <img
             src="/pack.webp"
@@ -121,6 +125,6 @@ export function Product({
       <div className="my-8">
         <TextMarquee text={name} />
       </div>
-    </>
+    </div>
   );
 }
