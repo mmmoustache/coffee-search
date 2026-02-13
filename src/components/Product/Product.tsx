@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react';
 import { Product as Props } from '@/types/product';
 import { ProductTitle } from '@/components/ProductTitle/ProductTitle';
 import { Scale } from '@/components/Scale/Scale';
@@ -14,7 +15,8 @@ export function Product({
   origin,
   tasting_notes,
   recommended_for,
-}: Readonly<Props>) {
+  children,
+}: PropsWithChildren<Props>) {
   const descriptors = [
     {
       label: 'Body',
@@ -103,6 +105,8 @@ export function Product({
             </div>
           </div>
         ) : null}
+
+        {children}
       </div>
     </div>
   );

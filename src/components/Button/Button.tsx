@@ -52,7 +52,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       ...rest
     } = props;
 
-    const classes = clsx('button', className);
+    const classes = clsx(
+      'button px-5 py-3 cursor-pointer flex outline-0 border-2 gap-4 font-body min-h-12.5 no-underline whitespace-nowrap',
+      className
+    );
 
     // If iconOnly and no ariaLabel, fall back to string children
     let computedAriaLabel = ariaLabel;

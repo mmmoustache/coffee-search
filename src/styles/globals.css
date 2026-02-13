@@ -2,16 +2,16 @@
 
 @theme {
   /* Colors mapped to SKU's  */
-  --color-100001: var(--color-red-200);
-  --color-100002: var(--color-amber-200);
-  --color-100003: var(--color-blue-200);
-  --color-100004: var(--color-green-200);
-  --color-100005: var(--color-pink-200);
-  --color-100006: var(--color-purple-200);
-  --color-100007: var(--color-yellow-200);
-  --color-100008: var(--color-gray-200);
-  --color-100009: var(--color-orange-200);
-  --color-100010: var(--color-amber-600);
+  --color-100001: #f7b7c2;
+  --color-100002: #ffd8a8;
+  --color-100003: #fff1a8;
+  --color-100004: #c9f2c7;
+  --color-100005: #aee6d8;
+  --color-100006: #b7e0ff;
+  --color-100007: #c8c4ff;
+  --color-100008: #e2c1f9;
+  --color-100009: #f6c1ff;
+  --color-100010: #e8d6c3;
 }
 
 @utility font-mega {

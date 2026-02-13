@@ -51,16 +51,28 @@ export default function Home() {
 
   return (
     <div className={theme?.backgroundColor}>
-      <Button
-        type="button"
-        onClick={handleReset}
-        aria-label="Back to results"
-        icon="arrow-left"
-      >
-        Back to search
-      </Button>
+      <Product {...selected}>
+        <div className="flex pt-6 gap-6">
+          <Button
+            type="button"
+            onClick={handleReset}
+            icon="arrow-left"
+            iconPosition="left"
+          >
+            Back to search
+          </Button>
+          <Button
+            as="a"
+            href="#"
+            icon="trolley"
+            iconPosition="right"
+            variant="secondary"
+          >
+            Buy now
+          </Button>
+        </div>
+      </Product>
 
-      <Product {...selected} />
       <Results
         data={others}
         handleChange={setSelectedSKU}

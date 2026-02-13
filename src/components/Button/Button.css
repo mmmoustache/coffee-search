@@ -1,36 +1,17 @@
-:root {
-  --button-spacing-horizontal: var(--spacing-5);
-  --button-spacing-vertical: var(--spacing-3);
-  --button-border-radius: var(--radius-2xl);
-  --button-content-gap: var(--spacing-2);
-  --button-min-height: 50px;
-  --button-font: var(--font-body);
-}
-
 .button {
   background-color: var(--button-color-fill);
-  border-color: transparent;
-  border-style: solid;
-  border-width: 0;
-  border-radius: var(--button-border-radius);
+  border-color: var(--button-color-border);
   box-shadow: 0 0 0 0 transparent;
   color: var(--button-color-text);
-  cursor: pointer;
-  display: flex;
-  gap: var(--button-content-gap);
-  font: var(--button-font);
-  min-height: var(--button-min-height);
-  outline: none;
-  padding: var(--button-spacing-vertical) var(--button-spacing-horizontal);
-  text-decoration: none;
-  white-space: nowrap;
 }
 
 .button[data-variant='primary'] {
-  --button-color-fill: var(--color-black);
-  --button-color-fill-hover: var(--color-white);
-  --button-color-text: var(--color-white);
-  --button-color-text-hover: var(--color-black);
+  --button-color-fill: var(--color-transparent);
+  --button-color-fill-hover: var(--color-black);
+  --button-color-text: var(--color-black);
+  --button-color-text-hover: var(--color-white);
+  --button-color-border: var(--color-black);
+  --button-color-border-hover: var(--color-black);
 }
 
 .button[data-variant='secondary'] {
@@ -38,10 +19,13 @@
   --button-color-fill-hover: var(--color-white);
   --button-color-text: var(--color-white);
   --button-color-text-hover: var(--color-black);
+  --button-color-border: var(--color-black);
+  --button-color-border-hover: var(--color-black);
 }
 
 .button:not(:disabled):hover {
   background-color: var(--button-color-fill-hover);
+  border-color: var(--button-color-border-hover);
   color: var(--button-color-text-hover);
 }
 
