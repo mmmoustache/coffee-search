@@ -54,14 +54,6 @@ export default function Home() {
       <Product {...selected}>
         <div className="flex pt-6 gap-6">
           <Button
-            type="button"
-            onClick={handleReset}
-            icon="arrow-left"
-            iconPosition="left"
-          >
-            Back to search
-          </Button>
-          <Button
             as="a"
             href="#"
             icon="trolley"
@@ -69,6 +61,15 @@ export default function Home() {
             variant="secondary"
           >
             Buy now
+          </Button>
+
+          <Button
+            type="button"
+            onClick={handleReset}
+            icon="arrow-left"
+            iconPosition="left"
+          >
+            Back to search
           </Button>
         </div>
       </Product>

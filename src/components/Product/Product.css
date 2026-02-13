@@ -1,5 +1,5 @@
 :root {
-  --product-grid-cols: 600px 1fr;
+  --product-grid-cols: 3fr 5fr;
 }
 
 .product__image {

@@ -1,0 +1,19 @@
+.text-marquee__track {
+  animation: marquee 120s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-marquee__track {
+    animation: none;
+  }
+}
