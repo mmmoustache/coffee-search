@@ -14,6 +14,10 @@
   --color-100010: #e8d6c3;
 }
 
+:root {
+  --shell-height: calc(100dvh - 40px);
+}
+
 @utility font-mega {
   font-family: 'Special Gothic Expanded One', sans-serif;
   font-weight: 400;
@@ -48,7 +52,7 @@
   font-size: 18px;
 }
 
-.focusable:focus-within {
+.focusable:focus-visible {
   outline: 3px solid yellow;
   outline-offset: 6px;
 }

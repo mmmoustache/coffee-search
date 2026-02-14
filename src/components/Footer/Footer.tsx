@@ -19,7 +19,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="hover:underline"
           >
-            Jack Coventry
+            Source code
           </a>
         </p>
       </div>

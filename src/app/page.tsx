@@ -6,6 +6,7 @@ import { Button } from '@/components/Button/Button';
 import { Product } from '@/components/Product/Product';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
 import { Results } from '@/components/Results/Results';
+import { TextMarquee } from '@/components/TextMarquee/TextMarquee';
 
 export default function Home() {
   const { submit, data, error, reset, isLoading } = useRecommend();
@@ -37,10 +38,25 @@ export default function Home() {
 
   return (
     <>
-      <QueryForm
-        onSubmit={submit}
-        isLoading={isLoading}
-      />
+      <div
+        className={`shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 ${selected ? 'opacity-0 h-0' : 'opacity-100 h-(--shell-height) m-5'}`}
+      >
+        <div className="flex flex-col gap-2">
+          <svg
+            className="icon | mx-auto"
+            width="4em"
+            height="4em"
+            fill="currentColor"
+          >
+            <use xlinkHref="/icons/icons.svg#cup-hot" />
+          </svg>
+          <h1 className="font-heading">Describe your perfect coffee</h1>
+          <QueryForm
+            onSubmit={submit}
+            isLoading={isLoading}
+          />
+        </div>
+      </div>
 
       {selected && (
         <Product {...selected}>
@@ -72,6 +88,7 @@ export default function Home() {
           handleChange={setSelectedSKU}
         />
       )}
+      <TextMarquee>LOVE COFFEE</TextMarquee>
       {/* {error ? <p role="alert">{error}</p> : null} */}
     </>
   );

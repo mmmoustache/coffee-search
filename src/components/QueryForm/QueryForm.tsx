@@ -41,21 +41,21 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
   return (
     <form
       onSubmit={handleSubmit(submitHandler)}
-      className="query-form | relative overflow-hidden rounded-4xl border-white border-1 max-w-[320px] w-full"
-      data-is-loading={isLoading}
+      className="query-form"
     >
-      <div className="query-form__content | relative z-10 gap-2 flex justify-between p-5">
+      <div className="query-form__content | flex flex-col gap-4">
         <Controller
           name="query"
           control={control}
           disabled={isLoading}
           render={({ field }) => (
-            <textarea
+            <input
+              type="text"
               {...field}
-              placeholder="Describe your perfect coffee"
+              placeholder="in your own words..."
               data-valid={errors?.query ? 'false' : 'true'}
               value={field.value}
-              className="query-form__input | focusable"
+              className="font-body focusable w-full border-b-2 p-4"
             />
           )}
         />
@@ -63,11 +63,11 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
         <Button
           type="submit"
           disabled={isLoading}
-          className="query-form__button | cursor-pointer"
+          className="query-form__button | cursor-pointer mx-auto"
           icon="search"
-          iconOnly
+          aria-label="Submit search term"
         >
-          Submit search
+          Quench my thirst
         </Button>
       </div>
     </form>

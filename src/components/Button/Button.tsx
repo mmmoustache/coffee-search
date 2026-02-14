@@ -53,7 +53,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
     } = props;
 
     const classes = clsx(
-      'button px-5 py-3 cursor-pointer flex outline-0 border-2 gap-4 font-body min-h-12.5 no-underline whitespace-nowrap focusable',
+      'button px-5 py-3 cursor-pointer inline-flex outline-0 border-2 gap-4 font-body min-h-12.5 no-underline whitespace-nowrap focusable',
       className
     );
 

@@ -123,7 +123,7 @@ export function Product({
         </div>
       </div>
       <div className="my-8">
-        <TextMarquee text={name} />
+        <TextMarquee>{name}</TextMarquee>
       </div>
     </div>
   );

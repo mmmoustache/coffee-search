@@ -1,10 +1,10 @@
 import './TextMarquee.css';
 
 type TextMarqueeProps = {
-  text: string;
+  children: React.ReactNode;
 };
 
-export function TextMarquee({ text }: TextMarqueeProps) {
+export function TextMarquee({ children }: TextMarqueeProps) {
   const repeats = 10;
 
   return (
@@ -16,7 +16,7 @@ export function TextMarquee({ text }: TextMarqueeProps) {
               className="text-marquee__item | font-mega uppercase items-center inline-flex"
               key={i}
             >
-              {text}
+              {children}
               <span
                 className="text-marquee__spacer | shrink-0 w-12 text-center"
                 aria-hidden="true"
@@ -33,7 +33,7 @@ export function TextMarquee({ text }: TextMarqueeProps) {
               className="text-marquee__item | font-mega uppercase items-center inline-flex"
               key={`dup-${i}`}
             >
-              {text}
+              {children}
               <span
                 className="text-marquee__spacer | shrink-0 w-12 text-center"
                 aria-hidden="true"
