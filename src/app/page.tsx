@@ -43,14 +43,13 @@ export default function Home() {
       >
         <div className="flex flex-col gap-2">
           <svg
-            className="icon | mx-auto"
+            className={`icon | mx-auto ${isLoading && 'animate-bounce'}`}
             width="4em"
             height="4em"
             fill="currentColor"
           >
             <use xlinkHref="/icons/icons.svg#cup-hot" />
           </svg>
-          <h1 className="font-heading">Describe your perfect coffee</h1>
           <QueryForm
             onSubmit={submit}
             isLoading={isLoading}
