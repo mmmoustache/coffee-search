@@ -11,6 +11,7 @@ type CommonProps = {
   icon?: IconName;
   iconOnly?: boolean;
   iconPosition?: 'left' | 'right';
+  size?: 'default' | 'large';
   variant?: 'primary' | 'secondary';
 };
 
@@ -48,13 +49,16 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       iconOnly = false,
       iconPosition = 'right',
       variant = 'primary',
+      size = 'default',
       ariaLabel,
       ...rest
     } = props;
 
     const classes = clsx(
-      'button px-5 py-3 cursor-pointer inline-flex outline-0 border-2 gap-4 font-body min-h-12.5 no-underline whitespace-nowrap focusable',
-      className
+      'button py-3 cursor-pointer inline-flex outline-0 border-2 gap-4 min-h-12.5 no-underline whitespace-nowrap focusable',
+      className,
+      size === 'large' ? 'font-title' : 'font-body',
+      iconOnly ? 'px-3' : 'px-5'
     );
 
     // If iconOnly and no ariaLabel, fall back to string children
@@ -72,6 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
           aria-label={computedAriaLabel}
           className={classes}
           data-icon-position={iconPosition}
+          data-size={size}
           data-variant={variant}
           href={href}
           target={target}
@@ -103,6 +108,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
         aria-label={computedAriaLabel}
         className={classes}
         data-icon-position={iconPosition}
+        data-size={size}
         data-variant={variant}
         disabled={disabled}
         onClick={onClick}

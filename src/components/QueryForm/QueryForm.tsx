@@ -48,7 +48,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
       >
         <div className="query-form__content | p-3 overflow-hidden">
           <h1 className="font-heading">Describe your perfect coffee</h1>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <Controller
               name="query"
               control={control}

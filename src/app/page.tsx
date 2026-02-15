@@ -3,6 +3,7 @@
 import { useRecommend } from '@/hooks/useRecommend';
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/Button/Button';
+import { Message } from '@/components/Message/Message';
 import { Product } from '@/components/Product/Product';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
 import { Results } from '@/components/Results/Results';
@@ -36,6 +37,22 @@ export default function Home() {
     reset();
   };
 
+  function onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      handleReset();
+      return;
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeydown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeydown);
+    };
+  }, []);
+
   return (
     <>
       <div
@@ -59,15 +76,19 @@ export default function Home() {
 
       {selected && (
         <Product {...selected}>
+          <Button
+            type="button"
+            onClick={handleReset}
+            icon="close"
+            iconPosition="left"
+            iconOnly
+            size="large"
+            className="absolute -top-5 -left-5"
+            variant="secondary"
+          >
+            Back to search
+          </Button>
           <div className="flex pt-6 gap-6 justify-between">
-            <Button
-              type="button"
-              onClick={handleReset}
-              icon="arrow-left"
-              iconPosition="left"
-            >
-              Back to search
-            </Button>
             <Button
               as="a"
               href="#"
@@ -88,7 +109,8 @@ export default function Home() {
         />
       )}
       <TextMarquee>LOVE COFFEE</TextMarquee>
-      {/* {error ? <p role="alert">{error}</p> : null} */}
+
+      {error ? <Message>{error}</Message> : null}
     </>
   );
 }

@@ -8,6 +8,11 @@ type Props = {
 export function Message({ children, type = 'error' }: PropsWithChildren<Props>) {
   const status = getMessageType(type);
   return (
-    <p className={`fixed bottom-0 left-0 w-full p-4 | ${status.backgroundColor}`}>{children}</p>
+    <p
+      className={`fixed bottom-0 left-0 w-full p-4 | ${status.backgroundColor}`}
+      role="alert"
+    >
+      {children}
+    </p>
   );
 }
