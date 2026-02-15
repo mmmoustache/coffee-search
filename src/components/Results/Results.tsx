@@ -1,6 +1,6 @@
 import { CSVRow } from '@/types/product';
+import { Button } from '@/components/Button/Button';
 import { ResultTile } from '@/components/Results/ResultTile';
-import { Button } from '../Button/Button';
 
 type Props = {
   data: CSVRow[];

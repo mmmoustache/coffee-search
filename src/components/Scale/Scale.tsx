@@ -2,7 +2,7 @@ type RatingProps = {
   value: number;
 };
 
-export function Scale({ value }: RatingProps) {
+export function Scale({ value }: Readonly<RatingProps>) {
   return (
     <div className="flex gap-6">
       {Array.from({ length: 5 }).map((_, i) => {
