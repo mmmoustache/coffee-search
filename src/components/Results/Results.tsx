@@ -1,9 +1,9 @@
-import { CSVRow } from '@/types/product';
+import { Product } from '@/types/product';
 import { Button } from '@/components/Button/Button';
 import { ResultTile } from '@/components/Results/ResultTile';
 
 type Props = {
-  data: CSVRow[];
+  data: Product[];
   handleChange: (sku: string | number | null) => void;
 };
 
@@ -12,7 +12,7 @@ export function Results({ data, handleChange }: Readonly<Props>) {
     <section className="p-4 lg:p-12 flex flex-col gap-8">
       <h2 className="font-heading text-center">Others you will love</h2>
       <ul className="grid gap-8 xl:gap-20 md:grid-cols-2 xl:grid-cols-4">
-        {data?.map((result: CSVRow) => (
+        {data?.map((result: Product) => (
           <li key={result.sku}>
             <ResultTile
               result={result}

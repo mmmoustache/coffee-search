@@ -1,9 +1,9 @@
 import { getTheme } from '@/utils/getTheme';
-import { CSVRow } from '@/types/product';
+import { Product } from '@/types/product';
 import './ResultTile.css';
 
 type Props = {
-  result: CSVRow;
+  result: Product;
   handleChange: (sku: string | number | null) => void;
 };
 

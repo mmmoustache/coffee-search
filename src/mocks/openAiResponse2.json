@@ -1,0 +1,41 @@
+{
+  "query": "i want your very best coffee",
+  "introduction": "Looking for our very best coffee? I've picked three exceptional coffees that stand out for their quality, unique profiles, and great reputations. Each offers delicious flavors and distinct origins to satisfy your craving for something top-notch.",
+  "results": [
+    {
+      "name": "Golden Lagoon",
+      "sku": "100001",
+      "origin": ["Brazil", "El Salvador"],
+      "description": "A Blue Mountain Blend is often a design by a coffee roaster to emulate the famous Jamaica Blue Mountain coffee beans. This is our version.\n\nWe have blended speciality coffee beans from Brazil and El Salvador and roasted it in a way to bring out the natural sweetness.\n\nThis is an easy smooth drinking coffee that we are very proud of.",
+      "reasons": [
+        "Balanced roast level (2.5) offers smooth and sweet experience.",
+        "High sweetness score (4) matches a pleasant natural sweetness.",
+        "Blend of Brazil and El Salvador origins offers rich, sweet plum notes."
+      ]
+    },
+    {
+      "name": "Bush man",
+      "sku": "100010",
+      "origin": ["Guatemala"],
+      "description": "Guatemala has been growing coffee since the 1850s and is one of the top producers in Central America. Coffees from Guatemala are simply beautiful and one of our favourite here at Limini.\n\nOur Guatemalan coffee beans are from plantations in volcanic valleys surrounding Antigua. This coffee is surrounded by three volcanoes: Agua, Fuego and Acatenango. The plantations have rich volcanic soil and excellent growing conditions at an altitude of 1650 metres. Varieties are Caturra, Bourbon and Typica.\n\nThis coffee is chocolatey and sweet with a beautiful body. There are notes of blackberries in the aroma. Delicious.",
+      "reasons": [
+        "Chocolatey and sweet flavor profile offers a rich taste experience.",
+        "Good body (4) brings fullness and depth in the cup.",
+        "Smooth roast level (2.5) keeps flavors balanced and approachable."
+      ],
+      "tradeoff": "Compared to Golden Lagoon, it has slightly less sweetness but more body and a distinctive blackberry note."
+    },
+    {
+      "name": "Hot Valley Sauce",
+      "sku": "100006",
+      "origin": ["Costa Rica"],
+      "description": "Tarrazu is a world famous coffee growing region known as the Area of the Saints. This Strictly Hard Bean coffee comes from rich volcanic soils in ideal growing conditions.\n\nA washed coffee with a good creamy body and notes of plums and chocolate.",
+      "reasons": [
+        "Strong and creamy body (4) good for espresso and filter.",
+        "Flavor notes of plums and dark chocolate provide a rich, complex taste.",
+        "Roast level (3.5) gives a deeper, more intense coffee experience."
+      ],
+      "tradeoff": "Its darker roast offers more intensity but may be less smooth and sweet compared to the first two."
+    }
+  ]
+}

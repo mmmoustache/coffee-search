@@ -98,6 +98,15 @@ export function SearchPanel() {
             >
               Buy now
             </Button>
+            <Button
+              as="a"
+              href={`/product/${selected.sku}`}
+              icon="trolley"
+              iconPosition="right"
+              variant="primary"
+            >
+              View product
+            </Button>
           </div>
         </Product>
       )}

@@ -1,8 +1,8 @@
-import { CSVRow } from '@/types/product';
+import { Product } from '@/types/product';
 
 export type RecommendResponse = {
   query: string;
-  results: CSVRow[];
+  results: Product[];
 };
 
 export type RecommendError = {

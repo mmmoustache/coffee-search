@@ -5,7 +5,7 @@ import 'dotenv/config';
 import { toSql } from 'pgvector/pg';
 import { normalizeSku, splitMultiline, toFloat, toInt } from '@/utils/formatter';
 import { sha256 } from '@/utils/utils';
-import { CSVRow } from '@/types/product';
+import { Product } from '@/types/product';
 import { pool } from '@/lib/db';
 import { embedText } from '@/lib/embeddings';
 import { buildSearchText } from '@/lib/productSearchText';
@@ -24,7 +24,7 @@ async function main() {
   }
 
   const content = fs.readFileSync(csvPath, 'utf8');
-  const rows = parse(content, { columns: true, skip_empty_lines: true, trim: true }) as CSVRow[];
+  const rows = parse(content, { columns: true, skip_empty_lines: true, trim: true }) as Product[];
 
   console.log(`CSV rows: ${rows.length}`);
 

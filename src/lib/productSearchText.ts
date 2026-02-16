@@ -1,9 +1,9 @@
-import { Product } from '@/types/product';
+import { CSVRow } from '@/types/product';
 
 const when = <T>(cond: unknown, value: T): T | null => (cond ? value : null);
 
 // Build string for embeddings
-export function buildSearchText(c: Product): string {
+export function buildSearchText(c: CSVRow): string {
   const profile = [
     when(typeof c.roast_level === 'number', `roast ${c.roast_level}/5`),
     when(typeof c.body === 'number', `body ${c.body}/5`),

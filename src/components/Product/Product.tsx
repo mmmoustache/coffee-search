@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { getTheme } from '@/utils/getTheme';
-import { CSVRow as Props } from '@/types/product';
+import { Product as Props } from '@/types/product';
 import { Scale } from '@/components/Scale/Scale';
 import { TextMarquee } from '@/components/TextMarquee/TextMarquee';
 import './Product.css';

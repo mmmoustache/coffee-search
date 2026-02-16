@@ -1,4 +1,5 @@
 export type Product = {
+  sku: string | number;
   acidity?: number | null;
   body?: number | null;
   category?: string | null;
@@ -12,6 +13,4 @@ export type Product = {
   weight_g?: number | null;
 };
 
-export type CSVRow = Product & {
-  sku: string | number;
-};
+export type CSVRow = Omit<Product, 'sku'>;
