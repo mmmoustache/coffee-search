@@ -1,22 +1,26 @@
-import { Product } from '@/types/product';
+import { Recommendation } from '@/types/recommend';
 import { Button } from '@/components/Button/Button';
 import { ResultTile } from '@/components/Results/ResultTile';
 
 type Props = {
-  data: Product[];
-  handleChange: (sku: string | number | null) => void;
+  results: Recommendation[];
+  introduction: string;
 };
 
-export function Results({ data, handleChange }: Readonly<Props>) {
+export function Results({ results, introduction }: Readonly<Props>) {
   return (
-    <section className="p-4 lg:p-12 flex flex-col gap-8">
-      <h2 className="font-heading text-center">Others you will love</h2>
-      <ul className="grid gap-8 xl:gap-20 md:grid-cols-2 xl:grid-cols-4">
-        {data?.map((result: Product) => (
+    <section className="p-20 lg:p-12 flex flex-col gap-8">
+      <div className="mx-auto max-w-4xl">
+        <h1 className="font-heading">Our recommendation</h1>
+        <p className="font-body">{introduction}</p>
+      </div>
+
+      <ul className="grid gap-8 xl:gap-20 mx-auto max-w-6xl">
+        {results?.map((result: Recommendation, index: number) => (
           <li key={result.sku}>
             <ResultTile
               result={result}
-              handleChange={() => handleChange(result.sku)}
+              index={index}
             />
           </li>
         ))}

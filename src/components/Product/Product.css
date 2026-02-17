@@ -4,7 +4,6 @@
 
 .product {
   animation: product-appear 1s ease-in-out forwards;
-  border: 20px solid white;
   opacity: 0;
   transform: translateY(-80px);
 }

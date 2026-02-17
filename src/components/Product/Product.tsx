@@ -37,7 +37,7 @@ export function Product({
   const theme = getTheme(sku || '');
 
   return (
-    <div className={`product | ${theme?.backgroundColor}`}>
+    <div className={`product | ${theme?.backgroundColor} border-20 border-white`}>
       <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
         <figure className="hidden xl:block">
           <img

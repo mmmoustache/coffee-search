@@ -9,7 +9,7 @@ export function Message({ children, type = 'error' }: PropsWithChildren<Props>) 
   const status = getMessageType(type);
   return (
     <p
-      className={`fixed bottom-0 left-0 w-full p-4 | ${status.backgroundColor}`}
+      className={`fixed bottom-4 left-4 p-4 font-body drop-shadow-zinc-950 border bg-white rounded-md | ${status.borderColor}`}
       role="alert"
     >
       {children}

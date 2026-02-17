@@ -16,7 +16,7 @@
 }
 
 :root {
-  --shell-height: calc(100dvh - 40px);
+  --shell-height: calc(100dvh - 200px);
 }
 
 @utility font-mega {
@@ -39,6 +39,11 @@
 @utility font-body {
   font-family: 'DM Mono', monospace;
   font-size: 18px;
+}
+
+@utility font-small {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
 }
 
 .focusable:focus-visible {

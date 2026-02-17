@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { USE_MOCK_RECOMMEND } from '@/utils/flags';
 import type { RecommendResponse } from '@/types/recommend';
 import { apiJson } from '@/lib/apiClient';
-import mockResponse from '@/mocks/openAIResponse.json';
+import mockResponse from '@/mocks/openAiResponse2.json';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
@@ -29,9 +29,14 @@ export function useRecommend() {
         ? (mockResponse as unknown as RecommendResponse)
         : await recommend(query);
 
-      setData(result);
-      setStatus('success');
-      return result;
+      setTimeout(
+        () => {
+          setData(result);
+          setStatus('success');
+          return result;
+        },
+        USE_MOCK_RECOMMEND ? 2000 : 0
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unknown error');
       setStatus('error');

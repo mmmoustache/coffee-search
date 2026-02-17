@@ -31,7 +31,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
     defaultValues: {
       query: '',
     },
-    mode: 'onBlur',
+    mode: 'onSubmit',
   });
 
   const submitHandler = (data: { query: string }) => {

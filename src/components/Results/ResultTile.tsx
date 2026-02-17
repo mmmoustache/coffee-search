@@ -1,34 +1,47 @@
 import { getTheme } from '@/utils/getTheme';
-import { Product } from '@/types/product';
+import { Recommendation } from '@/types/recommend';
+import { Button } from '@/components/Button/Button';
 import './ResultTile.css';
 
 type Props = {
-  result: Product;
-  handleChange: (sku: string | number | null) => void;
+  result: Recommendation;
+  index: number;
 };
 
-export function ResultTile({ result, handleChange }: Readonly<Props>) {
+export function ResultTile({ result, index }: Readonly<Props>) {
   if (!result) return;
   const theme = getTheme(result?.sku || '');
 
-  const handleClick = () => {
-    handleChange(result.sku);
-    window.scrollTo(0, 0);
-  };
-
   return (
-    <button
-      className="result-tile | relative flex flex-col gap-2 cursor-pointer focusable"
-      onClick={handleClick}
-    >
-      <span className={`block ${theme?.backgroundColor}`}>
+    <div className="result-tile | grid">
+      <div className={`${theme?.backgroundColor} w-75 h-75`}>
         <img
           src="/pack.webp"
           alt=""
           className="result-tile__image"
+          width={300}
+          height={300}
         />
-      </span>
-      <h3 className="font-title">{result.name}</h3>
-    </button>
+      </div>
+      <div className="px-8 py-5 flex flex-col gap-2">
+        <h3 className="font-title">
+          <span className={theme?.textColor}>{index + 1}.</span> {result.name}
+        </h3>
+        <p className="font-body">Origin: {result.origin.join(', ')}</p>
+        <ul className="list-disc pl-8 font-small">
+          {result.reasons.map((reason) => (
+            <li key={reason}>{reason}</li>
+          ))}
+        </ul>
+        <Button
+          as="a"
+          href={`/product/${result.sku}`}
+          className="mt-3 self-start"
+          icon="arrow-right"
+        >
+          View details
+        </Button>
+      </div>
+    </div>
   );
 }
