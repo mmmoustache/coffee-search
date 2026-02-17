@@ -62,12 +62,13 @@ export async function POST(req: Request) {
               3) For each pick, provide 2-3 bullet reasons mapped to specific fields, under the property "reasons" of the result.
               4) Provide one short tradeoff note for picks #2 and #3, under the property 'tradeoff' of the result.
               5) use language in your response as if you're talking to the user directly
-              6) return a summary response to the user's query in the 'introduction' property of the data. Introduce the results briefly and comment casually on their query.
+              6) return a summary response to the user's query in the 'introduction' property of the data. Introduce the results briefly always with a casual, fun comment on their query.
 
               Rules:
               - ONLY choose from candidates (by SKU).
               - Do not invent tasting notes, origins, or brew methods not present in the candidate fields.
               - Keep each reason short and specific.
+              - no duplicate properties on the JSON objects
               Return JSON only with original user query
             `,
         },
@@ -78,11 +79,7 @@ export async function POST(req: Request) {
       ],
     });
 
-    const payload = {
-      query,
-      results,
-      recommendation_text: resp.output_text,
-    };
+    const payload = JSON.parse(resp.output_text);
 
     setCache(cacheKey, payload, 5 * 60_000);
 

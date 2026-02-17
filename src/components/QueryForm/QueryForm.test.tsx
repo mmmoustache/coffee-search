@@ -29,7 +29,7 @@ describe('<QueryForm />', () => {
 
     expect(screen.getByRole('button', { name: /submit search term/i })).toBeInTheDocument();
 
-    expect(screen.getByText(/quench my thirst/i)).toBeInTheDocument();
+    expect(screen.getByText(/Find my coffee/i)).toBeInTheDocument();
   });
 
   it('shows a validation error after blur when query is shorter than 5 chars', async () => {

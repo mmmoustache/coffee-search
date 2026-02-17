@@ -1,5 +1,5 @@
+import { PropsWithChildren } from 'react';
 import { Recommendation } from '@/types/recommend';
-import { Button } from '@/components/Button/Button';
 import { ResultTile } from '@/components/Results/ResultTile';
 
 type Props = {
@@ -7,11 +7,19 @@ type Props = {
   introduction: string;
 };
 
-export function Results({ results, introduction }: Readonly<Props>) {
+export function Results({ results, introduction, children }: PropsWithChildren<Props>) {
   return (
-    <section className="p-20 lg:p-12 flex flex-col gap-8">
-      <div className="mx-auto max-w-4xl">
-        <h1 className="font-heading">Our recommendation</h1>
+    <section className="p-20 lg:p-12 flex flex-col gap-8 bg-100001">
+      <div className="mx-auto max-w-4xl flex flex-col gap-5">
+        <svg
+          className="icon | mx-auto"
+          width="4em"
+          height="4em"
+          fill="currentColor"
+        >
+          <use xlinkHref="/icons/icons.svg#cup-hot" />
+        </svg>
+        <h1 className="font-heading text-center">Our recommendations</h1>
         <p className="font-body">{introduction}</p>
       </div>
 
@@ -25,16 +33,7 @@ export function Results({ results, introduction }: Readonly<Props>) {
           </li>
         ))}
       </ul>
-      <div className="text-center pt-6">
-        <Button
-          as="a"
-          href="#"
-          icon="arrow-up-square"
-          variant="secondary"
-        >
-          Back to top
-        </Button>
-      </div>
+      {children}
     </section>
   );
 }

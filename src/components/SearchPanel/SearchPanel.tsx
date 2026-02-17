@@ -1,6 +1,7 @@
 'use client';
 
 import { useRecommend } from '@/hooks/useRecommend/useRecommend';
+import { Button } from '@/components/Button/Button';
 import { Message } from '@/components/Message/Message';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
 import { Results } from '@/components/Results/Results';
@@ -14,6 +15,7 @@ export function SearchPanel() {
 
   const handleReset = () => {
     reset();
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -43,7 +45,25 @@ export function SearchPanel() {
         <Results
           results={data?.results}
           introduction={data?.introduction}
-        />
+        >
+          <div className="text-center pt-6 flex justify-center gap-6">
+            <Button
+              as="a"
+              href="#"
+              icon="arrow-up-square"
+              variant="secondary"
+            >
+              Back to top
+            </Button>
+            <Button
+              icon="arrow-left"
+              variant="primary"
+              onClick={handleReset}
+            >
+              New search
+            </Button>
+          </div>
+        </Results>
       )}
 
       <TextMarquee>LOVE COFFEE</TextMarquee>

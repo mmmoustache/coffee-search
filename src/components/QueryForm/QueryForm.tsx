@@ -72,7 +72,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
               icon="search"
               aria-label="Submit search term"
             >
-              Quench my thirst
+              Find my coffee
             </Button>
           </div>
         </div>
