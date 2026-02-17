@@ -25,6 +25,7 @@ export async function apiJson<TResponse, TBody = unknown>(
     method: options?.method ?? (options?.body ? 'POST' : 'GET'),
     headers: {
       'content-type': 'application/json',
+      'x-api-key': process.env.NEXT_PUBLIC_API_KEY!,
       ...options?.headers,
     },
     body: options?.body ? JSON.stringify(options.body) : undefined,

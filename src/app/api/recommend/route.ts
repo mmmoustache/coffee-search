@@ -5,6 +5,7 @@ import { getClientIp } from '@/utils/getClientIp';
 import { getCache, setCache } from '@/lib/cacheResult';
 import { pool } from '@/lib/db';
 import { embedText } from '@/lib/embeddings';
+import { guardUserInput } from '@/lib/guard';
 import { openai } from '@/lib/openai';
 import { rateLimitOrThrow } from '@/lib/rateLimit';
 
@@ -13,12 +14,22 @@ const Body = z.object({
 });
 
 export async function POST(req: Request) {
+  const apiKey = req.headers.get('x-api-key');
+  if (!process.env.NEXT_PUBLIC_API_KEY || apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
+    return NextResponse.json({ error: 'Request could not be processed.' }, { status: 403 });
+  }
+
   try {
     const ip = getClientIp(req);
     // Throw error if rate limit exceeds per IP.
     rateLimitOrThrow(`recommend:${ip}`, 10, 60_000);
 
     const { query } = Body.parse(await req.json());
+    const g = guardUserInput(query); // Security gate for user queries!
+    if (!g.ok) {
+      return NextResponse.json({ error: 'Request could not be processed.' }, { status: 400 });
+    }
+
     const normalizedQuery = query.trim().toLowerCase();
 
     const cacheKey = `reco:${normalizedQuery}`;
