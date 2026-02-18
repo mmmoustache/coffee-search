@@ -1,77 +1,82 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { Results } from './Results';
 
+// Mock ResultTile so we test Results composition only
 vi.mock('@/components/Results/ResultTile', () => ({
-  ResultTile: ({ result, handleChange }: any) => (
-    <button
-      type="button"
-      onClick={handleChange}
-    >
-      {result.name}
-    </button>
+  ResultTile: ({ result, index }: any) => (
+    <div data-testid="result-tile">
+      {index + 1}. {result.name}
+    </div>
   ),
 }));
 
-vi.mock('@/components/Button/Button', () => ({
-  Button: ({ as, href, children }: any) =>
-    as === 'a' ? <a href={href}>{children}</a> : <button type="button">{children}</button>,
-}));
-
-const mockData = [
-  { sku: '111', name: 'Hot Valley Sauce' },
-  { sku: '222', name: 'Yin River' },
-] as any[];
-
 describe('<Results />', () => {
-  it('renders heading, a tile for each item and a "Back to top" link', () => {
+  const mockResults = [
+    { sku: '1', name: 'Coffee One' },
+    { sku: '2', name: 'Coffee Two' },
+    { sku: '3', name: 'Coffee Three' },
+  ] as any[];
+
+  it('renders heading and introduction', () => {
     render(
       <Results
-        data={mockData}
-        handleChange={vi.fn()}
-      />
+        results={mockResults}
+        introduction="We picked these for you"
+      >
+        <div />
+      </Results>
     );
 
     expect(
-      screen.getByRole('heading', { level: 2, name: /others you will love/i })
+      screen.getByRole('heading', { level: 1, name: /our recommendations/i })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Hot Valley Sauce' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Yin River' })).toBeInTheDocument();
-
-    const backToTop = screen.getByRole('link', { name: /back to top/i });
-    expect(backToTop).toHaveAttribute('href', '#');
+    expect(screen.getByText('We picked these for you')).toBeInTheDocument();
   });
 
-  it('wires each tile click to call handleChange its sku', async () => {
-    const user = userEvent.setup();
-    const handleChange = vi.fn();
-
+  it('renders one ResultTile per result with correct index', () => {
     render(
       <Results
-        data={mockData}
-        handleChange={handleChange}
-      />
+        results={mockResults}
+        introduction="Intro"
+      >
+        <div />
+      </Results>
     );
 
-    await user.click(screen.getByRole('button', { name: 'Yin River' }));
+    const tiles = screen.getAllByTestId('result-tile');
+    expect(tiles).toHaveLength(3);
 
-    expect(handleChange).toHaveBeenCalledTimes(1);
-    expect(handleChange).toHaveBeenCalledWith('222');
+    expect(screen.getByText('1. Coffee One')).toBeInTheDocument();
+    expect(screen.getByText('2. Coffee Two')).toBeInTheDocument();
+    expect(screen.getByText('3. Coffee Three')).toBeInTheDocument();
   });
 
-  it('renders a list item per result', () => {
-    const { container } = render(
+  it('renders children below the list', () => {
+    render(
       <Results
-        data={mockData}
-        handleChange={vi.fn()}
-      />
+        results={mockResults}
+        introduction="Intro"
+      >
+        <button type="button">Load more</button>
+      </Results>
     );
 
-    // ul should contain two li elements
-    const items = container.querySelectorAll('ul > li');
-    expect(items).toHaveLength(2);
+    expect(screen.getByRole('button', { name: /load more/i })).toBeInTheDocument();
+  });
+
+  it('renders empty list when results is empty', () => {
+    const { container } = render(
+      <Results
+        results={[]}
+        introduction="Intro"
+      >
+        <div />
+      </Results>
+    );
+
+    expect(container.querySelectorAll('ul > li')).toHaveLength(0);
   });
 });

@@ -33,10 +33,11 @@ export function useRecommend() {
         () => {
           setData(result);
           setStatus('success');
-          return result;
         },
         USE_MOCK_RECOMMEND ? 2000 : 0
       );
+
+      return result;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unknown error');
       setStatus('error');

@@ -16,7 +16,7 @@ export function PromoTile({ product }: Readonly<Props>) {
       <span className={`block w-75 h-75 | ${theme?.backgroundColor}`}>
         <img
           src="/pack.webp"
-          alt=""
+          alt={`Pack shot of the ${product.name} product`}
           width={300}
           height={300}
           className="promo-tile__image"

@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function ResultTile({ result, index }: Readonly<Props>) {
-  if (!result) return;
+  if (!result) return null;
   const theme = getTheme(result?.sku || '');
 
   return (
@@ -17,7 +17,7 @@ export function ResultTile({ result, index }: Readonly<Props>) {
       <div className={`${theme?.backgroundColor} w-75 h-75`}>
         <img
           src="/pack.webp"
-          alt=""
+          alt={`Pack shot of the ${result.name} product`}
           className="result-tile__image"
           width={300}
           height={300}

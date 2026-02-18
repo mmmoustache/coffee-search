@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { QueryForm } from './QueryForm';
 
+// Keep focused on QueryForm behaviour
 vi.mock('@/components/Button/Button', () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }));
@@ -13,7 +14,7 @@ vi.mock('@/components/Message/Message', () => ({
 }));
 
 describe('<QueryForm />', () => {
-  it('renders heading, input and submit button', () => {
+  it('renders heading, input, and submit button', () => {
     render(
       <QueryForm
         onSubmit={vi.fn()}
@@ -27,12 +28,14 @@ describe('<QueryForm />', () => {
 
     expect(screen.getByPlaceholderText(/in your own words/i)).toBeInTheDocument();
 
+    // Accessible name comes from aria-label
     expect(screen.getByRole('button', { name: /submit search term/i })).toBeInTheDocument();
 
-    expect(screen.getByText(/Find my coffee/i)).toBeInTheDocument();
+    // Visible text still present
+    expect(screen.getByText(/find my coffee/i)).toBeInTheDocument();
   });
 
-  it('shows a validation error after blur when query is shorter than 5 chars', async () => {
+  it('shows validation error when submitted with less than 5 characters', async () => {
     const user = userEvent.setup();
     render(
       <QueryForm
@@ -42,15 +45,16 @@ describe('<QueryForm />', () => {
     );
 
     const input = screen.getByPlaceholderText(/in your own words/i);
+    const submit = screen.getByRole('button', { name: /submit search term/i });
 
     await user.type(input, 'abc');
-    await user.tab(); // blur input
+    await user.click(submit);
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(input).toHaveAttribute('data-valid', 'false');
   });
 
-  it('submits when query is valid (>= 5 chars)', async () => {
+  it('submits when query is valid (>= 5 characters)', async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
 
@@ -62,15 +66,16 @@ describe('<QueryForm />', () => {
     );
 
     const input = screen.getByPlaceholderText(/in your own words/i);
-    await user.type(input, 'abcde');
+    const submit = screen.getByRole('button', { name: /submit search term/i });
 
-    await user.click(screen.getByRole('button', { name: /submit search term/i }));
+    await user.type(input, 'abcde');
+    await user.click(submit);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith({ query: 'abcde' });
   });
 
-  it('disables input and submit button, sets data-loading and blocks submission when loading', async () => {
+  it('disables input and submit button, sets data-loading, and blocks submission when loading', async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
 

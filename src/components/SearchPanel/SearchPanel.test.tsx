@@ -2,23 +2,14 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { SearchPanel } from './SearchPanel';
+import { SearchPanel } from '@/components/SearchPanel/SearchPanel';
 
-type RecommendState = {
-  submit: any;
-  data: any;
-  error: string | null;
-  reset: any;
-  isLoading: boolean;
-};
-
-let recommendState: RecommendState;
+let recommendState: any;
 
 vi.mock('@/hooks/useRecommend/useRecommend', () => ({
   useRecommend: () => recommendState,
 }));
 
-// Mock child components to keep this test focused on wiring/flow
 vi.mock('@/components/QueryForm/QueryForm', () => ({
   QueryForm: ({ onSubmit, isLoading }: any) => (
     <div
@@ -35,30 +26,16 @@ vi.mock('@/components/QueryForm/QueryForm', () => ({
   ),
 }));
 
-vi.mock('@/components/Product/Product', () => ({
-  Product: ({ name, children }: any) => (
-    <section data-testid="product">
-      <h1>{name}</h1>
-      {children}
-    </section>
-  ),
-}));
-
 vi.mock('@/components/Results/Results', () => ({
-  Results: ({ data, handleChange }: any) => (
+  Results: ({ results, introduction, children }: any) => (
     <section data-testid="results">
+      <p>{introduction}</p>
       <ul>
-        {data.map((r: any) => (
-          <li key={r.sku}>
-            <button
-              type="button"
-              onClick={() => handleChange(r.sku)}
-            >
-              {r.name}
-            </button>
-          </li>
+        {results.map((r: any) => (
+          <li key={r.sku}>{r.name}</li>
         ))}
       </ul>
+      {children}
     </section>
   ),
 }));
@@ -68,19 +45,13 @@ vi.mock('@/components/TextMarquee/TextMarquee', () => ({
 }));
 
 vi.mock('@/components/Button/Button', () => ({
-  Button: ({ as, href, onClick, children, ...rest }: any) =>
+  Button: ({ as, href, onClick, children }: any) =>
     as === 'a' ? (
-      <a
-        href={href}
-        {...rest}
-      >
-        {children}
-      </a>
+      <a href={href}>{children}</a>
     ) : (
       <button
         type="button"
         onClick={onClick}
-        {...rest}
       >
         {children}
       </button>
@@ -91,113 +62,91 @@ vi.mock('@/components/Message/Message', () => ({
   Message: ({ children }: any) => <p role="alert">{children}</p>,
 }));
 
-const makeData = () => ({
-  results: [
-    { sku: '1', name: 'Coffee One' },
-    { sku: '2', name: 'Coffee Two' },
-    { sku: '3', name: 'Coffee Three' },
-    { sku: '4', name: 'Coffee Four' },
-    { sku: '5', name: 'Coffee Five' },
-  ],
-});
-
 describe('<SearchPanel />', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
+    window.scrollTo = vi.fn();
+
     recommendState = {
       submit: vi.fn(),
-      data: null,
-      error: null,
-      reset: vi.fn(() => {
-        // emulate real hook reset clearing data
-        recommendState.data = null;
-        recommendState.error = null;
-      }),
+      reset: vi.fn(),
       isLoading: false,
+      error: null,
+      data: null,
     };
   });
 
-  it('renders the shell with QueryForm when there is no selected product', () => {
+  it('renders QueryForm when there are no results', () => {
     render(<SearchPanel />);
 
     expect(screen.getByTestId('query-form')).toBeInTheDocument();
-    expect(screen.queryByTestId('product')).not.toBeInTheDocument();
     expect(screen.queryByTestId('results')).not.toBeInTheDocument();
 
-    // marquee always renders
+    // marquee always present
     expect(screen.getByTestId('marquee')).toHaveTextContent('LOVE COFFEE');
   });
 
-  it('when data arrives, selects the first result and shows Product + Results of "others"', async () => {
-    const user = userEvent.setup();
-
-    recommendState.data = makeData();
+  it('renders Results when data is present', () => {
+    recommendState.data = {
+      introduction: 'We picked these for you',
+      results: [
+        { sku: '1', name: 'Coffee One' },
+        { sku: '2', name: 'Coffee Two' },
+      ],
+    };
 
     render(<SearchPanel />);
 
-    // first result selected
-    expect(screen.getByTestId('product')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: 'Coffee One' })).toBeInTheDocument();
+    expect(screen.getByTestId('results')).toBeInTheDocument();
+    expect(screen.getByText('We picked these for you')).toBeInTheDocument();
 
-    // others = all except selected, sliced to max 4
-    const results = screen.getByTestId('results');
-    expect(results).toBeInTheDocument();
+    expect(screen.getByText('Coffee One')).toBeInTheDocument();
+    expect(screen.getByText('Coffee Two')).toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Coffee Two' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Coffee Three' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Coffee Four' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Coffee Five' })).toBeInTheDocument();
-
-    // Clicking an "other" updates selected SKU and product
-    await user.click(screen.getByRole('button', { name: 'Coffee Three' }));
-    expect(screen.getByRole('heading', { level: 1, name: 'Coffee Three' })).toBeInTheDocument();
+    // QueryForm hidden
+    expect(screen.queryByTestId('query-form')).not.toBeInTheDocument();
   });
 
-  it('clicking "Back to search" resets and returns to QueryForm shell', async () => {
+  it('clicking "New search" resets and scrolls to top', async () => {
     const user = userEvent.setup();
-    recommendState.data = makeData();
+
+    recommendState.data = {
+      introduction: 'Intro',
+      results: [{ sku: '1', name: 'Coffee One' }],
+    };
 
     render(<SearchPanel />);
 
-    // product is visible
-    expect(screen.getByTestId('product')).toBeInTheDocument();
-
-    // Click reset button inside Product children
-    await user.click(screen.getByRole('button', { name: /back to search/i }));
+    await user.click(screen.getByRole('button', { name: /new search/i }));
 
     expect(recommendState.reset).toHaveBeenCalledTimes(1);
-
-    // after reset clears data, product & results disappear, shell returns
-    expect(screen.getByTestId('query-form')).toBeInTheDocument();
-    expect(screen.queryByTestId('product')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('results')).not.toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
   });
 
-  it('pressing Escape triggers reset', async () => {
-    const user = userEvent.setup();
-    recommendState.data = makeData();
+  it('renders Back to top link when showing results', () => {
+    recommendState.data = {
+      introduction: 'Intro',
+      results: [{ sku: '1', name: 'Coffee One' }],
+    };
 
     render(<SearchPanel />);
 
-    expect(screen.getByTestId('product')).toBeInTheDocument();
-
-    await user.keyboard('{Escape}');
-
-    expect(recommendState.reset).toHaveBeenCalledTimes(1);
-    expect(screen.getByTestId('query-form')).toBeInTheDocument();
-    expect(screen.queryByTestId('product')).not.toBeInTheDocument();
+    const link = screen.getByRole('link', { name: /back to top/i });
+    expect(link).toHaveAttribute('href', '#');
   });
 
-  it('renders an error message when error is present', () => {
-    recommendState.error = 'Something exploded';
+  it('renders error message when error exists', () => {
+    recommendState.error = 'Something went wrong';
+
     render(<SearchPanel />);
 
-    expect(screen.getByRole('alert')).toHaveTextContent('Something exploded');
+    expect(screen.getByRole('alert')).toHaveTextContent('Something went wrong');
   });
 
-  it('passes isLoading through to QueryForm (and bounces icon class in real component)', () => {
+  it('passes loading state through to QueryForm', () => {
     recommendState.isLoading = true;
+
     render(<SearchPanel />);
 
     expect(screen.getByTestId('query-form')).toHaveAttribute('data-loading', 'true');
