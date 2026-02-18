@@ -14,7 +14,7 @@ export function Footer() {
         <p>Built with love. All rights reserved.</p>
         <p>
           <a
-            href="#"
+            href="#back-to-top"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline"

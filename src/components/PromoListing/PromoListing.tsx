@@ -1,5 +1,5 @@
 import { Product } from '@/types/product';
-import { PromoTile } from './PromoTile';
+import { PromoTile } from '@/components/PromoListing/PromoTile';
 
 type Props = {
   products: Product[];
