@@ -52,8 +52,13 @@
 }
 
 .focusable:focus-visible {
-  outline: 3px solid yellow;
+  outline-width: 3px;
+  outline-style: solid;
   outline-offset: 6px;
+}
+
+.focusable:not([data-valid='false']):focus-visible {
+  outline-color: yellow;
 }
 
 @keyframes fadeIn {

@@ -3,7 +3,7 @@
   grid-template-rows: 1fr;
   transition:
     grid-template-rows 0.5s cubic-bezier(0.45, 0, 0.55, 1),
-    opacity 0.5s ease-in-out;
+    opacity 0.125s ease-in-out;
   opacity: 1;
 }
 

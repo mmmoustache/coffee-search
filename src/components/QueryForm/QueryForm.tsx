@@ -60,7 +60,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
                   placeholder="in your own words..."
                   data-valid={errors?.query ? 'false' : 'true'}
                   value={field.value}
-                  className="font-body focusable w-full border-b-2 p-4"
+                  className={`font-body focusable w-full border-b-2 p-4 outline${errors?.query ? ' outline-red-500' : ''}`}
                 />
               )}
             />
