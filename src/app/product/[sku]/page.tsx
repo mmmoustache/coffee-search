@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getProductBySku, getSimilarProductsBySku } from '@/lib/getProducts';
 import { Button } from '@/components/Button/Button';
 import { Product } from '@/components/Product/Product';
+import { PromoListing } from '@/components/PromoListing/PromoListing';
 
 export default async function ProductPage({ params }: { params: Promise<{ sku: string }> }) {
   const { sku } = await params;
@@ -33,9 +34,7 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
         </div>
       </Product>
 
-      {otherProducts?.map((product) => (
-        <p key={product.sku}>{product.name}</p>
-      ))}
+      <PromoListing products={otherProducts} />
     </>
   );
 }
