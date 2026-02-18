@@ -22,7 +22,7 @@ export function SearchPanel() {
     <>
       {showResults ? null : (
         <div
-          className={`shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 m-5 mb-0 border-white ${showResults ? 'min-h-3/6' : 'min-h-(--shell-height)'}`}
+          className={`shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 mx-5 border-white ${showResults ? 'min-h-3/6' : 'min-h-(--shell-height)'}`}
         >
           <div className="flex flex-col gap-2">
             <svg

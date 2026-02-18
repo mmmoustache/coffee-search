@@ -17,7 +17,7 @@ export function Footer() {
             href="#back-to-top"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline"
+            className="hover:underline focusable"
           >
             Source code
           </a>
