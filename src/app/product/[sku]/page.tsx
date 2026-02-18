@@ -26,14 +26,6 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
             >
               Buy now
             </Button>
-            {/* <Button
-              as="a"
-              href="/"
-              icon="arrow-left"
-              variant="primary"
-            >
-              New search
-            </Button> */}
           </div>
         </Product>
 

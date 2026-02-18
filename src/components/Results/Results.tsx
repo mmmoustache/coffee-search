@@ -9,7 +9,7 @@ type Props = {
 
 export function Results({ results, introduction, children }: PropsWithChildren<Props>) {
   return (
-    <section className="p-20 lg:p-12 mx-5 flex flex-col gap-8 bg-100001">
+    <section className="py-12 px-6 lg:p-12 mx-5 flex flex-col gap-8 bg-100001">
       <div className="mx-auto max-w-4xl flex flex-col gap-5">
         <svg
           className="icon | mx-auto"

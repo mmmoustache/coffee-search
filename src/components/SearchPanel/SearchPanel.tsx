@@ -26,7 +26,7 @@ export function SearchPanel() {
         >
           <div className="flex flex-col gap-2">
             <svg
-              className={`icon | mx-auto ${isLoading && 'animate-bounce'}`}
+              className={`icon | mx-auto${isLoading ? ' animate-bounce' : ''}`}
               width="4em"
               height="4em"
               fill="currentColor"
@@ -46,22 +46,26 @@ export function SearchPanel() {
           results={data?.results}
           introduction={data?.introduction}
         >
-          <div className="text-center pt-6 flex justify-center gap-6">
-            <Button
-              as="a"
-              href="#"
-              icon="arrow-up-square"
-              variant="secondary"
-            >
-              Back to top
-            </Button>
-            <Button
-              icon="arrow-left"
-              variant="primary"
-              onClick={handleReset}
-            >
-              New search
-            </Button>
+          <div className="text-center pt-6 flex max-md:flex-col justify-center gap-6">
+            <div>
+              <Button
+                as="a"
+                href="#"
+                icon="arrow-up-square"
+                variant="secondary"
+              >
+                Back to top
+              </Button>
+            </div>
+            <div>
+              <Button
+                icon="arrow-left"
+                variant="primary"
+                onClick={handleReset}
+              >
+                New search
+              </Button>
+            </div>
           </div>
         </Results>
       )}

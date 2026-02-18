@@ -90,7 +90,7 @@ export function Product({
 
           {tasting_notes && recommended_for ? (
             <div className="flex max-lg:flex-col gap-6">
-              <div className="flex flex-col gap-1 w-1/2">
+              <div className="flex flex-col gap-1 lg:w-1/2">
                 <h2 className="font-title">Tasting notes</h2>
                 <ul className="list-disc pl-6">
                   {tasting_notes?.map((note: string) => (
@@ -103,7 +103,7 @@ export function Product({
                   ))}
                 </ul>
               </div>
-              <div className="flex flex-col gap-1 w-1/2">
+              <div className="flex flex-col gap-1 lg:w-1/2">
                 <h2 className="font-title">Recommended for</h2>
                 <ul className="list-disc pl-6">
                   {recommended_for?.map((item: string) => (

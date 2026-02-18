@@ -31,7 +31,7 @@
 
 @utility font-heading {
   font-family: 'Special Gothic Condensed One', sans-serif;
-  font-size: 56px;
+  font-size: clamp(1rem, min(20vmin, 7vw), 3.5rem);
   text-transform: uppercase;
 }
 

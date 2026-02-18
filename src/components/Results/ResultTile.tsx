@@ -13,8 +13,8 @@ export function ResultTile({ result, index }: Readonly<Props>) {
   const theme = getTheme(result?.sku || '');
 
   return (
-    <div className="result-tile | grid">
-      <div className={`${theme?.backgroundColor} w-75 h-75`}>
+    <div className="result-tile | lg:grid">
+      <div className={`${theme?.backgroundColor} w-75 h-75 hidden lg:block`}>
         <img
           src="/pack.webp"
           alt={`Pack shot of the ${result.name} product`}
@@ -25,7 +25,7 @@ export function ResultTile({ result, index }: Readonly<Props>) {
       </div>
       <div className="px-8 py-5 flex flex-col gap-2 bg-white">
         <h3 className="font-title">
-          <span className={theme?.textColor}>{index + 1}.</span> {result.name}
+          <span className={`${theme?.textColor} mr-1`}>{index + 1}.</span> {result.name}
         </h3>
         <p className="font-body">Origin: {result.origin.join(', ')}</p>
         <ul className="list-disc pl-5 font-small">

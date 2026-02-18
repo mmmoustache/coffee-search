@@ -1,5 +1,3 @@
-import { Button } from '../Button/Button';
-
 type Props = {
   showBackButton?: boolean;
 };
@@ -47,8 +45,10 @@ export function Header({ showBackButton = false }: Readonly<Props>) {
           </li>
           <li className="flex justify-end items-center">
             <a
-              href="/"
+              href="https://github.com"
               className="hover:opacity-50 focusable"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <svg
                 className="icon"
