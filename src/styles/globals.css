@@ -13,6 +13,10 @@
   --color-100008: #e2c1f9;
   --color-100009: #f6c1ff;
   --color-100010: #e8d6c3;
+
+  --animate-fade-in: fadeIn 0.25s ease-in-out forwards;
+  --animate-fade-out: fadeOut 0.25s ease-in-out forwards;
+  --animate-bounce-in: bounceIn 0.5s ease-in-out forwards;
 }
 
 :root {
@@ -49,4 +53,60 @@
 .focusable:focus-visible {
   outline: 3px solid yellow;
   outline-offset: 6px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
 }

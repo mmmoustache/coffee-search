@@ -11,7 +11,7 @@ type CommonProps = {
   icon?: IconName;
   iconOnly?: boolean;
   iconPosition?: 'left' | 'right';
-  size?: 'default' | 'large';
+  size?: 'default' | 'large' | 'small';
   variant?: 'primary' | 'secondary';
 };
 
@@ -54,11 +54,16 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       ...rest
     } = props;
 
+    const isSmall = size === 'small';
+    const isLarge = size === 'large';
+
     const classes = clsx(
-      'button py-3 cursor-pointer inline-flex outline-0 border-2 gap-4 min-h-12.5 no-underline whitespace-nowrap focusable',
+      'button cursor-pointer inline-flex outline-0 border-2 gap-4 no-underline whitespace-nowrap focusable',
       className,
-      size === 'large' ? 'font-title' : 'font-body',
-      iconOnly ? 'px-3' : 'px-5'
+      isLarge ? 'font-title' : 'font-body',
+      isSmall ? 'py-1' : 'py-3',
+      isSmall ? null : 'min-h-12.5',
+      iconOnly ? (isSmall ? 'px-1' : 'px-3') : isSmall ? 'px-3' : 'px-5'
     );
 
     // If iconOnly and no ariaLabel, fall back to string children
