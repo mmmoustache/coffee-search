@@ -2,24 +2,6 @@
   --product-grid-cols: 3fr 5fr;
 }
 
-.product {
-  animation: product-appear 1s ease-in-out forwards;
-  opacity: 0;
-  transform: translateY(-80px);
-}
-
 .product__image {
   box-shadow: 20px 20px 0 0 rgba(0, 0, 0, 0.25);
-}
-
-@keyframes product-appear {
-  0% {
-    opacity: 0;
-    transform: translateY(80px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
 }

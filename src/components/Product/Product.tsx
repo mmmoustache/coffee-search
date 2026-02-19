@@ -37,7 +37,9 @@ export function Product({
   const theme = getTheme(sku || '');
 
   return (
-    <div className={`product | ${theme?.backgroundColor} mx-5 border-white`}>
+    <div
+      className={`product | animate-fade-translate-in opacity-0 ${theme?.backgroundColor} mx-5 border-white`}
+    >
       <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
         <figure className="hidden xl:block">
           <img

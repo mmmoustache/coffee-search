@@ -1,31 +1,24 @@
-type Props = {
-  showBackButton?: boolean;
-};
-
-export function Header({ showBackButton = false }: Readonly<Props>) {
+export function Header() {
   return (
-    <header className="header | px-5 py-3">
+    <header className="header | px-3 lg:px-5 py-3">
       <nav>
         <ul className="header__items | grid grid-cols-(--nav-row)">
-          {showBackButton ? (
-            <li className="flex justify-start items-center">
-              <a
-                href="/"
-                className="hover:opacity-50 focusable"
+          <li className="flex justify-start items-center">
+            <a
+              href="/"
+              className="hover:opacity-50 focusable"
+              title="New search"
+            >
+              <svg
+                className="icon"
+                width="1.25em"
+                height="1.25em"
+                fill="currentColor"
               >
-                <svg
-                  className="icon"
-                  width="1.25em"
-                  height="1.25em"
-                  fill="currentColor"
-                >
-                  <use xlinkHref={`/icons/icons.svg#arrow-left`} />
-                </svg>
-              </a>
-            </li>
-          ) : (
-            <li aria-hidden></li>
-          )}
+                <use xlinkHref={`/icons/icons.svg#search`} />
+              </svg>
+            </a>
+          </li>
           <li className="text-center">
             <a
               href="/"
@@ -40,7 +33,7 @@ export function Header({ showBackButton = false }: Readonly<Props>) {
               >
                 <use xlinkHref={`/icons/icons.svg#cup-hot`} />
               </svg>
-              finder!
+              finder
             </a>
           </li>
           <li className="flex justify-end items-center">

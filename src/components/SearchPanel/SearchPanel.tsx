@@ -21,9 +21,7 @@ export function SearchPanel() {
   return (
     <>
       {showResults ? null : (
-        <div
-          className={`shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 mx-5 border-white ${showResults ? 'min-h-3/6' : 'min-h-(--shell-height)'}`}
-        >
+        <div className="shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 mx-3 lg:mx-5 border-white min-h-(--shell-height)">
           <div className="flex flex-col gap-2">
             <svg
               className={`icon | mx-auto${isLoading ? ' animate-bounce' : ''}`}
@@ -59,7 +57,7 @@ export function SearchPanel() {
             </div>
             <div>
               <Button
-                icon="arrow-left"
+                icon="search"
                 variant="primary"
                 onClick={handleReset}
               >

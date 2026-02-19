@@ -8,7 +8,7 @@ import { Message } from '@/components/Message/Message';
 import './QueryForm.css';
 
 const QueryFormSchema = z.object({
-  query: z.string().min(5),
+  query: z.string().min(5).max(150),
 });
 
 export type QueryFormSchemaType = z.infer<typeof QueryFormSchema>;

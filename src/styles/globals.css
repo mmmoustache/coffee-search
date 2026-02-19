@@ -17,6 +17,7 @@
   --animate-fade-in: fadeIn 0.25s ease-in-out forwards;
   --animate-fade-out: fadeOut 0.25s ease-in-out forwards;
   --animate-bounce-in: bounceIn 0.5s ease-in-out forwards;
+  --animate-fade-translate-in: fadeTranslateIn 1s ease-in-out forwards;
 }
 
 :root {
@@ -114,5 +115,17 @@
   to {
     opacity: 1;
     transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeTranslateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }
