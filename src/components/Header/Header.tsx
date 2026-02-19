@@ -1,3 +1,5 @@
+import { GITHUB_URL } from '@/consts/info';
+
 export function Header() {
   return (
     <header className="header | px-3 lg:px-5 py-3">
@@ -40,7 +42,7 @@ export function Header() {
           </li>
           <li className="flex justify-end items-center">
             <a
-              href="https://github.com"
+              href={GITHUB_URL}
               className="hover:opacity-50 focusable"
               rel="noopener noreferrer"
               target="_blank"

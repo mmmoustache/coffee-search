@@ -1,3 +1,5 @@
+import { GITHUB_URL } from '@/consts/info';
+
 export function Footer() {
   return (
     <footer className="text-center p-6 font-body text-black flex flex-col gap-4">
@@ -15,10 +17,11 @@ export function Footer() {
         <p>Built with love. All rights reserved.</p>
         <p>
           <a
-            href="#back-to-top"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline focusable"
+            title="View project on GitHub"
           >
             Source code
           </a>

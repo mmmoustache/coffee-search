@@ -39,7 +39,7 @@ export function Product({
 
   return (
     <section
-      className={`product | motion-safe:animate-fade-translate-in motion-safe:opacity-0 ${theme?.backgroundColor} mx-5 border-white`}
+      className={`product | motion-safe:animate-fade-translate-in motion-safe:opacity-0 ${theme?.backgroundColor} mx-3 lg:mx-5 border-white`}
     >
       <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
         <div className="hidden xl:block">
