@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { getTheme } from '@/utils/getTheme';
 import { Recommendation } from '@/types/recommend';
@@ -20,7 +21,7 @@ export function ResultTile({ result, index }: Readonly<Props>) {
   return (
     <div className="result-tile | lg:grid">
       <div className={`${theme?.backgroundColor} w-75 h-75 hidden lg:block`}>
-        <img
+        <Image
           src="/pack.webp"
           alt={`Pack shot of the ${result.name} product`}
           className="result-tile__image"

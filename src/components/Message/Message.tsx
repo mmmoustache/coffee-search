@@ -1,5 +1,6 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { MessageType, getMessageType } from '@/utils/getMessageType';
+import { Button } from '../Button/Button';
 
 type Props = {
   type?: MessageType;
@@ -7,9 +8,11 @@ type Props = {
 
 export function Message({ children, type = 'error' }: PropsWithChildren<Props>) {
   const status = getMessageType(type);
-  return (
+  const [open, setOpen] = useState<boolean>(true);
+
+  return open ? (
     <p
-      className={`fixed flex gap-3 z-20 bottom-4 right-4 p-4 ml-4 font-small border-2 max-w-2xl bg-white animate-bounce-in | ${status.borderColor}`}
+      className={`fixed flex items-center gap-3 z-20 bottom-5 right-5 p-4 ml-4 font-small border-2 max-w-2xl bg-white motion-safe:animate-bounce-in | ${status.borderColor}`}
       role="alert"
     >
       <svg
@@ -21,6 +24,14 @@ export function Message({ children, type = 'error' }: PropsWithChildren<Props>) 
         <use xlinkHref={`/icons/icons.svg#${status.icon}`} />
       </svg>
       {children}
+      <Button
+        size="small"
+        onClick={() => setOpen(false)}
+        icon="close"
+        iconOnly
+      >
+        Close error
+      </Button>
     </p>
-  );
+  ) : null;
 }

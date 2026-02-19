@@ -39,19 +39,15 @@ export function SearchPanel() {
     router.replace(`${pathname}?query=${encodeURIComponent(q)}`, { scroll: false });
 
     await submit(payload);
-
-    setTimeout(() => {
-      document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
-    }, 0);
   };
 
   return (
     <>
       {showResults ? null : (
-        <div className="shell | overflow-hidden flex flex-col justify-center items-center transition-opacity bg-100001 mx-3 lg:mx-5 border-white min-h-(--shell-height)">
-          <div className="flex flex-col gap-2">
+        <div className="overflow-hidden flex flex-col justify-center items-center motion-safe:transition-opacity bg-100001 p-3 mx-3 lg:mx-5 border-white min-h-(--shell-height)">
+          <div className="flex flex-col gap-2 max-md:w-full">
             <svg
-              className={`icon | mx-auto${isLoading ? ' animate-bounce' : ''}`}
+              className={`icon | mx-auto${isLoading ? ' motion-safe:animate-bounce' : ''}`}
               width="4em"
               height="4em"
               fill="currentColor"
@@ -70,6 +66,7 @@ export function SearchPanel() {
         <Results
           results={data?.results}
           introduction={data?.introduction}
+          query={data?.query}
         >
           <div className="text-center pt-6 flex max-md:flex-col justify-center gap-6">
             <div>
@@ -94,7 +91,7 @@ export function SearchPanel() {
         </Results>
       )}
 
-      <TextMarquee>LOVE COFFEE</TextMarquee>
+      <TextMarquee height={180}>LOVE COFFEE</TextMarquee>
 
       {error ? <Message>{error}</Message> : null}
     </>

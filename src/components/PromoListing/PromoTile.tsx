@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getTheme } from '@/utils/getTheme';
 import { Product } from '@/types/product';
 import './PromoTile.css';
@@ -16,7 +17,7 @@ export function PromoTile({ product, href }: Readonly<Props>) {
       className="promo-tile | block focusable"
     >
       <span className={`block w-75 h-75 | ${theme?.backgroundColor}`}>
-        <img
+        <Image
           src="/pack.webp"
           alt={`Pack shot of the ${product.name} product`}
           width={300}

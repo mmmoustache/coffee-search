@@ -8,7 +8,7 @@ import { Message } from '@/components/Message/Message';
 import './QueryForm.css';
 
 const QueryFormSchema = z.object({
-  query: z.string().min(5).max(150),
+  query: z.string().min(1).max(150),
 });
 
 export type QueryFormSchemaType = z.infer<typeof QueryFormSchema>;
@@ -43,10 +43,10 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
     <>
       <form
         onSubmit={handleSubmit(submitHandler)}
-        className="query-form | max-w-2xl"
+        className="query-form"
         data-loading={isLoading}
       >
-        <div className="query-form__content | p-3 overflow-hidden">
+        <div className="query-form__content | p-3 overflow-hidden w-full lg:w-156.25">
           <h1 className="font-heading">Describe your perfect coffee</h1>
           <div className="flex flex-col gap-6">
             <Controller

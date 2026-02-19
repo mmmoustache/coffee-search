@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 import { getTheme } from '@/utils/getTheme';
 import { Product as Props } from '@/types/product';
@@ -38,14 +39,16 @@ export function Product({
 
   return (
     <div
-      className={`product | animate-fade-translate-in opacity-0 ${theme?.backgroundColor} mx-5 border-white`}
+      className={`product | motion-safe:animate-fade-translate-in motion-safe:opacity-0 ${theme?.backgroundColor} mx-5 border-white`}
     >
       <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
         <figure className="hidden xl:block">
-          <img
+          <Image
             src="/pack.webp"
-            alt=""
+            alt={`Pack shot of the ${name} product`}
             className="product__image"
+            height={620}
+            width={620}
           />
         </figure>
         <div className="flex flex-col gap-6">
@@ -54,10 +57,12 @@ export function Product({
           {description && <p className="font-body">{description}</p>}
 
           <figure className="block xl:hidden mb-8 max-w-2xs mx-auto">
-            <img
+            <Image
               src="/pack.webp"
-              alt=""
+              alt={`Pack shot of the ${name} product`}
               className="product__image"
+              height={300}
+              width={300}
             />
           </figure>
 
@@ -125,7 +130,7 @@ export function Product({
         </div>
       </div>
       <div className="my-8">
-        <TextMarquee>{name}</TextMarquee>
+        <TextMarquee height={180}>{name}</TextMarquee>
       </div>
     </div>
   );

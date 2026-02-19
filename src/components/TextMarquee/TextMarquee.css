@@ -1,19 +1,35 @@
-.text-marquee__track {
-  animation: marquee 120s linear infinite;
-  transform: translate3d(0, 0, 0);
-}
-
-@keyframes marquee {
-  from {
-    transform: translate3d(0, 0, 0);
+@layer utilities {
+  @keyframes marquee-a {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-100%, 0, 0);
+    }
   }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .text-marquee__track {
-    animation: none;
+  @keyframes marquee-b {
+    from {
+      transform: translate3d(100%, 0, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .animate-marquee-a {
+    animation: marquee-a 120s linear infinite;
+  }
+
+  .animate-marquee-b {
+    animation: marquee-b 120s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee-a,
+    .animate-marquee-b {
+      animation: none;
+      transform: none;
+    }
   }
 }

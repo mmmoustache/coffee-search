@@ -21,20 +21,24 @@ export default async function ProductPage({
   return (
     <>
       <Product {...product}>
-        <div className="text-center pt-6 flex gap-6">
-          <Button
-            href="#"
-            icon="trolley"
-            variant="secondary"
-          >
-            Buy now
-          </Button>
-          <Button
-            href={from}
-            icon="search"
-          >
-            Back to results
-          </Button>
+        <div className="text-center pt-6 lg:flex gap-6">
+          <div className="max-lg:mb-6">
+            <Button
+              href="#"
+              icon="trolley"
+              variant="secondary"
+            >
+              Buy now
+            </Button>
+          </div>
+          <div>
+            <Button
+              href={from}
+              icon="search"
+            >
+              Back to results
+            </Button>
+          </div>
         </div>
       </Product>
 
