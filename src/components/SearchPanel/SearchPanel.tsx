@@ -1,6 +1,8 @@
 'use client';
 
 import { useRecommend } from '@/hooks/useRecommend/useRecommend';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
 import { Button } from '@/components/Button/Button';
 import { Message } from '@/components/Message/Message';
 import { QueryForm } from '@/components/QueryForm/QueryForm';
@@ -8,14 +10,39 @@ import { Results } from '@/components/Results/Results';
 import { TextMarquee } from '@/components/TextMarquee/TextMarquee';
 
 export function SearchPanel() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const { submit, data, error, reset, isLoading } = useRecommend();
+
+  const queryFromUrl = useMemo(() => (searchParams.get('query') ?? '').trim(), [searchParams]);
 
   const results = data?.results ?? [];
   const showResults = !!data && results.length > 0;
 
+  useEffect(() => {
+    if (!queryFromUrl) return;
+    if (showResults) return;
+
+    submit({ query: queryFromUrl });
+  }, [queryFromUrl]);
+
   const handleReset = () => {
     reset();
-    window.scrollTo(0, 0);
+    router.replace(pathname, { scroll: false });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSubmit = async (payload: { query: string }) => {
+    const q = payload.query.trim();
+    router.replace(`${pathname}?query=${encodeURIComponent(q)}`, { scroll: false });
+
+    await submit(payload);
+
+    setTimeout(() => {
+      document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
+    }, 0);
   };
 
   return (
@@ -32,7 +59,7 @@ export function SearchPanel() {
               <use xlinkHref="/icons/icons.svg#cup-hot" />
             </svg>
             <QueryForm
-              onSubmit={submit}
+              onSubmit={handleSubmit}
               isLoading={isLoading}
             />
           </div>
@@ -47,7 +74,6 @@ export function SearchPanel() {
           <div className="text-center pt-6 flex max-md:flex-col justify-center gap-6">
             <div>
               <Button
-                as="a"
                 href="#"
                 icon="arrow-up-square"
                 variant="secondary"

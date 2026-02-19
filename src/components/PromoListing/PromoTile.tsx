@@ -4,13 +4,15 @@ import './PromoTile.css';
 
 type Props = {
   product: Product;
+  href: string;
 };
 
-export function PromoTile({ product }: Readonly<Props>) {
+export function PromoTile({ product, href }: Readonly<Props>) {
   const theme = getTheme(product.sku);
+
   return (
     <a
-      href={`/product/${product.sku}`}
+      href={href}
       className="promo-tile | block focusable"
     >
       <span className={`block w-75 h-75 | ${theme?.backgroundColor}`}>

@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation';
 import { getTheme } from '@/utils/getTheme';
 import { Recommendation } from '@/types/recommend';
 import { Button } from '@/components/Button/Button';
@@ -10,7 +11,11 @@ type Props = {
 
 export function ResultTile({ result, index }: Readonly<Props>) {
   if (!result) return null;
+  const params = useSearchParams();
+  const query = params.get('query') ?? '';
+  const from = `/` + (query ? `?query=${encodeURIComponent(query)}#results` : '');
   const theme = getTheme(result?.sku || '');
+  const href = `/product/${result.sku}?from=${encodeURIComponent(from)}`;
 
   return (
     <div className="result-tile | lg:grid">
@@ -34,12 +39,11 @@ export function ResultTile({ result, index }: Readonly<Props>) {
           ))}
         </ul>
         <Button
-          as="a"
-          href={`/product/${result.sku}`}
+          href={href}
           className="mt-3 self-start"
           icon="arrow-right"
         >
-          View details
+          View product
         </Button>
       </div>
     </div>

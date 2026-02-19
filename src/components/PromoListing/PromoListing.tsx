@@ -1,3 +1,6 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { Product } from '@/types/product';
 import { PromoTile } from '@/components/PromoListing/PromoTile';
 
@@ -6,15 +9,25 @@ type Props = {
 };
 
 export function PromoListing({ products = [] }: Readonly<Props>) {
+  const params = useSearchParams();
+  const from = params.get('from') ?? '';
+
   return (
     <section className="py-20 px-6 flex flex-col gap-6">
       <h2 className="font-heading text-center">You will also love</h2>
       <ul className="flex max-xl:gap-10 max-xl:flex-col xl:justify-evenly xl:w-6xl mx-auto">
-        {products?.map((product: Product) => (
-          <li key={product.sku}>
-            <PromoTile product={product} />
-          </li>
-        ))}
+        {products?.map((product: Product) => {
+          const href = `/product/${product.sku}?from=${encodeURIComponent(from)}`;
+
+          return (
+            <li key={product.sku}>
+              <PromoTile
+                product={product}
+                href={href}
+              />
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
