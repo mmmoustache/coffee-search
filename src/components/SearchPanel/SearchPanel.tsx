@@ -44,13 +44,14 @@ export function SearchPanel() {
   return (
     <>
       {showResults ? null : (
-        <div className="overflow-hidden flex flex-col justify-center items-center motion-safe:transition-opacity bg-100001 p-3 mx-3 lg:mx-5 border-white min-h-(--shell-height)">
+        <section className="overflow-hidden flex flex-col justify-center items-center motion-safe:transition-opacity bg-100001 p-3 mx-3 lg:mx-5 border-white min-h-(--shell-height)">
           <div className="flex flex-col gap-2 max-md:w-full">
             <svg
               className={`icon | mx-auto${isLoading ? ' motion-safe:animate-bounce' : ''}`}
               width="4em"
               height="4em"
               fill="currentColor"
+              aria-hidden
             >
               <use xlinkHref="/icons/icons.svg#cup-hot" />
             </svg>
@@ -59,7 +60,7 @@ export function SearchPanel() {
               isLoading={isLoading}
             />
           </div>
-        </div>
+        </section>
       )}
 
       {showResults && (
@@ -68,7 +69,7 @@ export function SearchPanel() {
           introduction={data?.introduction}
           query={data?.query}
         >
-          <div className="text-center pt-6 flex max-md:flex-col justify-center gap-6">
+          <section className="text-center pt-6 flex max-md:flex-col justify-center gap-6">
             <div>
               <Button
                 href="#"
@@ -87,7 +88,7 @@ export function SearchPanel() {
                 New search
               </Button>
             </div>
-          </div>
+          </section>
         </Results>
       )}
 

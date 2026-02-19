@@ -14,6 +14,7 @@ export function Header() {
                 width="1.25em"
                 height="1.25em"
                 fill="currentColor"
+                aria-hidden
               >
                 <use xlinkHref={`/icons/icons.svg#search`} />
               </svg>
@@ -30,6 +31,7 @@ export function Header() {
                 width="1.25em"
                 height="1.25em"
                 fill="currentColor"
+                aria-hidden
               >
                 <use xlinkHref={`/icons/icons.svg#cup-hot`} />
               </svg>
@@ -42,12 +44,14 @@ export function Header() {
               className="hover:opacity-50 focusable"
               rel="noopener noreferrer"
               target="_blank"
+              title="View project on GitHub"
             >
               <svg
                 className="icon"
                 width="1.25em"
                 height="1.25em"
                 fill="currentColor"
+                aria-hidden
               >
                 <use xlinkHref={`/icons/icons.svg#github`} />
               </svg>

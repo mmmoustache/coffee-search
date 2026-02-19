@@ -84,6 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
               width="1.25em"
               height="1.25em"
               fill="currentColor"
+              aria-hidden
             >
               <use xlinkHref={`/icons/icons.svg#${icon}`} />
             </svg>

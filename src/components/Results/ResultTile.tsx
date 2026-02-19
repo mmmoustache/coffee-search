@@ -30,9 +30,7 @@ export function ResultTile({ result, index }: Readonly<Props>) {
         />
       </div>
       <div className="px-8 py-5 flex flex-col gap-2 bg-white">
-        <h3 className="font-title">
-          <span className={`${theme?.textColor} mr-1`}>{index + 1}.</span> {result.name}
-        </h3>
+        <h3 className="font-title">{result.name}</h3>
         <p className="font-body">Origin: {result.origin.join(', ')}</p>
         <ul className="list-disc pl-5 font-small">
           {result?.reasons?.map((reason) => (

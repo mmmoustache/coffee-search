@@ -47,7 +47,9 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
         data-loading={isLoading}
       >
         <div className="query-form__content | p-3 overflow-hidden w-full lg:w-156.25">
-          <h1 className="font-heading">Describe your perfect coffee</h1>
+          <label htmlFor="query">
+            <h1 className="font-heading">Describe your perfect coffee</h1>
+          </label>
           <div className="flex flex-col gap-6">
             <Controller
               name="query"
@@ -60,6 +62,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
                   placeholder="in your own words..."
                   data-valid={errors?.query ? 'false' : 'true'}
                   value={field.value}
+                  id="query"
                   className={`font-body focusable w-full border-b-2 p-4 outline${errors?.query ? ' outline-red-500' : ''}`}
                 />
               )}

@@ -38,11 +38,11 @@ export function Product({
   const theme = getTheme(sku || '');
 
   return (
-    <div
+    <section
       className={`product | motion-safe:animate-fade-translate-in motion-safe:opacity-0 ${theme?.backgroundColor} mx-5 border-white`}
     >
       <div className="grid p-4 lg:p-12 gap-30 xl:grid-cols-(--product-grid-cols)">
-        <figure className="hidden xl:block">
+        <div className="hidden xl:block">
           <Image
             src="/pack.webp"
             alt={`Pack shot of the ${name} product`}
@@ -50,13 +50,13 @@ export function Product({
             height={620}
             width={620}
           />
-        </figure>
+        </div>
         <div className="flex flex-col gap-6">
           {category && <p className="font-body uppercase text-right">{category}</p>}
           <h1 className="font-heading">{name}</h1>
           {description && <p className="font-body">{description}</p>}
 
-          <figure className="block xl:hidden mb-8 max-w-2xs mx-auto">
+          <div className="block xl:hidden mb-8 max-w-2xs mx-auto">
             <Image
               src="/pack.webp"
               alt={`Pack shot of the ${name} product`}
@@ -64,7 +64,7 @@ export function Product({
               height={300}
               width={300}
             />
-          </figure>
+          </div>
 
           <ul className="grid grid-flow-col border border-white">
             {descriptors?.map((descriptor) => (
@@ -132,6 +132,6 @@ export function Product({
       <div className="my-8">
         <TextMarquee height={180}>{name}</TextMarquee>
       </div>
-    </div>
+    </section>
   );
 }

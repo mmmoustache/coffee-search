@@ -14,12 +14,13 @@ export function Results({ results, introduction, query, children }: PropsWithChi
       id="results"
       className="results | motion-safe:animate-fade-translate-in motion-safe:opacity-0 py-12 px-6 lg:p-12 mx-3 lg:mx-5 flex flex-col gap-8 bg-100001"
     >
-      <div className="mx-auto max-w-4xl flex flex-col gap-5">
+      <article className="mx-auto max-w-4xl flex flex-col gap-5">
         <svg
           className="icon | mx-auto"
           width="4em"
           height="4em"
           fill="currentColor"
+          aria-hidden
         >
           <use xlinkHref="/icons/icons.svg#cup-hot" />
         </svg>
@@ -33,7 +34,7 @@ export function Results({ results, introduction, query, children }: PropsWithChi
             </blockquote>
           </details>
         ) : null}
-      </div>
+      </article>
 
       <ul className="grid gap-8 xl:gap-20 mx-auto max-w-6xl">
         {results?.map((result: Recommendation, index: number) => (
