@@ -1,6 +1,7 @@
+import { CLOSE } from '@/consts/label';
 import { PropsWithChildren, useState } from 'react';
 import { MessageType, getMessageType } from '@/utils/getMessageType';
-import { Button } from '../Button/Button';
+import { Button } from '@/components/Button/Button';
 
 type Props = {
   type?: MessageType;
@@ -30,7 +31,7 @@ export function Message({ children, type = 'error' }: PropsWithChildren<Props>) 
         icon="close"
         iconOnly
       >
-        Close error
+        {CLOSE}
       </Button>
     </p>
   ) : null;

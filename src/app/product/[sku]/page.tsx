@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { getProductBySku, getSimilarProductsBySku } from '@/lib/getProducts';
 import { Button } from '@/components/Button/Button';
 import { Product } from '@/components/Product/Product';
@@ -42,7 +43,9 @@ export default async function ProductPage({
         </div>
       </Product>
 
-      <PromoListing products={otherProducts} />
+      <Suspense>
+        <PromoListing products={otherProducts} />
+      </Suspense>
     </>
   );
 }

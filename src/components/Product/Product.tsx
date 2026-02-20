@@ -1,6 +1,17 @@
+import { PACKSHOT_ALT } from '@/consts/label';
+import {
+  PRODUCT_ACIDITY,
+  PRODUCT_BODY,
+  PRODUCT_ORIGIN,
+  PRODUCT_RECOMMENDED_FOR,
+  PRODUCT_ROAST_LEVEL,
+  PRODUCT_SWEETNESS,
+  PRODUCT_TASTING_NOTES,
+} from '@/consts/productLabel';
 import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 import { getTheme } from '@/utils/getTheme';
+import { interpolateText } from '@/utils/interpolate';
 import { Product as Props } from '@/types/product';
 import { Scale } from '@/components/Scale/Scale';
 import { TextMarquee } from '@/components/TextMarquee/TextMarquee';
@@ -22,20 +33,23 @@ export function Product({
 }: PropsWithChildren<Props>) {
   const descriptors = [
     {
-      label: 'Body',
+      label: PRODUCT_BODY,
       value: body,
     },
     {
-      label: 'Sweetness',
+      label: PRODUCT_SWEETNESS,
       value: sweetness,
     },
     {
-      label: 'Acidity',
+      label: PRODUCT_ACIDITY,
       value: acidity,
     },
   ];
 
   const theme = getTheme(sku || '');
+  const packShotAlt = interpolateText(PACKSHOT_ALT, {
+    name,
+  });
 
   return (
     <section
@@ -45,7 +59,7 @@ export function Product({
         <div className="hidden xl:block">
           <Image
             src="/pack.webp"
-            alt={`Pack shot of the ${name} product`}
+            alt={packShotAlt}
             className="product__image"
             height={620}
             width={620}
@@ -59,7 +73,7 @@ export function Product({
           <div className="block xl:hidden mb-8 max-w-2xs mx-auto">
             <Image
               src="/pack.webp"
-              alt={`Pack shot of the ${name} product`}
+              alt={packShotAlt}
               className="product__image"
               height={300}
               width={300}
@@ -72,7 +86,7 @@ export function Product({
                 className="border border-white p-3"
                 key={descriptor.label}
               >
-                <h3 className="font-body">{descriptor.label}</h3>
+                <h2 className="font-body">{descriptor.label}</h2>
                 <p className="font-body font-bold">{descriptor.value}</p>
               </li>
             ))}
@@ -82,13 +96,13 @@ export function Product({
             <div className="flex max-lg:flex-col gap-6">
               {roast_level && (
                 <div className="flex flex-col gap-1 w-full">
-                  <h2 className="font-title">Roast Level</h2>
+                  <h2 className="font-title">{PRODUCT_ROAST_LEVEL}</h2>
                   <Scale value={roast_level} />
                 </div>
               )}
               {origin && origin.length > 0 ? (
                 <div className="flex flex-col gap-1 w-full">
-                  <h2 className="font-title">Origin</h2>
+                  <h2 className="font-title">{PRODUCT_ORIGIN}</h2>
                   <p className="font-body">{origin.join(', ')}</p>
                 </div>
               ) : null}
@@ -98,7 +112,7 @@ export function Product({
           {tasting_notes && recommended_for ? (
             <div className="flex max-lg:flex-col gap-6">
               <div className="flex flex-col gap-1 lg:w-1/2">
-                <h2 className="font-title">Tasting notes</h2>
+                <h2 className="font-title">{PRODUCT_TASTING_NOTES}</h2>
                 <ul className="list-disc pl-6">
                   {tasting_notes?.map((note: string) => (
                     <li
@@ -111,7 +125,7 @@ export function Product({
                 </ul>
               </div>
               <div className="flex flex-col gap-1 lg:w-1/2">
-                <h2 className="font-title">Recommended for</h2>
+                <h2 className="font-title">{PRODUCT_RECOMMENDED_FOR}</h2>
                 <ul className="list-disc pl-6">
                   {recommended_for?.map((item: string) => (
                     <li

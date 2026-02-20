@@ -1,5 +1,12 @@
 'use client';
 
+import {
+  FORM_QUERY_BUTTON,
+  FORM_QUERY_ERROR_MAX,
+  FORM_QUERY_ERROR_MIN,
+  FORM_QUERY_PLACEHOLDER,
+  INTRO_TITLE,
+} from '@/consts/label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
@@ -8,7 +15,7 @@ import { Message } from '@/components/Message/Message';
 import './QueryForm.css';
 
 const QueryFormSchema = z.object({
-  query: z.string().min(1).max(150),
+  query: z.string().min(1, FORM_QUERY_ERROR_MIN).max(150, FORM_QUERY_ERROR_MAX),
 });
 
 export type QueryFormSchemaType = z.infer<typeof QueryFormSchema>;
@@ -48,7 +55,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
       >
         <div className="query-form__content | p-3 overflow-hidden w-full lg:w-156.25">
           <label htmlFor="query">
-            <h1 className="font-heading">Describe your perfect coffee</h1>
+            <h1 className="font-heading">{INTRO_TITLE}</h1>
           </label>
           <div className="flex flex-col gap-6">
             <Controller
@@ -59,7 +66,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
                 <input
                   type="text"
                   {...field}
-                  placeholder="in your own words..."
+                  placeholder={FORM_QUERY_PLACEHOLDER}
                   data-valid={errors?.query ? 'false' : 'true'}
                   value={field.value}
                   id="query"
@@ -75,7 +82,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
               icon="search"
               aria-label="Submit search term"
             >
-              Find my coffee
+              {FORM_QUERY_BUTTON}
             </Button>
           </div>
         </div>

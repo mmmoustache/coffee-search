@@ -1,5 +1,6 @@
 'use client';
 
+import { BACK_TO_TOP, INTRO_MARQUEE, NEW_SEARCH } from '@/consts/label';
 import { useRecommend } from '@/hooks/useRecommend/useRecommend';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
@@ -76,7 +77,7 @@ export function SearchPanel() {
                 icon="arrow-up-square"
                 variant="secondary"
               >
-                Back to top
+                {BACK_TO_TOP}
               </Button>
             </div>
             <div>
@@ -85,14 +86,14 @@ export function SearchPanel() {
                 variant="primary"
                 onClick={handleReset}
               >
-                New search
+                {NEW_SEARCH}
               </Button>
             </div>
           </section>
         </Results>
       )}
 
-      <TextMarquee height={180}>LOVE COFFEE</TextMarquee>
+      <TextMarquee height={180}>{INTRO_MARQUEE}</TextMarquee>
 
       {error ? <Message>{error}</Message> : null}
     </>

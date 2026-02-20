@@ -1,4 +1,4 @@
-import { GITHUB_URL } from '@/consts/info';
+import { FOOTER_LINK_LABEL, FOOTER_NOTE, GITHUB_LINK_LABEL, GITHUB_URL } from '@/consts/label';
 
 export function Footer() {
   return (
@@ -14,16 +14,16 @@ export function Footer() {
       </svg>
 
       <div>
-        <p>Built with love. All rights reserved.</p>
+        <p>{FOOTER_NOTE}</p>
         <p>
           <a
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline focusable"
-            title="View project on GitHub"
+            title={GITHUB_LINK_LABEL}
           >
-            Source code
+            {FOOTER_LINK_LABEL}
           </a>
         </p>
       </div>

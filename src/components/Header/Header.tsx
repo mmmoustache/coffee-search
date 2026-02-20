@@ -1,6 +1,21 @@
-import { GITHUB_URL } from '@/consts/info';
+import { GITHUB_LINK_LABEL, GITHUB_URL, SITE_LOGO } from '@/consts/label';
+import { interpolate } from '@/utils/interpolate';
 
 export function Header() {
+  const title = interpolate(SITE_LOGO, {
+    icon: (
+      <svg
+        className="icon"
+        width="1.25em"
+        height="1.25em"
+        fill="currentColor"
+        aria-hidden
+      >
+        <use xlinkHref={`/icons/icons.svg#cup-hot`} />
+      </svg>
+    ),
+  });
+
   return (
     <header className="header | px-3 lg:px-5 py-3">
       <nav>
@@ -27,17 +42,7 @@ export function Header() {
               href="/"
               className="font-title focusable inline-flex gap-2 mx-auto hover:opacity-50"
             >
-              Coffee
-              <svg
-                className="icon"
-                width="1.25em"
-                height="1.25em"
-                fill="currentColor"
-                aria-hidden
-              >
-                <use xlinkHref={`/icons/icons.svg#cup-hot`} />
-              </svg>
-              finder
+              {title}
             </a>
           </li>
           <li className="flex justify-end items-center">
@@ -46,7 +51,7 @@ export function Header() {
               className="hover:opacity-50 focusable"
               rel="noopener noreferrer"
               target="_blank"
-              title="View project on GitHub"
+              title={GITHUB_LINK_LABEL}
             >
               <svg
                 className="icon"

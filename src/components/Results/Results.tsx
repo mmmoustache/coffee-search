@@ -1,3 +1,4 @@
+import { RECOMMENDATIONS_TITLE, SHOW_QUERY } from '@/consts/label';
 import { PropsWithChildren } from 'react';
 import { Recommendation } from '@/types/recommend';
 import { ResultTile } from '@/components/Results/ResultTile';
@@ -24,11 +25,11 @@ export function Results({ results, introduction, query, children }: PropsWithChi
         >
           <use xlinkHref="/icons/icons.svg#cup-hot" />
         </svg>
-        <h1 className="font-heading text-center">Our recommendations</h1>
+        <h1 className="font-heading text-center">{RECOMMENDATIONS_TITLE}</h1>
         <p className="font-body">{introduction}</p>
         {query ? (
           <details>
-            <summary className="font-small cursor-pointer focusable">Show original query</summary>
+            <summary className="font-small cursor-pointer focusable">{SHOW_QUERY}</summary>
             <blockquote className="border-s-4 border-line-2 font-small mt-2 py-2 px-4">
               {query}
             </blockquote>
