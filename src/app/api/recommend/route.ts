@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { toSql } from 'pgvector/pg';
 import { z } from 'zod';
 import { getClientIp } from '@/utils/getClientIp';
+import { assertStrictApi } from '@/lib/apiGuard';
 import { getCache, setCache } from '@/lib/cacheResult';
 import { pool } from '@/lib/db';
 import { embedText } from '@/lib/embeddings';
@@ -20,6 +21,8 @@ export async function POST(req: Request) {
   }
 
   try {
+    assertStrictApi(req);
+
     const ip = getClientIp(req);
     // Throw error if rate limit exceeds per IP.
     rateLimitOrThrow(`recommend:${ip}`, 10, 60_000);
