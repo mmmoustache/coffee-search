@@ -78,7 +78,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       <>
         {children && !iconOnly && <span className="button__content">{children}</span>}
         {icon && (
-          <span className="button__icon">
+          <span className="button__icon | items-center inline-flex">
             <svg
               className="icon"
               width="1.25em"

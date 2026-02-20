@@ -49,11 +49,6 @@
   cursor: not-allowed;
 }
 
-.button__icon {
-  align-items: center;
-  display: inline-flex;
-}
-
 .button[data-icon-position='left'] .button__icon,
 .button[data-icon-position='right'] .button__content {
   order: 1;

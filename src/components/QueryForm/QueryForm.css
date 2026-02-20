@@ -1,5 +1,4 @@
 .query-form {
-  display: grid;
   grid-template-rows: 1fr;
   transition:
     grid-template-rows 0.5s cubic-bezier(0.45, 0, 0.55, 1),

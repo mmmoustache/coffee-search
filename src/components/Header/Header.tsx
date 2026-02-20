@@ -10,6 +10,7 @@ export function Header() {
         height="1.25em"
         fill="currentColor"
         aria-hidden
+        key="icon"
       >
         <use xlinkHref={`/icons/icons.svg#cup-hot`} />
       </svg>

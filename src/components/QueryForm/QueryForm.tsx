@@ -50,7 +50,7 @@ export function QueryForm({ onSubmit, isLoading }: Readonly<QueryFormProps>) {
     <>
       <form
         onSubmit={handleSubmit(submitHandler)}
-        className="query-form"
+        className="query-form | grid"
         data-loading={isLoading}
       >
         <div className="query-form__content | p-3 overflow-hidden w-full lg:w-156.25">
