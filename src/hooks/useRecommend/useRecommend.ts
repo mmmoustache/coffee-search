@@ -34,7 +34,7 @@ export function useRecommend() {
           setData(result);
           setStatus('success');
         },
-        USE_MOCK_RECOMMEND ? 2000 : 0
+        USE_MOCK_RECOMMEND ? 2000 : 1000
       );
 
       return result;

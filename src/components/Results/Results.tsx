@@ -37,7 +37,7 @@ export function Results({ results, introduction, query, children }: PropsWithChi
         ) : null}
       </article>
 
-      <ul className="grid gap-8 xl:gap-20 mx-auto max-w-6xl">
+      <ul className="grid gap-8 xl:gap-20 mx-auto max-w-5xl w-full">
         {results?.map((result: Recommendation, index: number) => (
           <li key={result.sku}>
             <ResultTile

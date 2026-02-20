@@ -1,3 +1,4 @@
+import { BACK_TO_RESULTS, BUY_NOW } from '@/consts/label';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { getProductBySku, getSimilarProductsBySku } from '@/lib/getProducts';
@@ -29,7 +30,7 @@ export default async function ProductPage({
               icon="trolley"
               variant="secondary"
             >
-              Buy now
+              {BUY_NOW}
             </Button>
           </div>
           <div>
@@ -37,7 +38,7 @@ export default async function ProductPage({
               href={from}
               icon="search"
             >
-              Back to results
+              {BACK_TO_RESULTS}
             </Button>
           </div>
         </div>
