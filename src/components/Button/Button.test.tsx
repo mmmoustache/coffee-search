@@ -1,69 +1,106 @@
-import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Button } from '@/components/Button/Button';
 
-describe('<Button />', () => {
-  it('renders a <button> by default with correct defaults and content wrapper', () => {
-    render(<Button>Click me</Button>);
+vi.mock('next/link', () => {
+  return {
+    default: React.forwardRef<HTMLAnchorElement, any>(function MockLink(
+      { href, children, ...props },
+      ref
+    ) {
+      return (
+        <a
+          href={typeof href === 'string' ? href : (href?.pathname ?? '')}
+          ref={ref}
+          {...props}
+        >
+          {children}
+        </a>
+      );
+    }),
+  };
+});
 
-    const el = screen.getByRole('button', { name: /click me/i });
-    expect(el.tagName).toBe('BUTTON');
+vi.mock('@/design-tokens/icons.ts', () => ({}));
 
-    // default data attrs
-    expect(el).toHaveAttribute('data-variant', 'primary');
-    expect(el).toHaveAttribute('data-size', 'default');
-    expect(el).toHaveAttribute('data-icon-position', 'right');
-
-    // default type
-    expect(el).toHaveAttribute('type', 'button');
-
-    // content wrapper exists when not iconOnly
-    expect(el.querySelector('.button__content')).toHaveTextContent('Click me');
+describe('Button', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('renders an <a> when as="a" and passes href/target/rel', () => {
+  it('renders a <button> by default with type="button"', () => {
+    render(<Button>Click me</Button>);
+
+    const btn = screen.getByRole('button', { name: /click me/i });
+    expect(btn.tagName).toBe('BUTTON');
+    expect(btn).toHaveAttribute('type', 'button');
+  });
+
+  it('respects button type prop', () => {
+    render(<Button type="submit">Submit</Button>);
+    expect(screen.getByRole('button', { name: /submit/i })).toHaveAttribute('type', 'submit');
+  });
+
+  it('passes disabled through for button variant', () => {
+    render(<Button disabled>Disabled</Button>);
+    expect(screen.getByRole('button', { name: /disabled/i })).toBeDisabled();
+  });
+
+  it('calls onClick for button variant', () => {
+    const onClick = vi.fn();
+    render(<Button onClick={onClick}>Press</Button>);
+
+    fireEvent.click(screen.getByRole('button', { name: /press/i }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders a link when href is provided', () => {
+    render(<Button href="/hello">Go</Button>);
+
+    const link = screen.getByRole('link', { name: /go/i });
+    expect(link.tagName).toBe('A');
+    expect(link).toHaveAttribute('href', '/hello');
+  });
+
+  it('adds data attributes (variant/size/icon-position)', () => {
     render(
       <Button
-        as="a"
-        href="https://example.com"
-        target="_self"
+        href="/x"
+        variant="secondary"
+        size="large"
+        iconPosition="left"
       >
         Go
       </Button>
     );
 
-    const el = screen.getByRole('link', { name: /go/i });
-    expect(el.tagName).toBe('A');
+    const link = screen.getByRole('link', { name: /go/i });
 
-    expect(el).toHaveAttribute('href', 'https://example.com');
-    expect(el).toHaveAttribute('target', '_self');
-    // rel should remain undefined for non-_blank unless provided
-    expect(el).not.toHaveAttribute('rel');
+    expect(link).toHaveAttribute('data-variant', 'secondary');
+    expect(link).toHaveAttribute('data-size', 'large');
+    expect(link).toHaveAttribute('data-icon-position', 'left');
   });
 
-  it('adds rel="noopener noreferrer" automatically when target="_blank" and rel is not provided', () => {
+  it('auto-adds rel="noopener noreferrer" when target="_blank" and rel not provided', () => {
     render(
       <Button
-        as="a"
-        href="/x"
+        href="https://example.com"
         target="_blank"
       >
         External
       </Button>
     );
 
-    const el = screen.getByRole('link', { name: /external/i });
-    expect(el).toHaveAttribute('target', '_blank');
-    expect(el).toHaveAttribute('rel', 'noopener noreferrer');
+    const link = screen.getByRole('link', { name: /external/i });
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('does not overwrite rel when target="_blank" and rel is provided', () => {
+  it('does not override rel when target="_blank" and rel is provided', () => {
     render(
       <Button
-        as="a"
-        href="/x"
+        href="https://example.com"
         target="_blank"
         rel="nofollow"
       >
@@ -71,112 +108,105 @@ describe('<Button />', () => {
       </Button>
     );
 
-    const el = screen.getByRole('link', { name: /external/i });
-    expect(el).toHaveAttribute('rel', 'nofollow');
+    const link = screen.getByRole('link', { name: /external/i });
+    expect(link).toHaveAttribute('rel', 'nofollow');
   });
 
-  it('renders an icon with the correct xlinkHref when icon is provided', () => {
-    render(<Button icon={'search' as any}>Search</Button>);
+  it('renders icon when icon prop is provided', () => {
+    const { container } = render(<Button icon="search">Search</Button>);
+    expect(container.innerHTML).toContain('/icons/icons.svg#search');
 
-    const el = screen.getByRole('button', { name: /search/i });
-    const use = el.querySelector('use');
-    expect(use).toBeInTheDocument();
-    expect(use).toHaveAttribute('xlink:href', '/icons/icons.svg#search');
+    const svg = container.querySelector('svg.icon');
+    expect(svg).not.toBeNull();
+
+    const use = svg!.querySelector('use');
+    expect(use).not.toBeNull();
   });
 
-  it('when iconOnly=true, hides the .button__content but still renders the icon', () => {
-    render(
+  it('iconOnly hides the content span', () => {
+    const { container } = render(
       <Button
+        icon="search"
         iconOnly
-        icon={'search' as any}
         ariaLabel="Search"
       >
         Search
       </Button>
     );
 
-    const el = screen.getByRole('button', { name: /search/i });
-    expect(el.querySelector('.button__content')).not.toBeInTheDocument();
-    expect(el.querySelector('.button__icon')).toBeInTheDocument();
+    // content span should be absent when iconOnly
+    expect(container.querySelector('.button__content')).toBeNull();
+    // icon should still render
+    expect(container.querySelector('.button__icon')).not.toBeNull();
   });
 
-  it('falls back aria-label to string children when iconOnly=true and ariaLabel is not provided', () => {
+  it('iconOnly falls back aria-label to string children if ariaLabel is missing', () => {
     render(
       <Button
+        icon="search"
         iconOnly
-        icon={'search' as any}
       >
         Search
       </Button>
     );
 
-    const el = screen.getByRole('button', { name: /search/i });
-    expect(el).toHaveAttribute('aria-label', 'Search');
+    // role can still be "button", name should come from aria-label
+    const btn = screen.getByRole('button', { name: 'Search' });
+    expect(btn).toHaveAttribute('aria-label', 'Search');
   });
 
-  it('does NOT fall back aria-label when children is not a string', () => {
+  it('iconOnly does not infer aria-label from non-string children', () => {
     render(
       <Button
+        icon="search"
         iconOnly
-        icon={'search' as any}
       >
         <span>Search</span>
       </Button>
     );
 
-    const el = screen.getByRole('button');
-    expect(el).not.toHaveAttribute('aria-label');
+    // No accessible name unless ariaLabel passed; query by role without name
+    const btn = screen.getByRole('button');
+    expect(btn.getAttribute('aria-label')).toBeNull();
   });
 
-  it('applies sizing and iconOnly padding classes', () => {
-    const { rerender } = render(<Button>Hi</Button>);
-    let el = screen.getByRole('button', { name: /hi/i });
+  it('applies size-related classes', () => {
+    const { rerender } = render(<Button size="small">Small</Button>);
+    let el = screen.getByRole('button', { name: /small/i });
+    expect(el.className).toContain('py-1');
 
-    expect(el.className).toContain('font-body');
-    expect(el.className).toContain('px-5');
+    rerender(<Button size="large">Large</Button>);
+    el = screen.getByRole('button', { name: /large/i });
+    expect(el.className).toContain('font-title');
+  });
+
+  it('applies iconOnly padding classes', () => {
+    const { rerender } = render(
+      <Button
+        icon="search"
+        iconOnly
+        ariaLabel="Search"
+        size="default"
+      >
+        Search
+      </Button>
+    );
+
+    let el = screen.getByRole('button', { name: /search/i });
+    expect(el.className).toContain('px-3');
 
     rerender(
       <Button
-        size="large"
+        icon="search"
         iconOnly
-        ariaLabel="Hi"
+        ariaLabel="Search"
+        size="small"
       >
-        Hi
+        Search
       </Button>
     );
 
-    el = screen.getByRole('button', { name: /hi/i });
-    expect(el.className).toContain('font-title');
-    expect(el.className).toContain('px-3');
-  });
-
-  it('calls onClick when enabled', async () => {
-    const user = userEvent.setup();
-    const onClick = vi.fn();
-
-    render(<Button onClick={onClick}>Click</Button>);
-
-    await user.click(screen.getByRole('button', { name: /click/i }));
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('does not call onClick when disabled', async () => {
-    const user = userEvent.setup();
-    const onClick = vi.fn();
-
-    render(
-      <Button
-        disabled
-        onClick={onClick}
-      >
-        Click
-      </Button>
-    );
-
-    const el = screen.getByRole('button', { name: /click/i });
-    expect(el).toBeDisabled();
-
-    await user.click(el);
-    expect(onClick).not.toHaveBeenCalled();
+    el = screen.getByRole('button', { name: /search/i });
+    expect(el.className).toContain('px-1');
   });
 });

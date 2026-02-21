@@ -7,7 +7,7 @@ type Props = {
 
 export function TextMarquee({ children, height }: Readonly<Props>) {
   const repeats = 10;
-  const h = height + 'px';
+  const h = 'h-[' + height + 'px]';
 
   return (
     <div

@@ -1,20 +1,30 @@
-import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
-import { QueryForm } from './QueryForm';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { QueryForm } from '@/components/QueryForm/QueryForm';
 
-// Keep focused on QueryForm behaviour
+vi.mock('@/consts/label', () => ({
+  FORM_QUERY_BUTTON: 'Search',
+  FORM_QUERY_ERROR_MAX: 'Too long',
+  FORM_QUERY_ERROR_MIN: 'Please enter a search term',
+  FORM_QUERY_PLACEHOLDER: 'Search for something...',
+  INTRO_TITLE: 'What are you looking for?',
+}));
+
 vi.mock('@/components/Button/Button', () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }));
 
 vi.mock('@/components/Message/Message', () => ({
-  Message: ({ children }: any) => <p role="alert">{children}</p>,
+  Message: ({ children }: any) => <div role="alert">{children}</div>,
 }));
 
-describe('<QueryForm />', () => {
-  it('renders heading, input, and submit button', () => {
+describe('QueryForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('renders title, input, and submit button (visible text + accessible name)', () => {
     render(
       <QueryForm
         onSubmit={vi.fn()}
@@ -22,39 +32,18 @@ describe('<QueryForm />', () => {
       />
     );
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: /describe your perfect coffee/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'What are you looking for?' })).toBeInTheDocument();
 
-    expect(screen.getByPlaceholderText(/in your own words/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search for something...')).toBeInTheDocument();
 
-    // Accessible name comes from aria-label
+    // Accessible name is from aria-label in the component
     expect(screen.getByRole('button', { name: /submit search term/i })).toBeInTheDocument();
 
-    // Visible text still present
-    expect(screen.getByText(/find my coffee/i)).toBeInTheDocument();
+    // Visible label still exists in DOM
+    expect(screen.getByText('Search')).toBeInTheDocument();
   });
 
-  it('shows validation error when submitted with less than 5 characters', async () => {
-    const user = userEvent.setup();
-    render(
-      <QueryForm
-        onSubmit={vi.fn()}
-        isLoading={false}
-      />
-    );
-
-    const input = screen.getByPlaceholderText(/in your own words/i);
-    const submit = screen.getByRole('button', { name: /submit search term/i });
-
-    await user.type(input, 'abc');
-    await user.click(submit);
-
-    expect(screen.getByRole('alert')).toBeInTheDocument();
-    expect(input).toHaveAttribute('data-valid', 'false');
-  });
-
-  it('submits when query is valid (>= 5 characters)', async () => {
+  it('submits valid query and calls onSubmit with data', async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
 
@@ -65,37 +54,106 @@ describe('<QueryForm />', () => {
       />
     );
 
-    const input = screen.getByPlaceholderText(/in your own words/i);
-    const submit = screen.getByRole('button', { name: /submit search term/i });
+    const input = screen.getByLabelText('What are you looking for?') as HTMLInputElement;
 
-    await user.type(input, 'abcde');
-    await user.click(submit);
+    await user.type(input, 'coffee');
+    await user.click(screen.getByRole('button', { name: /submit search term/i }));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith({ query: 'abcde' });
+    // IMPORTANT: your component calls onSubmit(data) with ONE argument
+    expect(onSubmit).toHaveBeenCalledWith({ query: 'coffee' });
   });
 
-  it('disables input and submit button, sets data-loading, and blocks submission when loading', async () => {
+  it('shows min-length error when submitted empty', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <QueryForm
+        onSubmit={vi.fn()}
+        isLoading={false}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /submit search term/i }));
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Please enter a search term');
+  });
+
+  it('shows max-length error when query exceeds 150 chars', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <QueryForm
+        onSubmit={vi.fn()}
+        isLoading={false}
+      />
+    );
+
+    const input = screen.getByLabelText('What are you looking for?') as HTMLInputElement;
+
+    await user.type(input, 'a'.repeat(151));
+    await user.click(screen.getByRole('button', { name: /submit search term/i }));
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Too long');
+  });
+
+  it('sets data-valid="false" on input when there is an error', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <QueryForm
+        onSubmit={vi.fn()}
+        isLoading={false}
+      />
+    );
+
+    const input = screen.getByLabelText('What are you looking for?') as HTMLInputElement;
+
+    await user.click(screen.getByRole('button', { name: /submit search term/i }));
+
+    expect(input).toHaveAttribute('data-valid', 'false');
+  });
+
+  it('sets data-valid="true" on input when there is no error', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <QueryForm
+        onSubmit={vi.fn()}
+        isLoading={false}
+      />
+    );
+
+    const input = screen.getByLabelText('What are you looking for?') as HTMLInputElement;
+
+    await user.type(input, 'hello');
+    await user.click(screen.getByRole('button', { name: /submit search term/i }));
+
+    expect(screen.queryByRole('alert')).toBeNull();
+    expect(input).toHaveAttribute('data-valid', 'true');
+  });
+
+  it('when isLoading is true: disables input and submit button, sets data-loading, and blocks submit', async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
 
     const { container } = render(
       <QueryForm
         onSubmit={onSubmit}
-        isLoading
+        isLoading={true}
       />
     );
 
-    const form = container.querySelector('form');
+    const form = container.querySelector('form.query-form') as HTMLFormElement;
     expect(form).toHaveAttribute('data-loading', 'true');
 
-    const input = screen.getByPlaceholderText(/in your own words/i);
+    const input = screen.getByLabelText('What are you looking for?') as HTMLInputElement;
     expect(input).toBeDisabled();
 
-    const submit = screen.getByRole('button', { name: /submit search term/i });
-    expect(submit).toBeDisabled();
+    const btn = screen.getByRole('button', { name: /submit search term/i }) as HTMLButtonElement;
+    expect(btn).toBeDisabled();
 
-    await user.click(submit);
+    await user.click(btn);
     expect(onSubmit).not.toHaveBeenCalled();
   });
 });

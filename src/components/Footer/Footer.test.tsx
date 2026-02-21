@@ -1,24 +1,49 @@
-import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Footer } from '@/components/Footer/Footer';
 
-describe('<Footer />', () => {
-  it('renders footer text, source link and icon', () => {
-    const { container } = render(<Footer />);
+vi.mock('@/consts/label', () => ({
+  FOOTER_LINK_LABEL: 'View on GitHub',
+  FOOTER_NOTE: 'Made with coffee.',
+  GITHUB_LINK_LABEL: 'GitHub repository',
+  GITHUB_URL: 'https://github.com/example/repo',
+}));
 
-    const footer = container.querySelector('footer');
-    expect(footer).toBeInTheDocument();
+describe('Footer', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    expect(screen.getByText('Built with love. All rights reserved.')).toBeInTheDocument();
+  it('renders the footer note', () => {
+    render(<Footer />);
+    expect(screen.getByText('Made with coffee.')).toBeInTheDocument();
+  });
 
-    const link = screen.getByRole('link', { name: /source code/i });
-    expect(link).toHaveAttribute('href', '#');
+  it('renders the GitHub link with correct attributes', () => {
+    render(<Footer />);
+
+    const link = screen.getByRole('link', { name: 'View on GitHub' });
+
+    expect(link).toHaveAttribute('href', 'https://github.com/example/repo');
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(link).toHaveAttribute('title', 'GitHub repository');
+    expect(link).toHaveClass('focusable');
+  });
 
-    const useEl = container.querySelector('svg use');
-    expect(useEl).toBeInTheDocument();
-    expect(useEl).toHaveAttribute('xlink:href', '/icons/icons.svg#backpack');
+  it('renders a decorative svg icon using the sprite', () => {
+    const { container } = render(<Footer />);
+
+    const svg = container.querySelector('svg.icon');
+    expect(svg).not.toBeNull();
+
+    const ariaHidden = svg!.getAttribute('aria-hidden');
+    expect(ariaHidden === '' || ariaHidden === 'true').toBe(true);
+
+    const use = svg!.querySelector('use');
+    expect(use).not.toBeNull();
+    expect(use!.getAttribute('xlink:href') ?? use!.getAttribute('xlinkHref')).toBe(
+      '/icons/icons.svg#backpack'
+    );
   });
 });
