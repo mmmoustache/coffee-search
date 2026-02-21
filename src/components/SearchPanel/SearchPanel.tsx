@@ -32,7 +32,6 @@ export function SearchPanel() {
   const handleReset = () => {
     reset();
     router.replace(pathname, { scroll: false });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSubmit = async (payload: { query: string }) => {
@@ -41,6 +40,10 @@ export function SearchPanel() {
 
     await submit(payload);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [showResults]);
 
   return (
     <>

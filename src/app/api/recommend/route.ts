@@ -9,6 +9,7 @@ import { embedText } from '@/lib/embeddings';
 import { guardUserInput } from '@/lib/guard';
 import { openai } from '@/lib/openai';
 import { rateLimitOrThrow } from '@/lib/rateLimit';
+import { safeJson } from '@/lib/safeJson';
 
 const Body = z.object({
   query: z.string().min(2),
@@ -61,6 +62,9 @@ export async function POST(req: Request) {
 
     const resp = await openai.responses.create({
       model: process.env.LLM_MODEL || 'gpt-4.1-mini',
+      text: {
+        format: { type: 'json_object' },
+      },
       input: [
         {
           role: 'system',
@@ -93,7 +97,7 @@ export async function POST(req: Request) {
       ],
     });
 
-    const payload = JSON.parse(resp.output_text);
+    const payload = safeJson(resp.output_text);
 
     setCache(cacheKey, payload, 5 * 60_000);
 
@@ -101,6 +105,8 @@ export async function POST(req: Request) {
   } catch (err: any) {
     const status = err?.status ?? 500;
     const res = NextResponse.json({ error: err.message ?? 'Unknown error' }, { status });
+
+    console.log(err);
 
     // If rate-limited
     if (status === 429 && err.retryAfterSeconds) {
