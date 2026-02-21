@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getTheme } from '@/utils/getTheme';
-import { Product } from './Product';
+import { Product } from '@/components/Product/Product';
 
 vi.mock('@/utils/getTheme', () => ({
   getTheme: vi.fn(),

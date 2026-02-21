@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { Results } from './Results';
+import { Results } from '@/components/Results/Results';
 
 // Mock ResultTile so we test Results composition only
 vi.mock('@/components/Results/ResultTile', () => ({
@@ -24,6 +24,7 @@ describe('<Results />', () => {
       <Results
         results={mockResults}
         introduction="We picked these for you"
+        query="Find me coffee"
       >
         <div />
       </Results>
@@ -41,6 +42,7 @@ describe('<Results />', () => {
       <Results
         results={mockResults}
         introduction="Intro"
+        query="Find me coffee"
       >
         <div />
       </Results>
@@ -59,6 +61,7 @@ describe('<Results />', () => {
       <Results
         results={mockResults}
         introduction="Intro"
+        query="Find me coffee"
       >
         <button type="button">Load more</button>
       </Results>
@@ -72,6 +75,7 @@ describe('<Results />', () => {
       <Results
         results={[]}
         introduction="Intro"
+        query="Find me coffee"
       >
         <div />
       </Results>

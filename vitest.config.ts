@@ -11,7 +11,14 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html'],
       include: ['src/**/*.{ts,tsx,js,jsx}'],
-      exclude: ['src/**/*.d.ts', 'src/**/**.config.ts'],
+      exclude: [
+        'src/**/*.d.ts',
+        'src/proxy.ts',
+        'src/app/**/*.{ts,tsx,js,jsx}',
+        'src/design-tokens/*.{ts,tsx,js,jsx}',
+        'src/scripts/*.{ts,tsx,js,jsx}',
+        'src/types/*.{ts,tsx,js,jsx}',
+      ],
     },
   },
   resolve: {

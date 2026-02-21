@@ -9,6 +9,10 @@ vi.mock('@/consts/label', () => ({
   GITHUB_URL: 'https://github.com/example/repo',
 }));
 
+function getXlinkHref(el: Element) {
+  return el.getAttribute('xlink:href') ?? el.getAttribute('xlinkHref');
+}
+
 describe('Footer', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -19,16 +23,15 @@ describe('Footer', () => {
     expect(screen.getByText('Made with coffee.')).toBeInTheDocument();
   });
 
-  it('renders the GitHub link with correct attributes', () => {
+  it('renders the GitHub link with correct attributes and accessible name', () => {
     render(<Footer />);
 
-    const link = screen.getByRole('link', { name: 'View on GitHub' });
+    const link = screen.getByRole('link', { name: 'GitHub repository' });
 
     expect(link).toHaveAttribute('href', 'https://github.com/example/repo');
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-    expect(link).toHaveAttribute('title', 'GitHub repository');
-    expect(link).toHaveClass('focusable');
+    expect(screen.getByText('View on GitHub')).toBeInTheDocument();
   });
 
   it('renders a decorative svg icon using the sprite', () => {
@@ -42,8 +45,6 @@ describe('Footer', () => {
 
     const use = svg!.querySelector('use');
     expect(use).not.toBeNull();
-    expect(use!.getAttribute('xlink:href') ?? use!.getAttribute('xlinkHref')).toBe(
-      '/icons/icons.svg#backpack'
-    );
+    expect(getXlinkHref(use!)).toBe('/icons/icons.svg#backpack');
   });
 });

@@ -21,7 +21,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline focusable"
-            title={GITHUB_LINK_LABEL}
+            aria-label={GITHUB_LINK_LABEL}
           >
             {FOOTER_LINK_LABEL}
           </a>

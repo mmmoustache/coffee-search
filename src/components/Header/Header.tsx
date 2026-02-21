@@ -25,7 +25,7 @@ export function Header() {
             <a
               href="/"
               className="hover:opacity-50 focusable"
-              title="New search"
+              aria-label="New search"
             >
               <svg
                 className="icon"
@@ -52,7 +52,7 @@ export function Header() {
               className="hover:opacity-50 focusable"
               rel="noopener noreferrer"
               target="_blank"
-              title={GITHUB_LINK_LABEL}
+              aria-label={GITHUB_LINK_LABEL}
             >
               <svg
                 className="icon"

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { PromoTile } from './PromoTile';
+import { PromoTile } from '@/components/PromoListing/PromoTile';
 
 vi.mock('@/consts/label', () => ({
   PACKSHOT_ALT: 'Pack shot of the {name} product',
