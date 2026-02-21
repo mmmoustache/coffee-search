@@ -3,7 +3,11 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Results } from '@/components/Results/Results';
 
-// Mock ResultTile so we test Results composition only
+vi.mock('@/consts/label', () => ({
+  RECOMMENDATIONS_TITLE: 'Our recommendations',
+  SHOW_QUERY: 'Show query',
+}));
+
 vi.mock('@/components/Results/ResultTile', () => ({
   ResultTile: ({ result, index }: any) => (
     <div data-testid="result-tile">
@@ -26,7 +30,7 @@ describe('<Results />', () => {
         introduction="We picked these for you"
         query="Find me coffee"
       >
-        <div />
+        <div>Element</div>
       </Results>
     );
 
@@ -35,6 +39,37 @@ describe('<Results />', () => {
     ).toBeInTheDocument();
 
     expect(screen.getByText('We picked these for you')).toBeInTheDocument();
+  });
+
+  it('renders the query details when query is provided', () => {
+    render(
+      <Results
+        results={mockResults}
+        introduction="Intro"
+        query="Find me coffee"
+      >
+        <div />
+      </Results>
+    );
+
+    expect(screen.getByText('Show query')).toBeInTheDocument();
+    expect(screen.getByText('Find me coffee')).toBeInTheDocument();
+    expect(document.querySelector('details')).not.toBeNull();
+  });
+
+  it('does not render the query details when query is empty', () => {
+    render(
+      <Results
+        results={mockResults}
+        introduction="Intro"
+        query=""
+      >
+        <div />
+      </Results>
+    );
+
+    expect(document.querySelector('details')).toBeNull();
+    expect(screen.queryByText('Show query')).toBeNull();
   });
 
   it('renders one ResultTile per result with correct index', () => {
