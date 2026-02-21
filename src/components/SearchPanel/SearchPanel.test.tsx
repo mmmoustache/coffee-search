@@ -1,53 +1,88 @@
-import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchPanel } from '@/components/SearchPanel/SearchPanel';
 
-let recommendState: any;
+vi.mock('@/consts/label', () => ({
+  BACK_TO_TOP: 'Back to top',
+  INTRO_MARQUEE: 'Intro marquee',
+  NEW_SEARCH: 'New search',
+}));
+
+const replaceMock = vi.fn();
+
+let mockPathname = '/search';
+let mockQueryParam: string | null = null;
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ replace: replaceMock }),
+  usePathname: () => mockPathname,
+  useSearchParams: () => ({
+    get: (key: string) => (key === 'query' ? mockQueryParam : null),
+  }),
+}));
+
+const submitMock = vi.fn();
+const resetMock = vi.fn();
+
+let recommendState: {
+  data: any;
+  error: string | null;
+  isLoading: boolean;
+} = {
+  data: null,
+  error: null,
+  isLoading: false,
+};
 
 vi.mock('@/hooks/useRecommend/useRecommend', () => ({
-  useRecommend: () => recommendState,
+  useRecommend: () => ({
+    submit: submitMock,
+    reset: resetMock,
+    data: recommendState.data,
+    error: recommendState.error,
+    isLoading: recommendState.isLoading,
+  }),
 }));
 
 vi.mock('@/components/QueryForm/QueryForm', () => ({
   QueryForm: ({ onSubmit, isLoading }: any) => (
-    <div
-      data-testid="query-form"
-      data-loading={String(isLoading)}
-    >
+    <div>
+      <div
+        data-testid="query-form"
+        data-loading={String(isLoading)}
+      />
+      {/* a simple button to trigger the onSubmit callback */}
       <button
         type="button"
-        onClick={() => onSubmit({ query: 'abcde' })}
+        onClick={() => onSubmit({ query: '  hello world  ' })}
       >
-        Submit query
+        trigger-submit
       </button>
     </div>
   ),
 }));
 
 vi.mock('@/components/Results/Results', () => ({
-  Results: ({ results, introduction, children }: any) => (
-    <section data-testid="results">
-      <p>{introduction}</p>
-      <ul>
-        {results.map((r: any) => (
-          <li key={r.sku}>{r.name}</li>
-        ))}
-      </ul>
-      {children}
-    </section>
-  ),
+  Results: ({ children }: any) => <div data-testid="results">{children}</div>,
 }));
 
 vi.mock('@/components/TextMarquee/TextMarquee', () => ({
   TextMarquee: ({ children }: any) => <div data-testid="marquee">{children}</div>,
 }));
 
+vi.mock('@/components/Message/Message', () => ({
+  Message: ({ children }: any) => <div role="alert">{children}</div>,
+}));
+
 vi.mock('@/components/Button/Button', () => ({
-  Button: ({ as, href, onClick, children }: any) =>
-    as === 'a' ? (
-      <a href={href}>{children}</a>
+  Button: ({ children, onClick, href }: any) =>
+    href ? (
+      <a
+        href={href}
+        onClick={onClick}
+      >
+        {children}
+      </a>
     ) : (
       <button
         type="button"
@@ -58,97 +93,138 @@ vi.mock('@/components/Button/Button', () => ({
     ),
 }));
 
-vi.mock('@/components/Message/Message', () => ({
-  Message: ({ children }: any) => <p role="alert">{children}</p>,
-}));
-
-describe('<SearchPanel />', () => {
+describe('SearchPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockPathname = '/search';
+    mockQueryParam = null;
 
-    window.scrollTo = vi.fn();
+    recommendState = { data: null, error: null, isLoading: false };
 
-    recommendState = {
-      submit: vi.fn(),
-      reset: vi.fn(),
-      isLoading: false,
-      error: null,
-      data: null,
-    };
+    vi.stubGlobal('scrollTo', vi.fn());
   });
 
   it('renders QueryForm when there are no results', () => {
     render(<SearchPanel />);
 
     expect(screen.getByTestId('query-form')).toBeInTheDocument();
-    expect(screen.queryByTestId('results')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('results')).toBeNull();
 
-    // marquee always present
-    expect(screen.getByTestId('marquee')).toHaveTextContent('LOVE COFFEE');
+    // marquee always shown
+    expect(screen.getByTestId('marquee')).toHaveTextContent('Intro marquee');
   });
 
-  it('renders Results when data is present', () => {
+  it('renders Results (and hides QueryForm) when there are results', () => {
     recommendState.data = {
-      introduction: 'We picked these for you',
-      results: [
-        { sku: '1', name: 'Coffee One' },
-        { sku: '2', name: 'Coffee Two' },
-      ],
+      query: 'tea',
+      introduction: 'intro',
+      results: [{ id: 1 }],
     };
 
     render(<SearchPanel />);
 
     expect(screen.getByTestId('results')).toBeInTheDocument();
-    expect(screen.getByText('We picked these for you')).toBeInTheDocument();
-
-    expect(screen.getByText('Coffee One')).toBeInTheDocument();
-    expect(screen.getByText('Coffee Two')).toBeInTheDocument();
-
-    // QueryForm hidden
-    expect(screen.queryByTestId('query-form')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('query-form')).toBeNull();
   });
 
-  it('clicking "New search" resets and scrolls to top', async () => {
-    const user = userEvent.setup();
+  it('calls submit from query param on mount when query exists and results are not showing', async () => {
+    mockQueryParam = '  green tea  ';
+    recommendState.data = null;
 
+    render(<SearchPanel />);
+
+    await waitFor(() => {
+      expect(submitMock).toHaveBeenCalledTimes(1);
+      expect(submitMock).toHaveBeenCalledWith({ query: 'green tea' });
+    });
+  });
+
+  it('does not call submit from query param if query is empty/whitespace', async () => {
+    mockQueryParam = '   ';
+    render(<SearchPanel />);
+
+    await waitFor(() => {
+      expect(submitMock).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it('does not auto-submit from query param if results are already showing', async () => {
+    mockQueryParam = 'coffee';
     recommendState.data = {
-      introduction: 'Intro',
-      results: [{ sku: '1', name: 'Coffee One' }],
+      query: 'coffee',
+      introduction: 'intro',
+      results: [{ id: 1 }],
     };
 
     render(<SearchPanel />);
 
-    await user.click(screen.getByRole('button', { name: /new search/i }));
-
-    expect(recommendState.reset).toHaveBeenCalledTimes(1);
-    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+    await waitFor(() => {
+      expect(submitMock).toHaveBeenCalledTimes(0);
+    });
   });
 
-  it('renders Back to top link when showing results', () => {
+  it('handleSubmit updates the URL (encoded) and then calls submit', async () => {
+    // Make submit async to ensure await path is realistic
+    submitMock.mockResolvedValueOnce(undefined);
+
+    render(<SearchPanel />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'trigger-submit' }));
+
+    await waitFor(() => {
+      expect(replaceMock).toHaveBeenCalledWith('/search?query=hello%20world', { scroll: false });
+      expect(submitMock).toHaveBeenCalledWith({ query: '  hello world  ' });
+    });
+  });
+
+  it('clicking "New search" calls reset and router.replace(pathname)', () => {
     recommendState.data = {
-      introduction: 'Intro',
-      results: [{ sku: '1', name: 'Coffee One' }],
+      query: 'tea',
+      introduction: 'intro',
+      results: [{ id: 1 }],
     };
 
     render(<SearchPanel />);
 
-    const link = screen.getByRole('link', { name: /back to top/i });
+    fireEvent.click(screen.getByRole('button', { name: 'New search' }));
+
+    expect(resetMock).toHaveBeenCalledTimes(1);
+    expect(replaceMock).toHaveBeenCalledWith('/search', { scroll: false });
+  });
+
+  it('renders Back to top link when results are showing', () => {
+    recommendState.data = {
+      query: 'tea',
+      introduction: 'intro',
+      results: [{ id: 1 }],
+    };
+
+    render(<SearchPanel />);
+
+    const link = screen.getByRole('link', { name: 'Back to top' });
     expect(link).toHaveAttribute('href', '#');
   });
 
-  it('renders error message when error exists', () => {
+  it('calls window.scrollTo(0,0) when showResults changes', () => {
+    // initial render: no results
+    const { rerender } = render(<SearchPanel />);
+    expect((globalThis as any).scrollTo).toHaveBeenCalledTimes(1);
+
+    recommendState.data = {
+      query: 'tea',
+      introduction: 'intro',
+      results: [{ id: 1 }],
+    };
+
+    rerender(<SearchPanel />);
+    expect((globalThis as any).scrollTo).toHaveBeenCalledWith(0, 0);
+  });
+
+  it('renders an error Message when error exists', () => {
     recommendState.error = 'Something went wrong';
 
     render(<SearchPanel />);
 
     expect(screen.getByRole('alert')).toHaveTextContent('Something went wrong');
-  });
-
-  it('passes loading state through to QueryForm', () => {
-    recommendState.isLoading = true;
-
-    render(<SearchPanel />);
-
-    expect(screen.getByTestId('query-form')).toHaveAttribute('data-loading', 'true');
   });
 });

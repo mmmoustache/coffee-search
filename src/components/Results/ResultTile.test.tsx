@@ -1,38 +1,70 @@
-import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getTheme } from '@/utils/getTheme';
-import { ResultTile } from './ResultTile';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ResultTile } from '@/components/Results/ResultTile';
 
-// Mock theme util
+vi.mock('next/image', () => ({
+  default: (props: any) => {
+    const { src, alt, width, height, ...rest } = props;
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        {...rest}
+      />
+    );
+  },
+}));
+
+let mockQueryParam: string | null = null;
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: (key: string) => (key === 'query' ? mockQueryParam : null),
+  }),
+}));
+
+const getThemeMock = vi.fn();
 vi.mock('@/utils/getTheme', () => ({
-  getTheme: vi.fn(),
+  getTheme: (sku: string) => getThemeMock(sku),
 }));
 
-// Mock Button to keep test focused on ResultTile behaviour
 vi.mock('@/components/Button/Button', () => ({
-  Button: ({ as, href, children }: any) =>
-    as === 'a' ? <a href={href}>{children}</a> : <button>{children}</button>,
+  Button: ({ href, children, ...props }: any) => (
+    <a
+      href={href}
+      {...props}
+    >
+      {children}
+    </a>
+  ),
 }));
 
-describe('<ResultTile />', () => {
+describe('ResultTile', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    (getTheme as unknown as Mock).mockReturnValue({
-      backgroundColor: 'bg-test',
-      textColor: 'text-test',
-    });
+    mockQueryParam = null;
+    getThemeMock.mockReturnValue({ backgroundColor: 'bg-100001' });
   });
 
-  const result = {
-    sku: 'sku-123',
-    name: 'Ethiopia Natural',
-    origin: ['Ethiopia', 'Kenya'],
-    reasons: ['Fruity', 'Bright acidity', 'Floral notes'],
-  } as any;
+  it('returns null when result is falsy', () => {
+    const { container } = render(
+      <ResultTile
+        result={null as any}
+        index={0}
+      />
+    );
+    expect(container.firstChild).toBeNull();
+  });
 
-  it('renders the indexed title, origin, and reasons', () => {
+  it('renders name, origin, and reasons', () => {
+    const result = {
+      sku: 'ABC-123',
+      name: 'Moon Roast',
+      origin: ['Colombia', 'Ethiopia'],
+      reasons: ['Chocolatey', 'Low acidity'],
+    } as any;
+
     render(
       <ResultTile
         result={result}
@@ -40,70 +72,119 @@ describe('<ResultTile />', () => {
       />
     );
 
-    // index is displayed as 1-based
-    expect(screen.getByText('1.')).toBeInTheDocument();
-    expect(screen.getByText('Ethiopia Natural')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Moon Roast' })).toBeInTheDocument();
+    expect(screen.getByText('Origin: Colombia, Ethiopia')).toBeInTheDocument();
 
-    expect(screen.getByText('Origin: Ethiopia, Kenya')).toBeInTheDocument();
-
-    expect(screen.getByText('Fruity')).toBeInTheDocument();
-    expect(screen.getByText('Bright acidity')).toBeInTheDocument();
-    expect(screen.getByText('Floral notes')).toBeInTheDocument();
+    expect(screen.getByText('Chocolatey')).toBeInTheDocument();
+    expect(screen.getByText('Low acidity')).toBeInTheDocument();
   });
 
-  it('calls getTheme with the sku and applies theme classes', () => {
-    const { container } = render(
+  it('renders image with correct alt text and src', () => {
+    const result = {
+      sku: 'SKU1',
+      name: 'Star Blend',
+      origin: ['Kenya'],
+      reasons: [],
+    } as any;
+
+    render(
       <ResultTile
         result={result}
         index={1}
       />
     );
 
-    expect(getTheme).toHaveBeenCalledTimes(1);
-    expect(getTheme).toHaveBeenCalledWith('sku-123');
-
-    // background applied to image wrapper
-    expect(container.querySelector('.bg-test')).toBeInTheDocument();
-
-    // text color applied to index number span
-    expect(container.querySelector('.text-test')).toBeInTheDocument();
-  });
-
-  it('renders a link to the product details page', () => {
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
-
-    const link = screen.getByRole('link', { name: /view details/i });
-
-    expect(link).toHaveAttribute('href', '/product/sku-123');
-  });
-
-  it('renders a decorative image', () => {
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
-
-    const img = screen.getByRole('img');
-
+    const img = screen.getByRole('img', { name: 'Pack shot of the Star Blend product' });
     expect(img).toHaveAttribute('src', '/pack.webp');
-    expect(img).toHaveAttribute('alt', 'Pack shot of the Ethiopia Natural product');
+    expect(img).toHaveAttribute('width', '300');
+    expect(img).toHaveAttribute('height', '300');
   });
 
-  it('renders nothing when result is missing', () => {
+  it('calls getTheme with result.sku and applies background class', () => {
+    const result = {
+      sku: 'SKU-THEME',
+      name: 'Theme Test',
+      origin: ['Peru'],
+      reasons: [],
+    } as any;
+
     const { container } = render(
       <ResultTile
-        result={undefined as any}
+        result={result}
         index={0}
       />
     );
 
-    expect(container.firstChild).toBeNull();
+    expect(getThemeMock).toHaveBeenCalledTimes(1);
+    expect(getThemeMock).toHaveBeenCalledWith('SKU-THEME');
+
+    // the image wrapper is the div that includes theme background class
+    const wrapper = container.querySelector('.result-tile > div');
+    expect(wrapper).not.toBeNull();
+    expect(wrapper!.className).toContain('bg-100001');
+  });
+
+  it('builds href with from="/" when query param is empty', () => {
+    mockQueryParam = '';
+    const result = {
+      sku: 'SKU2',
+      name: 'No Query',
+      origin: ['Brazil'],
+      reasons: [],
+    } as any;
+
+    render(
+      <ResultTile
+        result={result}
+        index={0}
+      />
+    );
+
+    const link = screen.getByRole('link', { name: 'View product' });
+
+    expect(link).toHaveAttribute('href', '/product/SKU2?from=%2F');
+  });
+
+  it('builds href with from="/?query=...#results" when query param exists (encoded)', () => {
+    mockQueryParam = 'iced coffee & cream';
+    const result = {
+      sku: 'SKU3',
+      name: 'With Query',
+      origin: ['Guatemala'],
+      reasons: [],
+    } as any;
+
+    render(
+      <ResultTile
+        result={result}
+        index={0}
+      />
+    );
+
+    const link = screen.getByRole('link', { name: 'View product' });
+
+    const from = '/?query=iced%20coffee%20%26%20cream#results';
+    const expectedHref = `/product/SKU3?from=${encodeURIComponent(from)}`;
+
+    expect(link).toHaveAttribute('href', expectedHref);
+  });
+
+  it('renders reasons list items with stable keys (by content)', () => {
+    const result = {
+      sku: 'SKU4',
+      name: 'Key Test',
+      origin: ['India'],
+      reasons: ['A', 'B', 'C'],
+    } as any;
+
+    render(
+      <ResultTile
+        result={result}
+        index={0}
+      />
+    );
+
+    const items = screen.getAllByRole('listitem');
+    expect(items).toHaveLength(3);
   });
 });

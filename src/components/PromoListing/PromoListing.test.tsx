@@ -1,60 +1,94 @@
-import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PromoListing } from '@/components/PromoListing/PromoListing';
 
-// Mock child so we only test PromoListing's responsibility
-vi.mock('@/components/PromoListing/PromoTile', () => ({
-  PromoTile: ({ product }: any) => <a href={`/product/${product.sku}`}>{product.name}</a>,
+vi.mock('@/consts/label', () => ({
+  PROMOS_TITLE: 'Promotions',
 }));
 
-describe('<PromoListing />', () => {
-  it('renders the heading', () => {
-    render(<PromoListing products={[]} />);
+let mockFromParam: string | null = null;
 
-    expect(
-      screen.getByRole('heading', { level: 2, name: /you will also love/i })
-    ).toBeInTheDocument();
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: (key: string) => (key === 'from' ? mockFromParam : null),
+  }),
+}));
+
+const promoTileSpy = vi.fn();
+
+vi.mock('@/components/PromoListing/PromoTile', () => ({
+  PromoTile: (props: any) => {
+    promoTileSpy(props);
+    return (
+      <a
+        data-testid="promo-tile"
+        href={props.href}
+      >
+        {props.product?.sku}
+      </a>
+    );
+  },
+}));
+
+describe('PromoListing', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockFromParam = null;
   });
 
-  it('renders a PromoTile for each product', () => {
+  it('renders the promos title', () => {
+    render(<PromoListing products={[]} />);
+    expect(screen.getByRole('heading', { level: 2, name: 'Promotions' })).toBeInTheDocument();
+  });
+
+  it('renders one PromoTile per product with the correct href (empty from)', () => {
     const products = [
-      { sku: 'a1', name: 'Moonlight Roast' },
-      { sku: 'b2', name: 'Sunrise Blend' },
-      { sku: 'c3', name: 'Starfall Espresso' },
-    ] as any[];
+      { sku: '100001', name: 'A' },
+      { sku: '100002', name: 'B' },
+    ] as any;
 
     render(<PromoListing products={products} />);
 
-    expect(screen.getByRole('link', { name: /moonlight roast/i })).toHaveAttribute(
+    const tiles = screen.getAllByTestId('promo-tile');
+    expect(tiles).toHaveLength(2);
+
+    expect(tiles[0]).toHaveAttribute('href', '/product/100001?from=');
+    expect(tiles[1]).toHaveAttribute('href', '/product/100002?from=');
+
+    expect(promoTileSpy).toHaveBeenCalledTimes(2);
+    expect(promoTileSpy.mock.calls[0][0].product).toMatchObject({ sku: '100001' });
+    expect(promoTileSpy.mock.calls[1][0].product).toMatchObject({ sku: '100002' });
+  });
+
+  it('uses the "from" query param when building href', () => {
+    mockFromParam = 'homepage';
+
+    const products = [{ sku: 'ABC-123' }] as any;
+
+    render(<PromoListing products={products} />);
+
+    const tile = screen.getByTestId('promo-tile');
+    expect(tile).toHaveAttribute('href', '/product/ABC-123?from=homepage');
+  });
+
+  it('encodes special characters in the "from" param', () => {
+    mockFromParam = 'email campaign/Feb?x=1&y=2';
+
+    const products = [{ sku: 'SKU1' }] as any;
+
+    render(<PromoListing products={products} />);
+
+    const tile = screen.getByTestId('promo-tile');
+
+    expect(tile).toHaveAttribute(
       'href',
-      '/product/a1'
-    );
-    expect(screen.getByRole('link', { name: /sunrise blend/i })).toHaveAttribute(
-      'href',
-      '/product/b2'
-    );
-    expect(screen.getByRole('link', { name: /starfall espresso/i })).toHaveAttribute(
-      'href',
-      '/product/c3'
+      '/product/SKU1?from=email%20campaign%2FFeb%3Fx%3D1%26y%3D2'
     );
   });
 
-  it('renders a list item per product', () => {
-    const products = [
-      { sku: 'a1', name: 'Moonlight Roast' },
-      { sku: 'b2', name: 'Sunrise Blend' },
-    ] as any[];
-
-    const { container } = render(<PromoListing products={products} />);
-
-    expect(container.querySelectorAll('ul > li')).toHaveLength(2);
-  });
-
-  it('handles missing products prop by rendering an empty list', () => {
-    // Products has a default of [] in the component signature
-    const { container } = render(<PromoListing products={undefined as any} />);
-
-    expect(container.querySelectorAll('ul > li')).toHaveLength(0);
+  it('renders an empty list when products is empty', () => {
+    const { container } = render(<PromoListing products={[]} />);
+    const lis = container.querySelectorAll('ul li');
+    expect(lis).toHaveLength(0);
   });
 });
