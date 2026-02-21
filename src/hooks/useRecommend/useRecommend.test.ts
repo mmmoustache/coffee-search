@@ -13,7 +13,7 @@ describe('useRecommend', () => {
   });
 
   it('starts idle with no data or error', async () => {
-    vi.doMock('@/utils/flags', () => ({ USE_MOCK_RECOMMEND: false }));
+    vi.doMock('@/consts/flags', () => ({ USE_MOCK_RECOMMEND: false }));
     vi.doMock('@/lib/apiClient', () => ({ apiJson: vi.fn() }));
     vi.doMock('@/mocks/openAiResponse2.json', () => ({ default: { results: [] } }));
 
@@ -28,7 +28,7 @@ describe('useRecommend', () => {
   });
 
   it('calls apiJson and transitions loading state', async () => {
-    vi.doMock('@/utils/flags', () => ({ USE_MOCK_RECOMMEND: false }));
+    vi.doMock('@/consts/flags', () => ({ USE_MOCK_RECOMMEND: false }));
 
     const apiJson = vi.fn().mockResolvedValue({
       results: [{ sku: '1', name: 'Coffee One' }],
@@ -68,7 +68,7 @@ describe('useRecommend', () => {
   });
 
   it('uses mock response and delays success when USE_MOCK_RECOMMEND is true', async () => {
-    vi.doMock('@/utils/flags', () => ({ USE_MOCK_RECOMMEND: true }));
+    vi.doMock('@/consts/flags', () => ({ USE_MOCK_RECOMMEND: true }));
     vi.doMock('@/lib/apiClient', () => ({ apiJson: vi.fn() }));
 
     const mockResponse = {
@@ -100,7 +100,7 @@ describe('useRecommend', () => {
   });
 
   it('sets error state when apiJson rejects', async () => {
-    vi.doMock('@/utils/flags', () => ({ USE_MOCK_RECOMMEND: false }));
+    vi.doMock('@/consts/flags', () => ({ USE_MOCK_RECOMMEND: false }));
 
     const apiJson = vi.fn().mockRejectedValue(new Error('Boom'));
 
@@ -126,7 +126,7 @@ describe('useRecommend', () => {
   });
 
   it('reset clears data, error and returns to idle', async () => {
-    vi.doMock('@/utils/flags', () => ({ USE_MOCK_RECOMMEND: false }));
+    vi.doMock('@/consts/flags', () => ({ USE_MOCK_RECOMMEND: false }));
 
     const apiJson = vi.fn().mockResolvedValue({
       results: [{ sku: '1', name: 'Coffee One' }],

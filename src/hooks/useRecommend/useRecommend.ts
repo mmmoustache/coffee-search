@@ -1,7 +1,7 @@
 'use client';
 
+import { USE_MOCK_RECOMMEND } from '@/consts/flags';
 import { useCallback, useState } from 'react';
-import { USE_MOCK_RECOMMEND } from '@/utils/flags';
 import type { RecommendResponse } from '@/types/recommend';
 import { apiJson } from '@/lib/apiClient';
 import mockResponse from '@/mocks/openAiResponse2.json';

@@ -15,6 +15,7 @@ export default defineConfig({
         'src/**/*.d.ts',
         'src/proxy.ts',
         'src/app/**/*.{ts,tsx,js,jsx}',
+        'src/consts/**/*.{ts,tsx,js,jsx}',
         'src/design-tokens/*.{ts,tsx,js,jsx}',
         'src/scripts/*.{ts,tsx,js,jsx}',
         'src/types/*.{ts,tsx,js,jsx}',
