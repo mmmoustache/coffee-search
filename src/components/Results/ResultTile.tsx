@@ -11,8 +11,10 @@ type Props = {
 };
 
 export function ResultTile({ result }: Readonly<Props>) {
-  if (!result) return null;
   const params = useSearchParams();
+
+  if (!result) return null;
+
   const query = params.get('query') ?? '';
   const from = `/` + (query ? `?query=${encodeURIComponent(query)}#results` : '');
   const theme = getTheme(result?.sku || '');

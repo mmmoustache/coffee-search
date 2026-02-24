@@ -12,6 +12,7 @@ function run(cmd, args, opts = {}) {
 }
 
 function startServer() {
+  // Assumes `next build` already ran.
   return spawn('npm', ['run', 'start', '--', '-p', PORT], {
     stdio: 'inherit',
     shell: true,

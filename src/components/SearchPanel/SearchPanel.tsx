@@ -14,11 +14,8 @@ export function SearchPanel() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const { submit, data, error, reset, isLoading } = useRecommend();
-
   const queryFromUrl = useMemo(() => (searchParams.get('query') ?? '').trim(), [searchParams]);
-
   const results = data?.results ?? [];
   const showResults = !!data && results.length > 0;
 
@@ -27,7 +24,7 @@ export function SearchPanel() {
     if (showResults) return;
 
     submit({ query: queryFromUrl });
-  }, [queryFromUrl]);
+  }, [queryFromUrl, showResults, submit]);
 
   const handleReset = () => {
     reset();
