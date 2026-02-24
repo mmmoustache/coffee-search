@@ -6,6 +6,7 @@ import { embedText } from '@/lib/embeddings';
 import { buildSearchText } from '@/lib/productSearchText';
 
 async function main() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { rows } = await pool.query<any>(`
     SELECT
       id, sku, name, weight_g, category,

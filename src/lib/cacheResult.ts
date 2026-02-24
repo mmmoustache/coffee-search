@@ -3,6 +3,7 @@ type CacheItem<T> = {
   expiresAt: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache = new Map<string, CacheItem<any>>();
 
 export function getCache<T>(key: string): T | null {

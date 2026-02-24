@@ -128,7 +128,7 @@ describe('Button', () => {
       <Button
         icon="search"
         iconOnly
-        ariaLabel="Search"
+        aria-label="Search"
       >
         Search
       </Button>
@@ -140,7 +140,7 @@ describe('Button', () => {
     expect(container.querySelector('.button__icon')).not.toBeNull();
   });
 
-  it('iconOnly falls back aria-label to string children if ariaLabel is missing', () => {
+  it('iconOnly falls back aria-label to string children if aria-label is missing', () => {
     render(
       <Button
         icon="search"
@@ -165,7 +165,7 @@ describe('Button', () => {
       </Button>
     );
 
-    // No accessible name unless ariaLabel passed; query by role without name
+    // No accessible name unless aria-label passed; query by role without name
     const btn = screen.getByRole('button');
     expect(btn.getAttribute('aria-label')).toBeNull();
   });
@@ -185,7 +185,7 @@ describe('Button', () => {
       <Button
         icon="search"
         iconOnly
-        ariaLabel="Search"
+        aria-label="Search"
         size="default"
       >
         Search
@@ -199,7 +199,7 @@ describe('Button', () => {
       <Button
         icon="search"
         iconOnly
-        ariaLabel="Search"
+        aria-label="Search"
         size="small"
       >
         Search

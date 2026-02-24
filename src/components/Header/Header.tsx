@@ -1,4 +1,5 @@
 import { GITHUB_LINK_LABEL, GITHUB_URL, SITE_LOGO } from '@/consts/label';
+import Link from 'next/link';
 import { interpolate } from '@/utils/interpolate';
 
 export function Header() {
@@ -22,7 +23,7 @@ export function Header() {
       <nav>
         <ul className="header__items | grid grid-cols-(--nav-row)">
           <li className="flex justify-start items-center">
-            <a
+            <Link
               href="/"
               className="hover:opacity-50 focusable"
               aria-label="New search"
@@ -36,18 +37,18 @@ export function Header() {
               >
                 <use xlinkHref={`/icons/icons.svg#search`} />
               </svg>
-            </a>
+            </Link>
           </li>
           <li className="text-center">
-            <a
+            <Link
               href="/"
               className="font-title focusable inline-flex gap-2 mx-auto hover:opacity-50"
             >
               {title}
-            </a>
+            </Link>
           </li>
           <li className="flex justify-end items-center">
-            <a
+            <Link
               href={GITHUB_URL}
               className="hover:opacity-50 focusable"
               rel="noopener noreferrer"
@@ -63,7 +64,7 @@ export function Header() {
               >
                 <use xlinkHref={`/icons/icons.svg#github`} />
               </svg>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

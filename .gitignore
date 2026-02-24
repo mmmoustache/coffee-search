@@ -27,6 +27,8 @@
 .temp
 /src/design-tokens/icons.json
 /src/design-tokens/icons.ts
+.lighthouseci
+.lighthouseci-local
 
 # debug
 npm-debug.log*

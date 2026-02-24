@@ -1,3 +1,4 @@
+import { ORIGIN, VIEW_PRODUCT } from '@/consts/label';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { getTheme } from '@/utils/getTheme';
@@ -7,10 +8,9 @@ import './ResultTile.css';
 
 type Props = {
   result: Recommendation;
-  index: number;
 };
 
-export function ResultTile({ result, index }: Readonly<Props>) {
+export function ResultTile({ result }: Readonly<Props>) {
   if (!result) return null;
   const params = useSearchParams();
   const query = params.get('query') ?? '';
@@ -31,7 +31,9 @@ export function ResultTile({ result, index }: Readonly<Props>) {
       </div>
       <div className="px-8 py-5 flex flex-col gap-2 bg-white">
         <h2 className="font-title">{result.name}</h2>
-        <p className="font-body">Origin: {result.origin.join(', ')}</p>
+        <p className="font-body">
+          {ORIGIN}: {result.origin.join(', ')}
+        </p>
         <ul className="list-disc pl-5 font-small">
           {result?.reasons?.map((reason) => (
             <li key={reason}>{reason}</li>
@@ -42,7 +44,7 @@ export function ResultTile({ result, index }: Readonly<Props>) {
           className="mt-3 self-start"
           icon="arrow-right"
         >
-          View product
+          {VIEW_PRODUCT}
         </Button>
       </div>
     </div>

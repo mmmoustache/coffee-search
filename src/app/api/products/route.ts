@@ -24,6 +24,8 @@ export async function GET(req: Request) {
       offset: parsed.offset,
       products,
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return NextResponse.json({ error: err.message ?? 'Unknown error' }, { status: 400 });
   }

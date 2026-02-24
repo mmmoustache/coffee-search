@@ -17,7 +17,11 @@ export function rateLimitOrThrow(key: string, limit: number, windowMs: number) {
   if (existing.count >= limit) {
     const retryAfterSeconds = Math.ceil((existing.resetAt - now) / 1000);
     const err = new Error(`Rate limit exceeded. Retry after ${retryAfterSeconds}s`);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (err as any).status = 429;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (err as any).retryAfterSeconds = retryAfterSeconds;
     throw err;
   }

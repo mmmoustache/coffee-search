@@ -11,6 +11,7 @@ export default async function ProductPage({
   searchParams,
 }: {
   params: Promise<{ sku: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchParams: any;
 }) {
   const { sku } = await params;

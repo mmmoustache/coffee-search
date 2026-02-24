@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Standard "CI-ish" gate
+npm run ci:local
+
+# Conditional Lighthouse (only when it matters)
+node src/scripts/lighthouse.run.mjs
+if [ $? -eq 0 ]; then
+  npm run lighthouse:local
+else
+  echo "Skipping lighthouse for this push."
+fi

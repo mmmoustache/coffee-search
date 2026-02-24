@@ -37,6 +37,7 @@ export async function POST(req: Request) {
     const normalizedQuery = query.trim().toLowerCase();
 
     const cacheKey = `reco:${normalizedQuery}`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cached = getCache<any>(cacheKey);
 
     // If result already exists in cache, return the cache instead
@@ -102,11 +103,10 @@ export async function POST(req: Request) {
     setCache(cacheKey, payload, 5 * 60_000);
 
     return NextResponse.json({ ...payload, cached: false });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     const status = err?.status ?? 500;
     const res = NextResponse.json({ error: err.message ?? 'Unknown error' }, { status });
-
-    console.log(err);
 
     // If rate-limited
     if (status === 429 && err.retryAfterSeconds) {
