@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getAllProducts } from '@/lib/getProducts';
 
+z.config({ jitless: true });
+
 const QuerySchema = z.object({
   limit: z.coerce.number().min(1).max(500).default(100),
   offset: z.coerce.number().min(0).default(0),

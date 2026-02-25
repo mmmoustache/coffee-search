@@ -14,6 +14,8 @@ import { Button } from '@/components/Button/Button';
 import { Message } from '@/components/Message/Message';
 import './QueryForm.css';
 
+z.config({ jitless: true });
+
 const QueryFormSchema = z.object({
   query: z.string().min(1, FORM_QUERY_ERROR_MIN).max(150, FORM_QUERY_ERROR_MAX),
 });
