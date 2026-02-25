@@ -1,48 +1,45 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-function buildCsp(nonce: string, isDev: boolean) {
-  const scriptSrc = isDev ? `'self' 'nonce-${nonce}' 'unsafe-eval'` : `'self' 'nonce-${nonce}'`;
+export function proxy(request: NextRequest) {
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  const isDev = process.env.NODE_ENV === 'development';
 
-  return [
-    "default-src 'self'",
-    "base-uri 'self'",
-    "object-src 'none'",
-    "frame-ancestors 'none'",
-    "form-action 'self'",
-    "img-src 'self' data: https:",
-    "font-src 'self' data:",
-    "style-src 'self' 'unsafe-inline'",
-    `script-src ${scriptSrc}`,
-    "connect-src 'self'",
-  ].join('; ');
-}
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
+    style-src 'self' 'nonce-${nonce}';
+    img-src 'self' blob: data:;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+  `;
 
-export function proxy(req: NextRequest) {
-  const nonce = crypto.randomUUID().replace(/-/g, '');
-  const isDev = process.env.NODE_ENV !== 'production';
+  const value = cspHeader.replace(/\s{2,}/g, ' ').trim();
 
-  const requestHeaders = new Headers(req.headers);
+  const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('Content-Security-Policy', value);
 
-  const res = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
   });
 
-  res.headers.set('Content-Security-Policy', buildCsp(nonce, isDev));
-  res.headers.set('X-Content-Type-Options', 'nosniff');
-  res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('Content-Security-Policy', value);
 
-  if (!isDev) {
-    res.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  }
-
-  return res;
+  return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next|favicon.ico).*)'],
+  matcher: [
+    {
+      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
+      ],
+    },
+  ],
 };
