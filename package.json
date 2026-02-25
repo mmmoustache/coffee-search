@@ -12,6 +12,7 @@
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "test:ci": "vitest run --passWithNoTests",
     "prettier": "prettier -w",
     "analyse": "next experimental-analyze",
     "lighthouse:local": "node src/scripts/lighthouse.local.mjs",
