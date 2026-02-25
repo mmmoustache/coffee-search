@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 
 const PORT = process.env.PORT ?? '3000';
 const BASE_URL = process.env.LHCI_BASE_URL ?? `http://localhost:${PORT}`;
-const PRODUCT_SLUG = process.env.LHCI_PRODUCT_SLUG ?? 'example-slug';
+const PRODUCT_SLUG = process.env.LHCI_PRODUCT_SLUG ?? '100001';
 const CONFIG = process.env.LHCI_CONFIG ?? './lighthouserc.local.json';
 
 const urls = [`${BASE_URL}/`, `${BASE_URL}/product/${PRODUCT_SLUG}`];
