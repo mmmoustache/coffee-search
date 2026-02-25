@@ -11,6 +11,8 @@ import { openai } from '@/lib/openai';
 import { rateLimitOrThrow } from '@/lib/rateLimit';
 import { safeJson } from '@/lib/safeJson';
 
+z.config({ jitless: true });
+
 const Body = z.object({
   query: z.string().min(2),
 });
