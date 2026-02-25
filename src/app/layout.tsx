@@ -1,5 +1,6 @@
 import { META_DESCRIPTION, META_TITLE, SKIP_LABEL } from '@/consts/label';
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
 import '@/styles/globals.css';
@@ -9,11 +10,9 @@ export const metadata: Metadata = {
   description: META_DESCRIPTION,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  await connection();
+
   return (
     <html lang="en">
       <body>
