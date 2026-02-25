@@ -3,6 +3,7 @@
 
 # Standard "CI-ish" gate
 npm run ci:local
+npm run bundle:budget
 
 # Conditional Lighthouse (only when it matters)
 node src/scripts/lighthouse.run.mjs

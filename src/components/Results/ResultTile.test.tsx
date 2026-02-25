@@ -48,12 +48,7 @@ describe('ResultTile', () => {
   });
 
   it('returns null when result is falsy', () => {
-    const { container } = render(
-      <ResultTile
-        result={null as any}
-        index={0}
-      />
-    );
+    const { container } = render(<ResultTile result={null as any} />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -65,12 +60,7 @@ describe('ResultTile', () => {
       reasons: ['Chocolatey', 'Low acidity'],
     } as any;
 
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
+    render(<ResultTile result={result} />);
 
     expect(screen.getByRole('heading', { level: 2, name: 'Moon Roast' })).toBeInTheDocument();
     expect(screen.getByText('Origin: Colombia, Ethiopia')).toBeInTheDocument();
@@ -87,12 +77,7 @@ describe('ResultTile', () => {
       reasons: [],
     } as any;
 
-    render(
-      <ResultTile
-        result={result}
-        index={1}
-      />
-    );
+    render(<ResultTile result={result} />);
 
     const img = screen.getByRole('img', { name: 'Pack shot of the Star Blend product' });
     expect(img).toHaveAttribute('src', '/pack.webp');
@@ -108,12 +93,7 @@ describe('ResultTile', () => {
       reasons: [],
     } as any;
 
-    const { container } = render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
+    const { container } = render(<ResultTile result={result} />);
 
     expect(getThemeMock).toHaveBeenCalledTimes(1);
     expect(getThemeMock).toHaveBeenCalledWith('SKU-THEME');
@@ -133,12 +113,7 @@ describe('ResultTile', () => {
       reasons: [],
     } as any;
 
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
+    render(<ResultTile result={result} />);
 
     const link = screen.getByRole('link', { name: 'View product' });
 
@@ -154,12 +129,7 @@ describe('ResultTile', () => {
       reasons: [],
     } as any;
 
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
+    render(<ResultTile result={result} />);
 
     const link = screen.getByRole('link', { name: 'View product' });
 
@@ -177,12 +147,7 @@ describe('ResultTile', () => {
       reasons: ['A', 'B', 'C'],
     } as any;
 
-    render(
-      <ResultTile
-        result={result}
-        index={0}
-      />
-    );
+    render(<ResultTile result={result} />);
 
     const items = screen.getAllByRole('listitem');
     expect(items).toHaveLength(3);

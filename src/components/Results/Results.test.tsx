@@ -9,11 +9,7 @@ vi.mock('@/consts/label', () => ({
 }));
 
 vi.mock('@/components/Results/ResultTile', () => ({
-  ResultTile: ({ result, index }: any) => (
-    <div data-testid="result-tile">
-      {index + 1}. {result.name}
-    </div>
-  ),
+  ResultTile: ({ result }: any) => <div data-testid="result-tile">{result.name}</div>,
 }));
 
 describe('<Results />', () => {
@@ -72,7 +68,7 @@ describe('<Results />', () => {
     expect(screen.queryByText('Show query')).toBeNull();
   });
 
-  it('renders one ResultTile per result with correct index', () => {
+  it('renders one ResultTile per result', () => {
     render(
       <Results
         results={mockResults}
@@ -86,9 +82,9 @@ describe('<Results />', () => {
     const tiles = screen.getAllByTestId('result-tile');
     expect(tiles).toHaveLength(3);
 
-    expect(screen.getByText('1. Coffee One')).toBeInTheDocument();
-    expect(screen.getByText('2. Coffee Two')).toBeInTheDocument();
-    expect(screen.getByText('3. Coffee Three')).toBeInTheDocument();
+    expect(screen.getByText('Coffee One')).toBeInTheDocument();
+    expect(screen.getByText('Coffee Two')).toBeInTheDocument();
+    expect(screen.getByText('Coffee Three')).toBeInTheDocument();
   });
 
   it('renders children below the list', () => {
