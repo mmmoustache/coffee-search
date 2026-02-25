@@ -4,21 +4,21 @@ Coffee Finder is a sample Next.js + TypeScript application that demonstrates how
 
 ## Requirements
 
-- Node.js 18+ (or as required by your package manager)
+- Node.js 22+
 - npm, pnpm, or yarn
-- A PostgreSQL database (optional for local dev if using mocks)
-- An OpenAI API key (when not using mock recommendations)
+- A PostgreSQL database
+- An OpenAI API key
 
 ## Environment
 
-Create a `.env` or `.env.local` file in the project root with the variables below. Example values and types are shown; update as needed for your deployment.
+Create a `.env` or `.env.local` file in the project root with the variables below. Example values and types are shown:
 
 - `NEXT_PUBLIC_USE_MOCK_RECOMMEND` (boolean) — set to `true` to use built-in mock data instead of calling the API.
 - `NEXT_PUBLIC_API_KEY` (string) — shared secret required by the client to call the API routes.
 - `LLM_MODEL` (string) — the LLM model id to use for natural language queries (e.g. `gpt-4o`, or your chosen model).
 - `EMBED_MODEL` (string) — the embedding model id used to create vector embeddings.
-- `DATABASE_URL` (string) — Postgres connection string for storing products and vectors (optional if using mocks).
-- `OPENAI_API_KEY` (string) — your OpenAI API key (required when not using mock recommendations).
+- `DATABASE_URL` (string) — Postgres connection string for storing products and vectors.
+- `OPENAI_API_KEY` (string) — your OpenAI API key.
 
 ## Installation
 
@@ -65,7 +65,7 @@ Important dependencies used in this project (see `package.json` for full list an
 - `next`, `react`, `react-dom` — React + Next.js framework
 - `openai` — official OpenAI Node client for LLM calls
 - `pg` and `pgvector` — Postgres client and vector support
-- `tailwindcss` — styling utility (Tailwind)
+- `tailwindcss` — styling utility
 - `zod` — runtime schema validation
 - `react-hook-form` and `@hookform/resolvers` — form handling
 - `csv-parse` — CSV parsing for import scripts
