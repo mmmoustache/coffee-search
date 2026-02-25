@@ -23,7 +23,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: mkdir -p src/design-tokens
       - run: npm run icons
       - run: npm run lint
       - run: npm run typecheck
@@ -54,7 +53,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: mkdir -p src/design-tokens
       - run: npm run icons
 
       - name: Install Vercel CLI
